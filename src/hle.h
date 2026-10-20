@@ -1,0 +1,64 @@
+// hle.h: the chips Star Blade's 68000s talk to, replaced by what they do.
+// Each sees the shared memory the way the real chip did and answers the same.
+#pragma once
+
+#include <cstdint>
+#include <cstdio>
+#include <vector>
+
+#include <vectorpie/vp_input.h>
+
+class State;
+
+// ---- the C68 I/O MCU -----------------------------------------------------
+// In the dual-port RAM (0x000-0x0ff, byte offsets as the 68000 sees them / 2):
+//   00 buttons held: 80 start, 40 button 3, 20 button 2 (gun), 10 button 1 (missile)
+//   03 buttons pressed this frame (same bits)
+//   02 coin switches held: 10 coin 1, 08 coin 2;  05 coins inserted this frame
+//   08-0F analog channels (09 stick X, 0A stick Y: 3F..BF, center 80; others FF)
+//   19 coins counted on coin 1 (1B on coin 2), shown as CREDIT n/2
+//   16 written by the game: coins to take (a start, a continue); we subtract it
+//   3A/3B/3C boot handshake; 1F/21/23 frame counters
+class Mcu {
+public:
+    void setInput(const vp_input *in) { in_ = in; }
+    void reset(uint8_t *dp);
+    void vblank(uint8_t *dp);
+    void write(uint8_t *dp, int offset, uint8_t data);
+    void state(State &s);           // save or load what it keeps between frames
+
+private:
+    const vp_input *in_ = nullptr;
+    uint8_t prevButtons_ = 0;
+    uint8_t coinPending_ = 0;     // coin bits to report as inserted next frame
+    int coins_[2] = {};           // coins counted on coin 1, coin 2
+    uint8_t meter_[2] = {};       // coin meters
+    float keyX_ = 0, keyY_ = 0;   // the stick as the arrow keys push it (-1..1)
+    float mouseX_ = 0, mouseY_ = 0;   // and as the mouse / trackball moves it
+};
+
+// ---- the DSP board ---------------------------------------------------------------
+// Word offsets in the shared DSP RAM (68000 0x200000 + 2 x offset):
+//   0x089/0x088 boot requests (0x200112 / 0x200110 ...), 0x101 status
+//   0x103 page select: the page the 68000 fills next; the other is finished
+//   0x4000 + page x 0x2000: camera block, object list at +0x100
+class Dsp {
+public:
+    struct Frame {
+        bool valid = false;
+        uint16_t camera[0x40] = {};
+        std::vector<uint16_t> list;     // the object list area (records, then FFFFh)
+    };
+
+    void reset();
+    void write(uint16_t *ram, int word);
+    void vblank(uint16_t *ram);
+    const Frame &finished() const { return frame_; }
+    // The game has started the DSPs (the end of its boot self test).
+    bool running() const { return running_; }
+    void state(State &s);
+
+private:
+    Frame frame_;
+    bool running_ = false;
+};
