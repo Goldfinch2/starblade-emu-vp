@@ -59,11 +59,10 @@ stands still meanwhile): GUN, MISSILE and the four aim keys can be laid out
 on any key, button, hat or stick direction (START 1 on a row, then the
 control; more on the same row add to it; START 2 none, DEL the standard, the
 cabinet's). The stick, mouse and trackball aim as before. Kept in
-`save/controls.ini`. Two settings follow, Left/Right to change them: STICK
-DEAD ZONE (none, 2 to 20 % of the travel; 15 % as standard, a precise yoke
-wants less) and AIM SPEED (SLOW, NORMAL, FAST, FASTER: the stick reaches the
-edge with less travel, the aim keys and the mouse move faster). Kept in
-`save/options.ini`. Star Blade has no view change: the arcade's button 3 only
+`save/controls.ini`. AIM SPEED follows, Left/Right to change it (SLOW,
+NORMAL, FAST, FASTER: the stick reaches the edge with less travel, the aim
+keys and the mouse move faster), kept in `save/options.ini`. The stick has
+no dead zone: it counts from its first movement, as on the arcade. Star Blade has no view change: the arcade's button 3 only
 steps through its service menus.
 
 ## Sounds

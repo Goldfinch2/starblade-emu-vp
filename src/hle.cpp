@@ -65,7 +65,7 @@ void Mcu::vblank(uint8_t *dp)
         // center the keys are left out: a stick bound both ways (its axis,
         // and its directions to the aim keys, AdvanceMAME's default) would
         // have them fight.
-        auto toward = [](float v, float target) {
+        auto toward = [this](float v, float target) {
             const float rate = 0.06f * aimSpeed_;
             return v < target ? std::min(v + rate, target) : std::max(v - rate, target);
         };

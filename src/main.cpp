@@ -6,7 +6,7 @@
 //   starblade_emu [--roms PATH] [--dvg [PORT] | --window | --windowed | --maximized]
 //   TAB, or START 1 and START 2 together: the CONTROLS page (the player's own
 //   controls for the gun, missile and aim keys, kept in save/controls.ini;
-//   the stick's dead zone and the aim speed, in save/options.ini)
+//   the aim speed, in save/options.ini)
 //   P (ui_pause): pause / resume
 //
 // Development tools, with SB_DEV 1 (below):
@@ -64,15 +64,13 @@ const int NFUNCTIONS = (int)(sizeof FUNCTIONS / sizeof FUNCTIONS[0]);
 // (Star Blade has no view change: the I/O board's button 3 only steps
 // through its service menus.)
 
-// The CONTROLS page's two settings, after the functions: the stick's dead
-// zone (a precise yoke wants little or none) and the aim speed (the stick's
-// range, the aim keys' and the mouse's pace). Then EXIT.
-const int DEADZONES[] = { 0, 2, 5, 10, 15, 20 };        // percent of the travel
-const int DEADZONE_STANDARD = 4;                        // 15 %, the SDK's
+// The CONTROLS page's setting, after the functions: the aim speed (the
+// stick's range, the aim keys' and the mouse's pace). Then EXIT. (No dead
+// zone: the stick counts from its first movement, as on the arcade.)
 struct AimSpeed { const char *name; float k; };
 const AimSpeed SPEEDS[] = { { "SLOW", 0.6f }, { "NORMAL", 1.0f }, { "FAST", 1.5f }, { "FASTER", 2.0f } };
 const int SPEED_STANDARD = 1;
-const int ROW_DEADZONE = NFUNCTIONS, ROW_SPEED = NFUNCTIONS + 1, ROW_EXIT = NFUNCTIONS + 2, ROWS = NFUNCTIONS + 3;
+const int ROW_SPEED = NFUNCTIONS, ROW_EXIT = NFUNCTIONS + 1, ROWS = NFUNCTIONS + 2;
 const int KEY_TAB = 43, KEY_DELETE = 76, KEY_KP_PERIOD = 99, KEY_F5 = 62, KEY_F7 = 64;   // SDL scancodes
 
 struct Game {
@@ -90,12 +88,12 @@ struct Game {
     std::unique_ptr<Render3d> render3d;
     std::unique_ptr<Sprites> sprites;
     // The CONTROLS page: open (the game stands still), the cursor's row
-    // (ROW_DEADZONE, ROW_SPEED, ROW_EXIT after the functions), a function
-    // being laid out, what the page says; the two settings.
+    // (ROW_SPEED, ROW_EXIT after the functions), a function being laid out,
+    // what the page says; the aim speed.
     bool controls = false;
     int ctlRow = 0;
-    int deadzone = DEADZONE_STANDARD;   // index in DEADZONES
     int speed = SPEED_STANDARD;         // index in SPEEDS
+    int yokeWay = 0;                    // the yoke's last way on the CONTROLS page: 1 down, -1 up, 0 centered
     vp_capture capture{};
     std::string said;
     bool holdStarts = false;            // after the page: START is not the game's until let go
@@ -166,13 +164,12 @@ void saveControls(vp_input *in)
     if (vp_input_save(in, nullptr) != VP_OK) fprintf(stderr, "starblade: controls not saved: %s\n", vp_last_error());
 }
 
-// The settings: applied, and kept in save/options.ini ("deadzone = 5",
-// "aim_speed = FAST").
+// The setting: applied, and kept in save/options.ini ("aim_speed = FAST").
 std::string optionsPath() { return std::string(vp_save_dir()) + "/options.ini"; }
 
 void applyOptions(Game &s, vp_input *in)
 {
-    vp_input_set_deadzone(in, DEADZONES[s.deadzone] / 100.0f);
+    vp_input_set_deadzone(in, 0.0f);
     s.mcu.setAimSpeed(SPEEDS[s.speed].k);
 }
 
@@ -180,8 +177,7 @@ void saveOptions(Game &s)
 {
     FILE *f = fopen(optionsPath().c_str(), "w");
     if (!f) { fprintf(stderr, "starblade: cannot write %s\n", optionsPath().c_str()); return; }
-    fprintf(f, "# Starblade Emulator: the CONTROLS page's settings\ndeadzone = %d\naim_speed = %s\n",
-            DEADZONES[s.deadzone], SPEEDS[s.speed].name);
+    fprintf(f, "# Starblade Emulator: the CONTROLS page's settings\naim_speed = %s\n", SPEEDS[s.speed].name);
     fclose(f);
 }
 
@@ -190,12 +186,8 @@ void loadOptions(Game &s)
     FILE *f = fopen(optionsPath().c_str(), "r");
     if (!f) return;
     char line[128], value[64];
-    int n;
     while (fgets(line, sizeof line, f)) {
-        if (sscanf(line, " deadzone = %d", &n) == 1) {
-            for (int i = 0; i < (int)(sizeof DEADZONES / sizeof DEADZONES[0]); i++)
-                if (DEADZONES[i] == n) s.deadzone = i;
-        } else if (sscanf(line, " aim_speed = %63s", value) == 1) {
+        if (sscanf(line, " aim_speed = %63s", value) == 1) {
             for (int i = 0; i < (int)(sizeof SPEEDS / sizeof SPEEDS[0]); i++)
                 if (!strcmp(SPEEDS[i].name, value)) s.speed = i;
         }
@@ -220,9 +212,9 @@ void closeControls(Game &s, vp_game *g)
 }
 
 // The CONTROLS page: Up/Down a row, START 1 / Enter lays out its function's
-// controls (vp_capture), Left/Right none or standard, Delete standard; on a
-// setting Left/Right change it, Delete its standard; EXIT or TAB back to the
-// game.
+// controls (vp_capture), Left/Right none or standard, Delete standard; on
+// AIM SPEED Left/Right change it, Delete its standard; EXIT or TAB back to
+// the game.
 void controlsPage(Game &s, vp_game *g)
 {
     vp_input *in = vp_game_input(g);
@@ -232,8 +224,22 @@ void controlsPage(Game &s, vp_game *g)
         closeControls(s, g);
         return;
     } else {
-        if (vp_input_menu_up(in) || vp_input_menu_down(in)) {
-            s.ctlRow = (s.ctlRow + (vp_input_menu_up(in) ? ROWS - 1 : 1)) % ROWS;
+        // Up and down the list. A flight yoke goes the other way: pulled
+        // back (rotated down) it aims up in play, but on a list "down" is
+        // down. While the yoke is out, it alone moves the list, turned
+        // (the SDK's menu reading would take its raw way); the keys, hats
+        // and other sticks as usual. Only here: in play nothing changes.
+        bool up = vp_input_menu_up(in), down = vp_input_menu_down(in);
+        const int yoke = vp_input_yoke(in);
+        const float yy = yoke >= 0 ? vp_input_joy_axis(in, yoke, 1) : 0.0f;
+        const int way = yy < -0.5f ? 1 : yy > 0.5f ? -1 : 0;
+        if (way || s.yokeWay) {
+            up = way == -1 && s.yokeWay != -1;
+            down = way == 1 && s.yokeWay != 1;
+        }
+        s.yokeWay = way;
+        if (up || down) {
+            s.ctlRow = (s.ctlRow + (up ? ROWS - 1 : 1)) % ROWS;
             vp_capture_moved(&s.capture);
         }
         int left = vp_input_menu_left_pressed(in), right = vp_input_menu_right_pressed(in);
@@ -249,16 +255,13 @@ void controlsPage(Game &s, vp_game *g)
                 vp_capture_standard(&s.capture, in, name);
                 saveControls(in);
             }
-        } else if (s.ctlRow == ROW_DEADZONE || s.ctlRow == ROW_SPEED) {
-            const bool dz = s.ctlRow == ROW_DEADZONE;
-            int &v = dz ? s.deadzone : s.speed;
-            const int count = dz ? (int)(sizeof DEADZONES / sizeof DEADZONES[0]) : (int)(sizeof SPEEDS / sizeof SPEEDS[0]);
-            const int was = v;
-            if (left && v > 0) v--;
-            if (right && v < count - 1) v++;
+        } else if (s.ctlRow == ROW_SPEED) {
+            const int count = (int)(sizeof SPEEDS / sizeof SPEEDS[0]), was = s.speed;
+            if (left && s.speed > 0) s.speed--;
+            if (right && s.speed < count - 1) s.speed++;
             if (vp_input_key_pressed(in, KEY_DELETE) || vp_input_key_pressed(in, KEY_KP_PERIOD))
-                v = dz ? DEADZONE_STANDARD : SPEED_STANDARD;
-            if (v != was) { applyOptions(s, in); saveOptions(s); }
+                s.speed = SPEED_STANDARD;
+            if (s.speed != was) { applyOptions(s, in); saveOptions(s); }
         } else if (vp_input_menu_confirm(in)) {
             closeControls(s, g);
             return;
@@ -279,23 +282,18 @@ void drawControls(const Game &s, vp_game *g, vp_dvg *d)
     vp_text(d, "CONTROLS", 2048, 3450, 170, VP_TEXT_CENTER);
     for (int i = 0; i < ROWS; i++) {
         const bool sel = i == s.ctlRow;
-        const float y = 3050 - i * 240.0f - (i >= ROW_DEADZONE ? 60.0f : 0.0f) - (i == ROW_EXIT ? 60.0f : 0.0f);
+        const float y = 3050 - i * 250.0f - (i >= ROW_SPEED ? 60.0f : 0.0f) - (i == ROW_EXIT ? 60.0f : 0.0f);
         vp_text_font(VP_FONT_ASTEROIDS);
         if (sel) vp_color(d, 255, 60, 60); else vp_color(d, 255, 255, 255);
         if (i == ROW_EXIT) {
             vp_text(d, "EXIT", 2048, y, 100, VP_TEXT_CENTER);
             break;
         }
-        if (i == ROW_DEADZONE || i == ROW_SPEED) {
-            const bool dz = i == ROW_DEADZONE;
-            char value[32];
-            if (dz) snprintf(value, sizeof value, DEADZONES[s.deadzone] ? "%d%%" : "NONE", DEADZONES[s.deadzone]);
-            else snprintf(value, sizeof value, "%s", SPEEDS[s.speed].name);
-            vp_text(d, dz ? "STICK DEAD ZONE" : "AIM SPEED", 450, y, 90, VP_TEXT_LEFT);
-            const bool standard = dz ? s.deadzone == DEADZONE_STANDARD : s.speed == SPEED_STANDARD;
-            if (standard) vp_color(d, 150, 150, 150);
+        if (i == ROW_SPEED) {
+            vp_text(d, "AIM SPEED", 450, y, 90, VP_TEXT_LEFT);
+            if (s.speed == SPEED_STANDARD) vp_color(d, 150, 150, 150);
             else if (!sel) vp_color(d, 120, 255, 120);
-            vp_text(d, value, 1900, y, 90, VP_TEXT_LEFT);
+            vp_text(d, SPEEDS[s.speed].name, 1900, y, 90, VP_TEXT_LEFT);
             continue;
         }
         vp_text(d, FUNCTIONS[i].label, 450, y, 90, VP_TEXT_LEFT);
@@ -319,7 +317,7 @@ void drawControls(const Game &s, vp_game *g, vp_dvg *d)
         vp_text(d, s.said.c_str(), 2048, 900, 75, VP_TEXT_CENTER);
     }
     vp_color(d, 160, 160, 160);
-    if (s.ctlRow == ROW_DEADZONE || s.ctlRow == ROW_SPEED) {
+    if (s.ctlRow == ROW_SPEED) {
         vp_text(d, "LEFT, RIGHT - CHANGE   DEL - STANDARD", 2048, 620, 75, VP_TEXT_CENTER);
     } else if (s.ctlRow < NFUNCTIONS || s.capture.capturing) {
         const char *one, *two;
@@ -460,7 +458,7 @@ int init(vp_game *g)
         vp_input_reserve_key(in, KEY_F7);       // load state
     }
     vp_input_load(in, nullptr);                 // the player's own, if they set any
-    loadOptions(s);                             // the dead zone, the aim speed
+    loadOptions(s);                             // the aim speed
     applyOptions(s, in);
     s.mcu.setInput(in);
     // The mouse aims (and its left button fires): captured, so it keeps
