@@ -48,7 +48,6 @@ void Mcu::vblank(uint8_t *dp)
     float x = 0, y = 0;
     if (in_) {
         if (vp_input_held(in_, "start1")) buttons |= 0x80;
-        if (vp_input_held(in_, "view")) buttons |= 0x40;     // viewport change
         if (vp_input_held(in_, "gun")) buttons |= 0x20;     // gun
         if (vp_input_held(in_, "missile")) buttons |= 0x10;     // missile
         if (vp_input_held(in_, "coin1")) coinsHeld |= 0x10;
@@ -67,7 +66,7 @@ void Mcu::vblank(uint8_t *dp)
         // and its directions to the aim keys, AdvanceMAME's default) would
         // have them fight.
         auto toward = [](float v, float target) {
-            const float rate = 0.06f;
+            const float rate = 0.06f * aimSpeed_;
             return v < target ? std::min(v + rate, target) : std::max(v - rate, target);
         };
         const float CENTERED = 0.1f;
@@ -77,9 +76,12 @@ void Mcu::vblank(uint8_t *dp)
         if (std::fabs(y) > CENTERED) ky = 0;
         keyX_ = toward(keyX_, kx);
         keyY_ = toward(keyY_, ky);
-        const float mouse = 1.0f / 250.0f;
+        const float mouse = aimSpeed_ / 250.0f;
         mouseX_ = std::max(-1.0f, std::min(1.0f, mouseX_ + vp_input_delta(in_, "p1_trackballx") * mouse));
         mouseY_ = std::max(-1.0f, std::min(1.0f, mouseY_ - vp_input_delta(in_, "p1_trackbally") * mouse));
+        // The aim speed: the stick reaches the edge with less travel (FAST) or more.
+        x *= aimSpeed_;
+        y *= aimSpeed_;
         x = std::max(-1.0f, std::min(1.0f, x + keyX_ + mouseX_));
         y = std::max(-1.0f, std::min(1.0f, y + keyY_ + mouseY_));
     }

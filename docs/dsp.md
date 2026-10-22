@@ -3,7 +3,7 @@
 Star Blade (Namco, 1991, System 21 with the C67 DSP board: 1 master + 4 slave
 TMS320C25 "C67"). This is what the DSP board does, worked out from MAME's
 driver (`src/mame/namco/namcos21_*`), the DSP programs the game uploads
-(disassembled: `master.asm`, `slave.asm`) and captures of the running game
+(studied in a disassembly, not kept) and captures of the running game
 (the tools in `../tools`). Everything below was checked against the captures:
 the master's output bit for bit, the projection to about a pixel.
 

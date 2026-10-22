@@ -22,6 +22,8 @@ class State;
 class Mcu {
 public:
     void setInput(const vp_input *in) { in_ = in; }
+    // The aim speed (1 normal): the stick's range, the aim keys' and the mouse's pace.
+    void setAimSpeed(float k) { aimSpeed_ = k; }
     void reset(uint8_t *dp);
     void vblank(uint8_t *dp);
     void write(uint8_t *dp, int offset, uint8_t data);
@@ -35,6 +37,7 @@ private:
     uint8_t meter_[2] = {};       // coin meters
     float keyX_ = 0, keyY_ = 0;   // the stick as the arrow keys push it (-1..1)
     float mouseX_ = 0, mouseY_ = 0;   // and as the mouse / trackball moves it
+    float aimSpeed_ = 1.0f;
 };
 
 // ---- the DSP board ---------------------------------------------------------------

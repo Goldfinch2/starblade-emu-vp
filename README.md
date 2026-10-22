@@ -46,6 +46,10 @@ Copy the `.vpk` to `/persistent/games/packages/` (or a USB drive's `games/`
 folder) and install it from **Settings → GAMES → INSTALL GAMES**. Put
 `starblad.zip` with the cabinet's other MAME ROMs.
 
+## Working on it
+
+How it is built, run, debugged and compared with MAME: `docs/development.md`.
+
 ## Credits and licenses
 
 - **Star Blade** © Namco 1991. Star Blade is a trademark of Bandai Namco.

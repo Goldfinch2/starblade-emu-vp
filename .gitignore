@@ -1,3 +1,8 @@
 build-*/
+__pycache__/
+# The player's own ROM set, if put next to the project
 roms/
 *.zip
+# Kept with the project, never published: renders of the game's models and
+# screens, the old marquee (the arcade's artwork)
+private/
