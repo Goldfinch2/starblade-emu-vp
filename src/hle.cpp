@@ -6,6 +6,7 @@
 #include "state.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 
@@ -55,21 +56,30 @@ void Mcu::vblank(uint8_t *dp)
         if (vp_input_pressed(in_, "coin1")) coinsIn |= 0x10;
         if (vp_input_pressed(in_, "coin2")) coinsIn |= 0x08;
         x = vp_input_axis(in_, "p1_stickx");
-        y = vp_input_axis(in_, "p1_sticky");
+        y = -vp_input_axis(in_, "p1_sticky");       // up (the axis's negative side) aims up
+        // The game's Y: the low value aims DOWN (a flight stick: pull back to
+        // aim up). Here up aims up on everything: the stick's axis (up is its
+        // negative side), the aim keys and the mouse are all turned.
         // Without a stick: the aim keys (aim_up ...: main.cpp) push a stick that springs back to
         // the center when released (as MAME does for analog controls), and
-        // the mouse or trackball moves it.
+        // the mouse or trackball moves it. While the stick is out of its
+        // center the keys are left out: a stick bound both ways (its axis,
+        // and its directions to the aim keys, AdvanceMAME's default) would
+        // have them fight.
         auto toward = [](float v, float target) {
             const float rate = 0.06f;
             return v < target ? std::min(v + rate, target) : std::max(v - rate, target);
         };
+        const float CENTERED = 0.1f;
         float kx = (vp_input_held(in_, "aim_right") ? 1.0f : 0.0f) - (vp_input_held(in_, "aim_left") ? 1.0f : 0.0f);
-        float ky = (vp_input_held(in_, "aim_down") ? 1.0f : 0.0f) - (vp_input_held(in_, "aim_up") ? 1.0f : 0.0f);
+        float ky = (vp_input_held(in_, "aim_up") ? 1.0f : 0.0f) - (vp_input_held(in_, "aim_down") ? 1.0f : 0.0f);
+        if (std::fabs(x) > CENTERED) kx = 0;
+        if (std::fabs(y) > CENTERED) ky = 0;
         keyX_ = toward(keyX_, kx);
         keyY_ = toward(keyY_, ky);
         const float mouse = 1.0f / 250.0f;
         mouseX_ = std::max(-1.0f, std::min(1.0f, mouseX_ + vp_input_delta(in_, "p1_trackballx") * mouse));
-        mouseY_ = std::max(-1.0f, std::min(1.0f, mouseY_ + vp_input_delta(in_, "p1_trackbally") * mouse));
+        mouseY_ = std::max(-1.0f, std::min(1.0f, mouseY_ - vp_input_delta(in_, "p1_trackbally") * mouse));
         x = std::max(-1.0f, std::min(1.0f, x + keyX_ + mouseX_));
         y = std::max(-1.0f, std::min(1.0f, y + keyY_ + mouseY_));
     }
