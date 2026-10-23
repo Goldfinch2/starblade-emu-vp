@@ -1,6 +1,6 @@
-// soundboard.h: Star Blade's sound board, running its own program from the
-// player's starblad.zip: a 6809 (st1-snd0.bin), a YM2151 (FM: ymfm) and a
-// C140 (PCM from st1-voi0..3), talking to the game through the dual-port RAM
+// soundboard.h: the game's sound board, running its own program from the
+// player's ROM set: a 6809 (Star Blade: st1-snd0.bin), a YM2151 (FM: ymfm) and a
+// C140 (PCM: st1-voi0..3), talking to the game through the dual-port RAM
 // as on the real board (docs/hardware.md, section 4). What it plays goes to
 // the SDK as one stream.
 //

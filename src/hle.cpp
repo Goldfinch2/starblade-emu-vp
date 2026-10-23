@@ -1,7 +1,6 @@
 // hle.cpp: the I/O MCU and the DSP board, as the 68000s see them. The values
-// come from captures of the original running in MAME (tools/sb_mcu.lua,
-// sb_cont.lua, sb_boot2.lua). The sound board runs its own program:
-// soundboard.cpp.
+// come from captures of the original running in MAME. The sound board runs
+// its own program: soundboard.cpp.
 #include "hle.h"
 #include "profile.h"
 #include "state.h"

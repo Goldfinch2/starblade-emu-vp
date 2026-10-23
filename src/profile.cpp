@@ -239,7 +239,7 @@ const Profile &profile()
         const std::string game = chosenSet.empty() ? manifestGame() : chosenSet;
         chosen = profile_find(game.c_str());
         if (!chosen) {
-            if (!game.empty()) fprintf(stderr, "starblade: %s is not a game known: Star Blade\n", game.c_str());
+            if (!game.empty()) fprintf(stderr, "system21: %s is not a game known: Star Blade\n", game.c_str());
             chosen = &PROFILES[0];
         }
     }

@@ -1,16 +1,17 @@
-// Star Blade for VectorPie: Namco's 1991 game, its own 68000 code running on
-// Musashi, its 3D and sprites drawn as vectors, its sound board running its own
-// program (soundboard.cpp).
-// Needs MAME's starblad.zip (the cabinet's ROM folders are searched).
+// Namco System 21 games for VectorPie (Star Blade, Cyber Sled: profile.cpp):
+// the game's own 68000 code running on Musashi, its 3D and sprites drawn as
+// vectors, its sound board running its own program (soundboard.cpp). The
+// package's game.ini says which game. Needs MAME's ROM set of it (starblad.zip,
+// cybsled.zip; the cabinet's ROM folders are searched).
 //
-//   starblade_emu [--roms PATH] [--game SET] [--dvg [PORT] | --window | --windowed | --maximized]
-//   (--game cybsled: another System 21 game than game.ini's, profile.cpp)
+//   system21_emu [--roms PATH] [--game SET] [--dvg [PORT] | --window | --windowed | --maximized]
+//   (--game cybsled: another game than game.ini's, from a build folder)
 //   TAB, or START 1 and START 2 together: the CONTROLS page (the player's own
-//   controls for the gun, gun 2 and aim keys, kept in save/controls.ini;
+//   controls for the game's functions, kept in save/controls.ini;
 //   the aim speed, in save/options.ini)
 //   P (ui_pause): pause / resume
 //
-// Development tools, with SB_DEV 1 (below):
+// Development tools, with S21_DEV 1 (below):
 //   --sprite-ids: sprites not traced yet drawn as a box with their ID
 //   F5: save the game's state (save/state.bin); F7: load it, at any time,
 //   e.g. right after starting: back to that moment
@@ -18,7 +19,7 @@
 //               every RECORD_EVERY frames (save/record_<frame>.png at half
 //               size, and .txt: the sprites), then quit
 //   P: pausing also saves save/capture_<frame>.png (and .bin, .txt: the sprites, .pal: the palette, _sound.txt: the sound board)
-//   --dump DIR: for comparing with MAME (tools/sb_dump.lua): the DSP RAM
+//   --dump DIR: for comparing with MAME captures: the DSP RAM
 //               every 300 frames (sbdump_dspram_<frame>.bin, 64 KB big-endian)
 //               and trace.txt (each frame: page select, records drawn by type)
 #include <algorithm>
@@ -46,8 +47,8 @@ namespace {
 // The development tools: F5 / F7 save states, --record, --dump,
 // --sprite-ids and the pause capture (P still pauses). 0 for the game as
 // shipped; 1 to have them back. Kept compiled either way.
-#define SB_DEV 0
-constexpr bool DEV = SB_DEV != 0;
+#define S21_DEV 0
+constexpr bool DEV = S21_DEV != 0;
 
 const long BOOT_FRAMES = 5000;          // the self test is skipped up to here at most
 const int RECORD_EVERY = 6;             // --record: a capture every 6 frames, 10 a second
@@ -121,7 +122,7 @@ void saveState(Game &s, vp_game *g)
     FILE *f = fopen(statePath().c_str(), "wb");
     bool ok = f && fwrite(st.data().data(), 1, st.data().size(), f) == st.data().size();
     if (f && fclose(f) != 0) ok = false;
-    if (!ok) fprintf(stderr, "starblade: cannot write %s\n", statePath().c_str());
+    if (!ok) fprintf(stderr, "system21: cannot write %s\n", statePath().c_str());
     say(s, g, ok ? "STATE SAVED" : "STATE NOT SAVED");
 }
 
@@ -156,7 +157,7 @@ void loadState(Game &s, vp_game *g)
 
 void saveControls(vp_input *in)
 {
-    if (vp_input_save(in, nullptr) != VP_OK) fprintf(stderr, "starblade: controls not saved: %s\n", vp_last_error());
+    if (vp_input_save(in, nullptr) != VP_OK) fprintf(stderr, "system21: controls not saved: %s\n", vp_last_error());
 }
 
 // The setting: applied, and kept in save/options.ini ("aim_speed = FAST").
@@ -171,7 +172,7 @@ void applyOptions(Game &s, vp_input *in)
 void saveOptions(Game &s)
 {
     FILE *f = fopen(optionsPath().c_str(), "w");
-    if (!f) { fprintf(stderr, "starblade: cannot write %s\n", optionsPath().c_str()); return; }
+    if (!f) { fprintf(stderr, "system21: cannot write %s\n", optionsPath().c_str()); return; }
     fprintf(f, "# %s: the CONTROLS page's settings\naim_speed = %s\n", profile().title, SPEEDS[s.speed].name);
     fclose(f);
 }
@@ -391,7 +392,7 @@ void recordFrame(Game &s, vp_dvg *d)
     snprintf(name, sizeof name, "/record_%06ld", s.machine->frame());
     std::string base = std::string(vp_save_dir()) + name;
     if (vp_dvg_save_png(d, (base + ".png").c_str(), 512, 384) != VP_OK)
-        fprintf(stderr, "starblade: %s\n", vp_last_error());
+        fprintf(stderr, "system21: %s\n", vp_last_error());
     if (FILE *out = fopen((base + ".txt").c_str(), "w")) {
         s.sprites->list(out, *s.machine);
         fclose(out);
@@ -404,7 +405,7 @@ void capture(Game &s, vp_dvg *d)
     snprintf(name, sizeof name, "/capture_%06ld", s.machine->frame());
     std::string base = std::string(vp_save_dir()) + name;
     if (vp_dvg_save_png(d, (base + ".png").c_str(), 1024, 768) != VP_OK)
-        fprintf(stderr, "starblade: %s\n", vp_last_error());
+        fprintf(stderr, "system21: %s\n", vp_last_error());
     FILE *out = fopen((base + ".bin").c_str(), "wb");
     if (!out) return;
     const uint16_t *ram = s.machine->dspram();
@@ -436,14 +437,14 @@ int init(vp_game *g)
 {
     Game &s = *(Game *)vp_game_user(g);
     if (!roms_load(s.romPath, profile(), s.roms, s.error)) {
-        fprintf(stderr, "starblade: %s\n", s.error.c_str());
+        fprintf(stderr, "system21: %s\n", s.error.c_str());
         return VP_OK;                   // shown on screen, then back to the menu
     }
     s.machine = std::make_unique<Machine>(s.roms, s.mcu, s.sound, s.dsp);
     loadNvram(s.machine->nvram());
     s.render3d = std::make_unique<Render3d>();
     if (s.render3d->open(s.roms.points) != VP_OK) {
-        fprintf(stderr, "starblade: %s\n", vp_last_error());
+        fprintf(stderr, "system21: %s\n", vp_last_error());
         return VP_ERR_NOMEM;
     }
     s.sprites = std::make_unique<Sprites>(s.roms.sprites);
@@ -500,7 +501,7 @@ void update(vp_game *g, float)
         if (s.recordStart < 0) {
             loadState(s, g);
             if (s.stateSaid != "STATE LOADED") {
-                fprintf(stderr, "starblade: --record: %s (%s)\n", s.stateSaid.c_str(), statePath().c_str());
+                fprintf(stderr, "system21: --record: %s (%s)\n", s.stateSaid.c_str(), statePath().c_str());
                 vp_game_quit(g);
                 return;
             }
@@ -520,7 +521,7 @@ void update(vp_game *g, float)
     }
     // P (ui_pause): freeze the game, to compare a moment with the original.
     // Pausing also saves the frame (the last one sent) and the DSP RAM, into
-    // save/: capture_<frame>.png, .bin (as tools/sb_dump.lua), .txt (the sprite list)
+    // save/: capture_<frame>.png, .bin (the DSP RAM), .txt (the sprite list)
     // and .pal (the palette).
     if (vp_input_pressed(vp_game_input(g), "ui_pause")) {
         s.paused = !s.paused;
@@ -586,7 +587,7 @@ int main(int argc, char **argv)
     static Game game;
 
     // Our own options; the rest go to vp_run. (The development ones are
-    // read even with SB_DEV 0, and then ignored.)
+    // read even with S21_DEV 0, and then ignored.)
     std::vector<char *> rest;
     for (int i = 0; i < argc; i++) {
         if (i > 0 && !strcmp(argv[i], "--roms") && i + 1 < argc) { game.romPath = argv[++i]; continue; }

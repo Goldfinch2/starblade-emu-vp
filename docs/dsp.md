@@ -1,10 +1,10 @@
-# Star Blade: what the System 21 DSPs do
+# What the System 21 DSPs do (Star Blade, Cyber Sled)
 
 Star Blade (Namco, 1991, System 21 with the C67 DSP board: 1 master + 4 slave
 TMS320C25 "C67"). This is what the DSP board does, worked out from MAME's
 driver (`src/mame/namco/namcos21_*`), the DSP programs the game uploads
-(studied in a disassembly, not kept) and captures of the running game
-(the tools in `../tools`). Everything below was checked against the captures:
+(studied in a disassembly, not kept) and captures of the running game in
+MAME. Everything below was checked against the captures:
 the master's output bit for bit, the projection to about a pixel.
 
 The point: a re-creation does not need to emulate the DSPs. It reads what the
@@ -31,7 +31,7 @@ Double buffered: in frame `F` the 68000 writes page `F & 1` and the DSPs draw
 it. That is all the 68000s read back (captured over boot and play): the DSP
 RAM can stay plain memory holding those values.
 
-### Boot handshake (captured, `../tools/sb_boot2.lua`)
+### Boot handshake (captured in MAME)
 
 The 68000 tests the RAM (frames ~940-990), writes the self-test labels itself
 ("ROM:", "RAM:", "PTR:" ... "CPU: BOOTING"), sets up the program upload, then
@@ -47,7 +47,7 @@ waits on the DSP. What the DSP answers:
 5. Then every frame the 68000 writes `0x200206` (0, 1, 0 ...): the page it
    fills NEXT, often starting at once (during the title, 480 words in the
    same frame). The other page is complete: that is the one to draw. Seen
-   in `../tools/sb_order.lua`: objects of page P (the slave 68000 adds its
+   in MAME: objects of page P (the slave 68000 adds its
    own records to it too), camera of P (in some phases written just before
    the select, in others just after the previous select), then select = P ^ 1.
 
@@ -70,7 +70,7 @@ waits on the DSP. What the DSP answers:
 
 **Camera matrix** (rows, Q15): `M = C1 x C2`, `C1 = rot(words 3-8, order 4)`,
 `C2 = rot(words 20h-25h, order word 26h)`; each entry is
-`(sum of 3 Q15 products << 1) >> 16` (`../tools/cam.py`). The camera is at
+`(sum of 3 Q15 products << 1) >> 16`. The camera is at
 the origin: object positions are already relative to it.
 
 ## 3. The object list
@@ -98,7 +98,7 @@ camera's), Q15 products:
 ```
 
 The six orders are the master's routines `892Bh, 896Ah, 89A9h, 89E8h, 8A27h,
-8A66h`; `../tools/rot.py` runs them exactly (verified on 677 objects). As
+8A66h` (checked on 677 objects). As
 products of rotations X(angle 1), Y(angle 2), Z(angle 3), with
 `X = [1 0 0; 0 c -s; 0 s c]`, `Y = [c 0 s; 0 1 0; -s 0 c]`, `Z = [c -s 0; s c 0; 0 0 1]`:
 
@@ -125,7 +125,6 @@ quad count m
 m x (v0, v1, v2, v3, color)
 ```
 
-(`../tools/ptrom.py`; `modelview.py` renders them.)
 The game reads them from the ROM itself (`src/models.cpp`), model
 `number + 1` when it is first drawn: one mesh a model (the parts merged, their
 bias dropped: the game hides lines by true depth), each face with its color.
@@ -165,5 +164,5 @@ header with the camera and projection: a re-creation does its own clipping.
 - Depth bias (each part's third word): the board sorts polygons by average
   depth + bias (a painter sort). Exact hidden-line removal does not need it:
   checked on the title (letters in front of the bar), the planet and the
-  background model 2 (behind the ships), `../tools/occlusion_check.py`.
+  background model 2 (behind the ships).
 - Exact projection constants from the zoom word (`83E1h`, a table at `8B02h`).

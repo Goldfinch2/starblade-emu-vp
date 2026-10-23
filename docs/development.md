@@ -1,51 +1,53 @@
 # Development notes
 
-How Starblade Emulator is built, run and worked on. The project's overview is
-the README at the top.
+How the System 21 emulator is built, run and worked on. The project's
+overview is the README at the top.
 
 ## The parts
 
-Namco's Star Blade (1991, System 21) on a vector monitor. The game's own
-68000 program runs (on Musashi); the rest of the board is replaced by what
-it does:
+Namco's System 21 games (Star Blade 1991, Cyber Sled 1993) on a vector
+monitor. The game's own 68000 program runs (on Musashi); the rest of the
+board is replaced by what it does:
 
 - the DSP board's 3D: drawn as outlines with hidden lines removed;
 - text (all of the game's fonts): the SDK's Asteroids font, fitted to the
   original letters;
-- the rest of the sprite layer (shield, crosshair, logos): traced with the
-  sprite editor (`C:\tmp\starblade-sprites`, saved as `sprites.vec`); a
-  sprite not traced yet shows as a box with its ID;
+- the rest of the sprite layer (HUD, logos, frames): vector traces in the
+  game's `sprites.vec`; a sprite not traced yet is not drawn;
 - the sound board: its own program, on an emulated 6809, YM2151 and C140;
 - the I/O MCU: the cabinet's controls and coins through the SDK.
 
-How each part works: `dsp.md`, `hardware.md` (here, in `docs/`).
+How each part works: `dsp.md`, `hardware.md` (here, in `docs/`). What is one
+game's (its ROM set, controls, fonts...) is its profile (`src/profile.cpp`),
+below.
 
 ## Build (WSL2 Debian)
 
-    cmake --preset linux && cmake --build --preset linux    # build-linux/starblade_emu, a WSLg window
-    cmake --preset pc && cmake --build --preset pc          # build-pc/starblade_emu.exe
-    cmake --build --preset pc --target windows              # C:\tmp\starblade-emu, ready to run
-    cmake --preset pi && cmake --build --preset pi          # build-pi/starblade_emu
-    cmake --build --preset pi --target vpk                  # the game package
+    cmake --preset linux && cmake --build --preset linux    # build-linux/system21_emu, a WSLg window
+    cmake --preset pc && cmake --build --preset pc          # build-pc/system21_emu.exe
+    cmake --build --preset pc --target windows              # C:\tmp\system21-emu, ready to run
+    cmake --preset pi && cmake --build --preset pi          # build-pi/system21_emu
+    cmake --build --preset pi --target vpk                  # every game's package
 
 ## Run
 
-It needs MAME's `starblad.zip` (Star Blade, ST2 World). It looks in, in order:
-`--roms PATH`, `roms/` next to the executable, then the cabinet's ROM
-folders (advmame.rc `dir_rom`).
+It needs MAME's ROM set of the game (`starblad.zip`, `cybsled.zip`). It looks
+in, in order: `--roms PATH`, `roms/` next to the executable, then the
+cabinet's ROM folders (advmame.rc `dir_rom`).
 
-    build-linux/starblade_emu --windowed --roms /mnt/c/tmp/mame/roms
+    build-linux/system21_emu --game cybsled --windowed --roms /mnt/c/tmp/mame/roms
 
-On Windows: `C:\tmp\starblade-emu\Launch Starblade.cmd` (uses `C:\tmp\mame\roms`).
-`--sprite-ids` shows the sprites not traced yet as boxes with their ID
-(the sprite editor's Jump finds them); without it they are not drawn.
+On Windows: `C:\tmp\system21-emu\Launch <game>.cmd`, one for each game (uses
+`C:\tmp\mame\roms`). Without `--game`, the game is the one whose files were
+copied next to the program (`-DS21_GAME=cybsled`; Star Blade by default).
 
-Controls: stick (or arrow keys, or mouse) aims, button 1 (or left mouse
-button) gun, button 2 gun too, coin, start; P pauses and resumes. Pausing saves the frame as
-`save/capture_<frame>.png` (with the DSP RAM as `.bin` and the sprite list as `.txt`), to compare with the
-original. The game's NVRAM (its settings) is kept in `save/starblad.nv`.
+Controls: the game's own, laid out on its CONTROLS page (below); coin,
+start; P pauses and resumes. Pausing saves the frame as
+`save/capture_<frame>.png` (with the DSP RAM as `.bin` and the sprite list as
+`.txt`), to compare with the original. The game's NVRAM (its settings) is
+kept in `save/<set>.nv`.
 
-Development tools (`#define SB_DEV 1` in `src/main.cpp`; 0 as shipped:
+Development tools (`#define S21_DEV 1` in `src/main.cpp`; 0 as shipped:
 then P only pauses): F5 saves the whole game as it is (`save/state.bin`: both 68000s, all memory,
 the sound board), F7 loads it back, at any time, also right after starting:
 to come back to a moment (a level, a scene) without playing up to it again.
@@ -111,5 +113,5 @@ all, copied under each package's executable name:
     cmake --build --preset pi --target vpk_cybsled    # one game's
 
 From a build folder, `--game cybsled` runs another game than the one whose
-files were copied next to the program (`-DSB_GAME=cybsled` copies Cyber
+files were copied next to the program (`-DS21_GAME=cybsled` copies Cyber
 Sled's).

@@ -53,7 +53,7 @@ void scaledColor(vp_dvg *d, uint32_t rgb, float k)
 }
 
 // A sprite image's key: its size, tile offset and tile list (the sprite
-// editor's catalog, tools/sb_sprcat.lua, computes the same).
+// editor's catalog computed the same).
 uint64_t spriteKey(const uint16_t *tiles, int cols, int rows, int offset)
 {
     uint64_t key = 1469598103934665603ull;
@@ -72,7 +72,7 @@ const int COPY_NEAR = 4;
 
 // The game's fonts in the sprite ROM (profile.h; Star Blade: the ASCII font
 // at 20h-7Fh, five more fonts as A-Z, 0-9 and their symbols, three digit sets,
-// and some extras. tools/font_from_tiles.py has Star Blade's table too).
+// and some extras).
 Sprites::Sprites(const std::vector<uint8_t> &tiles) : tiles_(tiles), tileCount_((int)(tiles.size() / 256))
 {
     const int count = (int)(tiles.size() / 256);

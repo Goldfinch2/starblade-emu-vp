@@ -1,4 +1,4 @@
-// hle.h: the chips Star Blade's 68000s talk to, replaced by what they do.
+// hle.h: the chips a System 21 game's 68000s talk to, replaced by what they do.
 // Each sees the shared memory the way the real chip did and answers the same.
 #pragma once
 

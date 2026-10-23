@@ -1,15 +1,16 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(starblade_emu LANGUAGES C CXX)
+project(system21_emu LANGUAGES C CXX)
 
-# Star Blade on the VectorPie SDK. Builds, from WSL2 Debian:
-#   cmake --preset pc && cmake --build --preset pc         # build-pc/starblade_emu.exe
-#   cmake --build --preset pc --target windows             # ready to run in C:\tmp\starblade-emu
-#   cmake --preset linux && cmake --build --preset linux   # build-linux/starblade_emu (WSLg window)
-#   cmake --preset pi && cmake --build --preset pi         # build-pi/starblade_emu (arm64)
+# Namco System 21 games (Star Blade, Cyber Sled) on the VectorPie SDK: one
+# program, one package per game (games/<set>). Builds, from WSL2 Debian:
+#   cmake --preset pc && cmake --build --preset pc         # build-pc/system21_emu.exe
+#   cmake --build --preset pc --target windows             # ready to run in C:\tmp\system21-emu
+#   cmake --preset linux && cmake --build --preset linux   # build-linux/system21_emu (WSLg window)
+#   cmake --preset pi && cmake --build --preset pi         # build-pi/system21_emu (arm64)
 #   cmake --build --preset pi --target vpk                 # build-pi/<id>-<version>.vpk, every game's
 #   cmake --build --preset pi --target vpk_cybsled         # one game's (games/<set>)
-#   -DSB_GAME=cybsled                                      # the game run from the build folder
+#   -DS21_GAME=cybsled                                     # the game run from the build folder
 # Running it needs MAME's <set>.zip (starblad.zip): --roms PATH, the build folder's
 # roms/, or the cabinet's ROM folders (advmame.rc dir_rom).
 
@@ -49,7 +50,7 @@ target_compile_definitions(musashi PUBLIC M68K_EMULATE_INT_ACK=1)
 target_compile_options(musashi PRIVATE -w -O2)
 
 # ---- the game ----------------------------------------------------------------------
-add_executable(starblade_emu
+add_executable(system21_emu
     src/main.cpp
     src/machine.cpp
     src/hle.cpp
@@ -63,24 +64,24 @@ add_executable(starblade_emu
     src/sprites.cpp
     src/roms.cpp
     third_party/puff/puff.c)
-target_include_directories(starblade_emu PRIVATE src third_party/puff)
+target_include_directories(system21_emu PRIVATE src third_party/puff)
 # ymfm (Aaron Giles, BSD-3-Clause): the YM2151. Its own warnings are not ours:
 # a system include folder, its source compiled quietly.
-target_include_directories(starblade_emu SYSTEM PRIVATE third_party/ymfm/src)
+target_include_directories(system21_emu SYSTEM PRIVATE third_party/ymfm/src)
 set_source_files_properties(third_party/ymfm/src/ymfm_opm.cpp PROPERTIES COMPILE_OPTIONS -w)
-target_link_libraries(starblade_emu PRIVATE musashi)
-vp_program(starblade_emu)
+target_link_libraries(system21_emu PRIVATE musashi)
+vp_program(system21_emu)
 
 # ---- the games: one package each, from games/<set>/ ---------------------------------
 # A game's folder holds its package's files: game.ini (its id, its executable's
 # name, "[system21] game = <set>"), leds.cfg, sprites.vec, guide/*.wav and
 # marquee.png (the arcade's artwork, optional). The program is every game's.
-# SB_GAME's files go next to the built program, to run it from the build.
-set(SB_GAME "starblad" CACHE STRING "The game run from the build folder (games/<set>)")
-file(GLOB SB_GAME_DIRS LIST_DIRECTORIES true CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/games/*)
+# S21_GAME's files go next to the built program, to run it from the build.
+set(S21_GAME "starblad" CACHE STRING "The game run from the build folder (games/<set>)")
+file(GLOB S21_GAME_DIRS LIST_DIRECTORIES true CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/games/*)
 
 # A game's files (FILES) and voices (GUIDE), its package id and executable's name.
-function(sb_game_files dir)
+function(game_files dir)
     set(files ${dir}/game.ini)
     foreach(f leds.cfg sprites.vec marquee.png)
         if(EXISTS ${dir}/${f})
@@ -98,19 +99,19 @@ function(sb_game_files dir)
     set(EXE ${exe} PARENT_SCOPE)
 endfunction()
 
-set(SB_GAME_DIR ${CMAKE_CURRENT_SOURCE_DIR}/games/${SB_GAME})
-if(NOT EXISTS ${SB_GAME_DIR}/game.ini)
-    message(FATAL_ERROR "SB_GAME: no games/${SB_GAME}/game.ini")
+set(S21_GAME_DIR ${CMAKE_CURRENT_SOURCE_DIR}/games/${S21_GAME})
+if(NOT EXISTS ${S21_GAME_DIR}/game.ini)
+    message(FATAL_ERROR "S21_GAME: no games/${S21_GAME}/game.ini")
 endif()
-sb_game_files(${SB_GAME_DIR})
-set(SB_FILES ${FILES})
-set(SB_GUIDE ${GUIDE})
+game_files(${S21_GAME_DIR})
+set(S21_FILES ${FILES})
+set(S21_GUIDE ${GUIDE})
 # The game's files next to the executable, on every build (sprites.vec changes
 # without any code changing).
-add_custom_target(starblade_files ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${SB_FILES} $<TARGET_FILE_DIR:starblade_emu>/
+add_custom_target(system21_files ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${S21_FILES} $<TARGET_FILE_DIR:system21_emu>/
     VERBATIM)
-add_dependencies(starblade_files starblade_emu)
+add_dependencies(system21_files system21_emu)
 
 # The game packages, for Settings -> GAMES -> INSTALL GAMES. The Pi build only.
 # Nothing of Namco's goes in them: the program, the models, the sprites' pixels
@@ -118,24 +119,24 @@ add_dependencies(starblade_files starblade_emu)
 # <set>.zip (sprites.vec is our own tracing). vpk builds every game's,
 # vpk_<set> one: build-pi/<id>-<version>.vpk.
 if(MINGW)
-    set(SB_WINDOWS_DIR "/mnt/c/tmp/starblade-emu" CACHE PATH "Where the windows target puts the game")
+    set(S21_WINDOWS_DIR "/mnt/c/tmp/system21-emu" CACHE PATH "Where the windows target puts the game")
 endif()
 add_custom_target(vpk)
-set(SB_TRACES_BUILD)        # every game's sprites.vec into games/<set>/: --game from a build folder
-set(SB_TRACES_WINDOWS)
-foreach(dir ${SB_GAME_DIRS})
+set(S21_TRACES_BUILD)        # every game's sprites.vec into games/<set>/: --game from a build folder
+set(S21_TRACES_WINDOWS)
+foreach(dir ${S21_GAME_DIRS})
     if(NOT EXISTS ${dir}/game.ini)
         continue()
     endif()
     get_filename_component(set ${dir} NAME)
-    sb_game_files(${dir})
+    game_files(${dir})
     if(EXISTS ${dir}/sprites.vec)
-        list(APPEND SB_TRACES_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:starblade_emu>/games/${set}
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dir}/sprites.vec $<TARGET_FILE_DIR:starblade_emu>/games/${set}/)
-        list(APPEND SB_TRACES_WINDOWS
-            COMMAND ${CMAKE_COMMAND} -E make_directory ${SB_WINDOWS_DIR}/games/${set}
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dir}/sprites.vec ${SB_WINDOWS_DIR}/games/${set}/)
+        list(APPEND S21_TRACES_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:system21_emu>/games/${set}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dir}/sprites.vec $<TARGET_FILE_DIR:system21_emu>/games/${set}/)
+        list(APPEND S21_TRACES_WINDOWS
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${S21_WINDOWS_DIR}/games/${set}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dir}/sprites.vec ${S21_WINDOWS_DIR}/games/${set}/)
     endif()
     set(stage ${CMAKE_BINARY_DIR}/vpk/${set}/${ID})
     set(guideCopy)
@@ -145,31 +146,43 @@ foreach(dir ${SB_GAME_DIRS})
     add_custom_target(vpk_${set}
         COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_BINARY_DIR}/vpk/${set}
         COMMAND ${CMAKE_COMMAND} -E make_directory ${stage}/guide
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:starblade_emu> ${stage}/${EXE}
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:system21_emu> ${stage}/${EXE}
         COMMAND ${CMAKE_COMMAND} -E copy ${FILES} ${stage}/
         ${guideCopy}
         COMMAND sh ${VECTORPIE_PACK} ${stage} ${CMAKE_BINARY_DIR}
-        DEPENDS starblade_emu
+        DEPENDS system21_emu
         VERBATIM)
     add_dependencies(vpk vpk_${set})
 endforeach()
-add_custom_target(starblade_traces ALL ${SB_TRACES_BUILD} VERBATIM)
-add_dependencies(starblade_traces starblade_emu)
+add_custom_target(system21_traces ALL ${S21_TRACES_BUILD} VERBATIM)
+add_dependencies(system21_traces system21_emu)
 
 # Windows: a folder to run from (the .exe, SDL2.dll, the files)
-# and a launcher pointing at MAME's ROM folder. The PC build only.
+# and a launcher for each game pointing at MAME's ROM folder. The PC build only.
 if(MINGW)
-    set(SB_WINDOWS_ROMS "C:\\tmp\\mame\\roms" CACHE STRING "MAME's ROM folder, for the launcher")
-    file(WRITE ${CMAKE_BINARY_DIR}/launch.cmd
-        "@echo off\r\nrem Star Blade, fullscreen (Esc quits). Add --sprite-ids to see untraced sprites, --windowed for a window.\r\ncd /d \"%~dp0\"\r\nstarblade_emu.exe --window --roms \"${SB_WINDOWS_ROMS}\" %*\r\n")
+    set(S21_WINDOWS_ROMS "C:\\tmp\\mame\\roms" CACHE STRING "MAME's ROM folder, for the launchers")
+    # A launcher for each game: "Launch <its name>.cmd", --game <set>.
+    set(S21_LAUNCHERS)
+    foreach(dir ${S21_GAME_DIRS})
+        if(NOT EXISTS ${dir}/game.ini)
+            continue()
+        endif()
+        get_filename_component(set ${dir} NAME)
+        file(STRINGS ${dir}/game.ini name REGEX "^name[ \t]*=")
+        string(REGEX REPLACE "^name[ \t]*=[ \t]*" "" name "${name}")
+        string(STRIP "${name}" name)
+        file(WRITE ${CMAKE_BINARY_DIR}/launch_${set}.cmd
+            "@echo off\r\nrem ${name}, fullscreen (Esc quits). Add --sprite-ids to see untraced sprites, --windowed for a window.\r\ncd /d \"%~dp0\"\r\nsystem21_emu.exe --game ${set} --window --roms \"${S21_WINDOWS_ROMS}\" %*\r\n")
+        list(APPEND S21_LAUNCHERS COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/launch_${set}.cmd "${S21_WINDOWS_DIR}/Launch ${name}.cmd")
+    endforeach()
     add_custom_target(windows
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${SB_WINDOWS_DIR}
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:starblade_emu> ${SB_WINDOWS_DIR}/
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE_DIR:starblade_emu>/SDL2.dll ${SB_WINDOWS_DIR}/
-        COMMAND ${CMAKE_COMMAND} -E copy ${SB_FILES} ${SB_WINDOWS_DIR}/
-        ${SB_TRACES_WINDOWS}
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/launch.cmd "${SB_WINDOWS_DIR}/Launch Starblade.cmd"
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${S21_WINDOWS_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:system21_emu> ${S21_WINDOWS_DIR}/
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE_DIR:system21_emu>/SDL2.dll ${S21_WINDOWS_DIR}/
+        COMMAND ${CMAKE_COMMAND} -E copy ${S21_FILES} ${S21_WINDOWS_DIR}/
+        ${S21_TRACES_WINDOWS}
+        ${S21_LAUNCHERS}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        DEPENDS starblade_emu
+        DEPENDS system21_emu
         VERBATIM)
 endif()

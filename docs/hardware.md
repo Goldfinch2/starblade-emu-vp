@@ -2,8 +2,7 @@
 
 What the re-creation does in place of each chip of Namco System 21 (C67),
 worked out from MAME's driver (`src/mame/namco/namcos21_c67.cpp` and the
-devices it uses) and captures of the original running in MAME (the Lua
-scripts in `../tools`). The DSP board is in `dsp.md`.
+devices it uses) and captures of the original running in MAME. The DSP board is in `dsp.md`.
 
 The two 68000s run the game's own code (Musashi). Everything else is ours.
 
@@ -106,7 +105,7 @@ re-creation draws every font tile as that character in the SDK's Asteroids
 font, fitted to the original glyph's box.
 
 The re-creation draws the other sprites from vector traces made with the sprite
-editor (`C:\tmp\starblade-sprites`, catalog from `tools/sb_sprcat.lua`),
+editor (`C:\tmp\starblade-sprites`),
 saved as `sprites.vec`: a sprite image traced as a whole (keyed by a hash of
 its size, tile offset and tile list), or tile by tile. A sprite not traced
 yet is drawn as its box with its ID (`src/sprites.cpp`).

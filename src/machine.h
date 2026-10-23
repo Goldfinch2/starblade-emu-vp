@@ -1,4 +1,4 @@
-// machine.h: Namco System 21 (C67 DSP board) as Star Blade uses it: the two
+// machine.h: Namco System 21 (C67 DSP board) as its games use it: the two
 // 68000s run the game's own code (Musashi); everything around them is ours.
 //
 //   - the DSP board (5 TMS320C25) is replaced by Dsp: it answers the boot
