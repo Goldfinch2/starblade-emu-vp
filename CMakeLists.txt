@@ -7,8 +7,10 @@ project(starblade_emu LANGUAGES C CXX)
 #   cmake --build --preset pc --target windows             # ready to run in C:\tmp\starblade-emu
 #   cmake --preset linux && cmake --build --preset linux   # build-linux/starblade_emu (WSLg window)
 #   cmake --preset pi && cmake --build --preset pi         # build-pi/starblade_emu (arm64)
-#   cmake --build --preset pi --target vpk                 # build-pi/starblade_emu-<version>.vpk
-# Running it needs MAME's starblad.zip: --roms PATH, the build folder's
+#   cmake --build --preset pi --target vpk                 # build-pi/<id>-<version>.vpk, every game's
+#   cmake --build --preset pi --target vpk_cybsled         # one game's (games/<set>)
+#   -DSB_GAME=cybsled                                      # the game run from the build folder
+# Running it needs MAME's <set>.zip (starblad.zip): --roms PATH, the build folder's
 # roms/, or the cabinet's ROM folders (advmame.rc dir_rom).
 
 find_package(VectorPie 0.1 REQUIRED CONFIG)
@@ -69,42 +71,94 @@ set_source_files_properties(third_party/ymfm/src/ymfm_opm.cpp PROPERTIES COMPILE
 target_link_libraries(starblade_emu PRIVATE musashi)
 vp_program(starblade_emu)
 
-set(SB_FILES game.ini leds.cfg sprites.vec)
-# The marquee is the arcade's artwork: in the private tree only (the public
-# one builds without it; a package's marquee is optional).
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/marquee.png)
-    list(APPEND SB_FILES marquee.png)
+# ---- the games: one package each, from games/<set>/ ---------------------------------
+# A game's folder holds its package's files: game.ini (its id, its executable's
+# name, "[system21] game = <set>"), leds.cfg, sprites.vec, guide/*.wav and
+# marquee.png (the arcade's artwork, optional). The program is every game's.
+# SB_GAME's files go next to the built program, to run it from the build.
+set(SB_GAME "starblad" CACHE STRING "The game run from the build folder (games/<set>)")
+file(GLOB SB_GAME_DIRS LIST_DIRECTORIES true CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/games/*)
+
+# A game's files (FILES) and voices (GUIDE), its package id and executable's name.
+function(sb_game_files dir)
+    set(files ${dir}/game.ini)
+    foreach(f leds.cfg sprites.vec marquee.png)
+        if(EXISTS ${dir}/${f})
+            list(APPEND files ${dir}/${f})
+        endif()
+    endforeach()
+    file(GLOB guide CONFIGURE_DEPENDS ${dir}/guide/*.wav)
+    file(STRINGS ${dir}/game.ini id REGEX "^id[ \t]*=")
+    file(STRINGS ${dir}/game.ini exe REGEX "^executable[ \t]*=")
+    string(REGEX REPLACE "^[a-z]+[ \t]*=[ \t]*([a-z0-9_]+).*" "\\1" id "${id}")
+    string(REGEX REPLACE "^[a-z]+[ \t]*=[ \t]*([a-z0-9_]+).*" "\\1" exe "${exe}")
+    set(FILES ${files} PARENT_SCOPE)
+    set(GUIDE ${guide} PARENT_SCOPE)
+    set(ID ${id} PARENT_SCOPE)
+    set(EXE ${exe} PARENT_SCOPE)
+endfunction()
+
+set(SB_GAME_DIR ${CMAKE_CURRENT_SOURCE_DIR}/games/${SB_GAME})
+if(NOT EXISTS ${SB_GAME_DIR}/game.ini)
+    message(FATAL_ERROR "SB_GAME: no games/${SB_GAME}/game.ini")
 endif()
+sb_game_files(${SB_GAME_DIR})
+set(SB_FILES ${FILES})
+set(SB_GUIDE ${GUIDE})
 # The game's files next to the executable, on every build (sprites.vec changes
 # without any code changing).
 add_custom_target(starblade_files ALL
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${SB_FILES} $<TARGET_FILE_DIR:starblade_emu>/
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    VERBATIM)
 add_dependencies(starblade_files starblade_emu)
 
-# The game package, for Settings -> GAMES -> INSTALL GAMES. The Pi build only.
-# Nothing of Namco's goes in it: the program, the models, the sprites' pixels
+# The game packages, for Settings -> GAMES -> INSTALL GAMES. The Pi build only.
+# Nothing of Namco's goes in them: the program, the models, the sprites' pixels
 # and the sound board's program and samples are read from the player's
-# starblad.zip (sprites.vec is our own tracing).
-set(VPK_STAGE ${CMAKE_BINARY_DIR}/vpk/starblade_emu)
-# The control guide's voices (leds.cfg's voice_map words): ours, before the
-# cabinet's shared clips.
-file(GLOB SB_GUIDE CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/guide/*.wav)
-add_custom_target(vpk
-    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_BINARY_DIR}/vpk
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${VPK_STAGE}/guide
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:starblade_emu> ${VPK_STAGE}/
-    COMMAND ${CMAKE_COMMAND} -E copy ${SB_FILES} ${VPK_STAGE}/
-    COMMAND ${CMAKE_COMMAND} -E copy ${SB_GUIDE} ${VPK_STAGE}/guide/
-    COMMAND sh ${VECTORPIE_PACK} ${VPK_STAGE} ${CMAKE_BINARY_DIR}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    DEPENDS starblade_emu
-    VERBATIM)
+# <set>.zip (sprites.vec is our own tracing). vpk builds every game's,
+# vpk_<set> one: build-pi/<id>-<version>.vpk.
+if(MINGW)
+    set(SB_WINDOWS_DIR "/mnt/c/tmp/starblade-emu" CACHE PATH "Where the windows target puts the game")
+endif()
+add_custom_target(vpk)
+set(SB_TRACES_BUILD)        # every game's sprites.vec into games/<set>/: --game from a build folder
+set(SB_TRACES_WINDOWS)
+foreach(dir ${SB_GAME_DIRS})
+    if(NOT EXISTS ${dir}/game.ini)
+        continue()
+    endif()
+    get_filename_component(set ${dir} NAME)
+    sb_game_files(${dir})
+    if(EXISTS ${dir}/sprites.vec)
+        list(APPEND SB_TRACES_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:starblade_emu>/games/${set}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dir}/sprites.vec $<TARGET_FILE_DIR:starblade_emu>/games/${set}/)
+        list(APPEND SB_TRACES_WINDOWS
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${SB_WINDOWS_DIR}/games/${set}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dir}/sprites.vec ${SB_WINDOWS_DIR}/games/${set}/)
+    endif()
+    set(stage ${CMAKE_BINARY_DIR}/vpk/${set}/${ID})
+    set(guideCopy)
+    if(GUIDE)
+        set(guideCopy COMMAND ${CMAKE_COMMAND} -E copy ${GUIDE} ${stage}/guide/)
+    endif()
+    add_custom_target(vpk_${set}
+        COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_BINARY_DIR}/vpk/${set}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${stage}/guide
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:starblade_emu> ${stage}/${EXE}
+        COMMAND ${CMAKE_COMMAND} -E copy ${FILES} ${stage}/
+        ${guideCopy}
+        COMMAND sh ${VECTORPIE_PACK} ${stage} ${CMAKE_BINARY_DIR}
+        DEPENDS starblade_emu
+        VERBATIM)
+    add_dependencies(vpk vpk_${set})
+endforeach()
+add_custom_target(starblade_traces ALL ${SB_TRACES_BUILD} VERBATIM)
+add_dependencies(starblade_traces starblade_emu)
 
 # Windows: a folder to run from (the .exe, SDL2.dll, the files)
 # and a launcher pointing at MAME's ROM folder. The PC build only.
 if(MINGW)
-    set(SB_WINDOWS_DIR "/mnt/c/tmp/starblade-emu" CACHE PATH "Where the windows target puts the game")
     set(SB_WINDOWS_ROMS "C:\\tmp\\mame\\roms" CACHE STRING "MAME's ROM folder, for the launcher")
     file(WRITE ${CMAKE_BINARY_DIR}/launch.cmd
         "@echo off\r\nrem Star Blade, fullscreen (Esc quits). Add --sprite-ids to see untraced sprites, --windowed for a window.\r\ncd /d \"%~dp0\"\r\nstarblade_emu.exe --window --roms \"${SB_WINDOWS_ROMS}\" %*\r\n")
@@ -113,6 +167,7 @@ if(MINGW)
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:starblade_emu> ${SB_WINDOWS_DIR}/
         COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE_DIR:starblade_emu>/SDL2.dll ${SB_WINDOWS_DIR}/
         COMMAND ${CMAKE_COMMAND} -E copy ${SB_FILES} ${SB_WINDOWS_DIR}/
+        ${SB_TRACES_WINDOWS}
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/launch.cmd "${SB_WINDOWS_DIR}/Launch Starblade.cmd"
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         DEPENDS starblade_emu

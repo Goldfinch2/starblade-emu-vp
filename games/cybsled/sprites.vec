@@ -1,0 +1,10267 @@
+# Cyber Sled vector sprites. T: a picture traced whole in its top-left tile
+# (points in the picture's pixels), its other tiles E (draw nothing);
+# X: a picture of text (its first tile, pen), then L lines: x0 x1 baseline height text.
+# H (after S or T): an area of the picture hiding the 3D, a rectangle x0 y0 x1 y1 or a convex polygon.
+
+# ---- the HUD ----
+# radar (its oval hides the 3D)
+S 5005244846c44ac3
+P #c8c8c8 33 94 63.5 93.1 74 90.5 84.2 86.2 93.5 80.4 101.7 73.3 108.4 65.3 113.4 56.6 116.5 47.5 117.5 38.4 116.5 29.7 113.4 21.7 108.4 14.6 101.7 8.8 93.5 4.5 84.2 1.9 74 1 63.5 1.9 53 4.5 42.8 8.8 33.5 14.6 25.3 21.7 18.6 29.7 13.6 38.4 10.5 47.5 9.5 56.6 10.5 65.3 13.6 73.3 18.6 80.4 25.3 86.2 33.5 90.5 42.8 93.1 53 94 63.5
+P 16 3 21.5 23.5 47.5 64 73.5 23.5
+H 94.5 63.5 90.9 84.4 80.7 102 65.5 113.9 47.5 118 29.5 113.9 14.3 102 4.1 84.4 0.5 63.5 4.1 42.6 14.3 25 29.5 13.1 47.5 9 65.5 13.1 80.7 25 90.9 42.6
+S c07ea34f9722b9cd
+P #c8c8c8 33 94 63.5 93.1 74 90.5 84.2 86.2 93.5 80.4 101.7 73.3 108.4 65.3 113.4 56.6 116.5 47.5 117.5 38.4 116.5 29.7 113.4 21.7 108.4 14.6 101.7 8.8 93.5 4.5 84.2 1.9 74 1 63.5 1.9 53 4.5 42.8 8.8 33.5 14.6 25.3 21.7 18.6 29.7 13.6 38.4 10.5 47.5 9.5 56.6 10.5 65.3 13.6 73.3 18.6 80.4 25.3 86.2 33.5 90.5 42.8 93.1 53 94 63.5
+P 16 3 21.5 23.5 47.5 64 73.5 23.5
+H 94.5 63.5 90.9 84.4 80.7 102 65.5 113.9 47.5 118 29.5 113.9 14.3 102 4.1 84.4 0.5 63.5 4.1 42.6 14.3 25 29.5 13.1 47.5 9 65.5 13.1 80.7 25 90.9 42.6
+T 0daf
+E
+T 0db0
+E
+T 0db1
+E
+T 0db2
+E
+T 0db3
+E
+T 0db4
+E
+T 0db5
+E
+T 0db6
+E
+T 0db7
+E
+T 0db8
+E
+T 0db9
+E
+T 0dba
+E
+T 0dbb
+E
+T 0dbc
+E
+T 0dbd
+E
+T 0dbe
+E
+T 0dbf
+E
+T 0dc0
+E
+T 0dc1
+E
+T 0dc2
+E
+T 0dc3
+E
+T 0dc4
+E
+T 0dc5
+E
+T 0dc6
+E
+T 0dc7
+E
+T 0dc8
+E
+T 0dc9
+E
+T 0dca
+E
+T 0dcb
+E
+T 0dcc
+E
+T 0dcd
+E
+T 0dce
+E
+T 0dcf
+E
+T 0dd0
+E
+T 0dd1
+E
+T 0e09
+E
+T 0e0a
+E
+T 0e0b
+E
+T 0e0c
+E
+T 0e0d
+E
+T 0e0e
+E
+T 0e0f
+E
+T 0e10
+E
+T 0e11
+E
+T 0e12
+E
+T 0e13
+E
+T 0e14
+E
+T 0e15
+E
+T 0e16
+E
+T 0e17
+E
+T 0e18
+E
+T 0e19
+E
+T 0e1a
+E
+T 0e1b
+E
+T 0e1c
+E
+T 0e1d
+E
+T 0e1e
+E
+T 0e1f
+E
+T 0e20
+E
+T 0e21
+E
+T 0e22
+E
+T 0e23
+E
+T 0e24
+E
+T 0e25
+E
+T 0e26
+E
+T 0e27
+E
+T 0e28
+E
+# shield gauge frames (their boxes hide the 3D)
+S 2f4849cea62d8634
+P #c8c8c8 14 107 5 139 5 139 43 107 43 100 46 91 56 84 59 5 59 5 21 84 21 91 18 100 8 107 5 107 5
+P #c8c8c8 14 107 61 139 61 139 75 107 75 100 78 91 88 84 91 5 91 5 77 84 77 91 74 100 64 107 61 107 61
+H 5 61 139 91
+H 5 5 139 59
+T 0e29
+E
+T 0e2a
+E
+T 0e2b
+E
+T 0e2c
+E
+T 0e2d
+E
+T 0e2e
+E
+T 0e2f
+E
+T 0e30
+E
+T 0e31
+E
+T 0e32
+E
+T 0e33
+E
+T 0e34
+E
+T 0e35
+E
+T 0e36
+E
+T 0e37
+E
+T 0e38
+E
+T 0e39
+E
+T 0e3a
+E
+T 0e3b
+E
+T 0e3c
+E
+T 0e3d
+E
+# shield gauge bar (9x3)
+S e4890fe6b70a559d
+P 40 14 107 0 136 0 136 32 107 32 100 35 91 45 84 48 8 48 8 16 84 16 91 13 100 3 107 0 107 0
+P #ff0800 2 10.5 16 10.5 48
+P #ff1400 2 13.5 16 13.5 48
+P #ff2000 2 16.5 16 16.5 48
+P #ff2c00 2 19.5 16 19.5 48
+P #ff3800 2 22.5 16 22.5 48
+P #ff4400 2 25.5 16 25.5 48
+P #ff5000 2 28.5 16 28.5 48
+P #ff5c00 2 31.5 16 31.5 48
+P #ff6800 2 34.5 16 34.5 48
+P #ff7400 2 37.5 16 37.5 48
+P #ff8000 2 40.5 16 40.5 48
+P #ff8c00 2 43.5 16 43.5 48
+P #ff9800 2 46.5 16 46.5 48
+P #ffa400 2 49.5 16 49.5 48
+P #ffb000 2 52.5 16 52.5 48
+P #ffbc00 2 55.5 16 55.5 48
+P #ffc800 2 58.5 16 58.5 48
+P #ffd400 2 61.5 16 61.5 48
+P #ffe000 2 64.5 16 64.5 48
+P #ffec00 2 67.5 16 67.5 48
+P #fff800 2 70.5 16 70.5 48
+P #f8ff00 2 73.5 16 73.5 48
+P #ecff00 2 76.5 16 76.5 48
+P #e0ff00 2 79.5 16 79.5 48
+P #d4ff00 2 82.5 16 82.5 48
+P #c8ff00 2 85.5 15 85.5 47
+P #bcff00 2 88.5 14 88.5 46
+P #b0ff00 2 91.5 12 91.5 44
+P #a4ff00 2 94.5 9 94.5 41
+P #98ff00 2 97.5 6 97.5 38
+P #8cff00 2 100.5 3 100.5 35
+P #80ff00 2 103.5 2 103.5 34
+P #74ff00 2 106.5 1 106.5 33
+P #68ff00 2 109.5 0 109.5 32
+P #5cff00 2 112.5 0 112.5 32
+P #50ff00 2 115.5 0 115.5 32
+P #44ff00 2 118.5 0 118.5 32
+P #38ff00 2 121.5 0 121.5 32
+P #2cff00 2 124.5 0 124.5 32
+P #20ff00 2 127.5 0 127.5 32
+P #14ff00 2 130.5 0 130.5 32
+P #08ff00 2 133.5 0 133.5 32
+# shield gauge bar (9x2)
+S f3e77680a761a954
+P 40 14 107 0 136 0 136 8 107 8 100 11 91 21 84 24 8 24 8 16 84 16 91 13 100 3 107 0 107 0
+P #ff0800 2 10.5 16 10.5 24
+P #ff1400 2 13.5 16 13.5 24
+P #ff2000 2 16.5 16 16.5 24
+P #ff2c00 2 19.5 16 19.5 24
+P #ff3800 2 22.5 16 22.5 24
+P #ff4400 2 25.5 16 25.5 24
+P #ff5000 2 28.5 16 28.5 24
+P #ff5c00 2 31.5 16 31.5 24
+P #ff6800 2 34.5 16 34.5 24
+P #ff7400 2 37.5 16 37.5 24
+P #ff8000 2 40.5 16 40.5 24
+P #ff8c00 2 43.5 16 43.5 24
+P #ff9800 2 46.5 16 46.5 24
+P #ffa400 2 49.5 16 49.5 24
+P #ffb000 2 52.5 16 52.5 24
+P #ffbc00 2 55.5 16 55.5 24
+P #ffc800 2 58.5 16 58.5 24
+P #ffd400 2 61.5 16 61.5 24
+P #ffe000 2 64.5 16 64.5 24
+P #ffec00 2 67.5 16 67.5 24
+P #fff800 2 70.5 16 70.5 24
+P #f8ff00 2 73.5 16 73.5 24
+P #ecff00 2 76.5 16 76.5 24
+P #e0ff00 2 79.5 16 79.5 24
+P #d4ff00 2 82.5 16 82.5 24
+P #c8ff00 2 85.5 15 85.5 23
+P #bcff00 2 88.5 14 88.5 22
+P #b0ff00 2 91.5 12 91.5 20
+P #a4ff00 2 94.5 9 94.5 17
+P #98ff00 2 97.5 6 97.5 14
+P #8cff00 2 100.5 3 100.5 11
+P #80ff00 2 103.5 2 103.5 10
+P #74ff00 2 106.5 1 106.5 9
+P #68ff00 2 109.5 0 109.5 8
+P #5cff00 2 112.5 0 112.5 8
+P #50ff00 2 115.5 0 115.5 8
+P #44ff00 2 118.5 0 118.5 8
+P #38ff00 2 121.5 0 121.5 8
+P #2cff00 2 124.5 0 124.5 8
+P #20ff00 2 127.5 0 127.5 8
+P #14ff00 2 130.5 0 130.5 8
+P #08ff00 2 133.5 0 133.5 8
+T 0e3e
+E
+T 0e3f
+E
+T 0e40
+E
+T 0e41
+E
+T 0e42
+E
+T 0e43
+E
+T 0e44
+E
+T 0e45
+E
+T 0e46
+E
+T 0e47
+E
+T 0e48
+E
+T 0e49
+E
+T 0e4a
+E
+T 0e4b
+E
+T 0e4c
+E
+T 0e4d
+E
+T 0e4e
+E
+T 0e4f
+E
+T 0e50
+E
+T 0e51
+E
+T 0e52
+E
+T 0e53
+E
+# static
+T 0e54
+E
+T 0e55
+E
+T 0e56
+E
+T 0e57
+E
+T 0e58
+E
+T 0e59
+E
+T 0e5a
+E
+T 0e5b
+E
+T 0e5c
+E
+T 0e5d
+E
+T 0e5e
+E
+T 0e5f
+E
+T 0e60
+E
+T 0e61
+E
+T 0e62
+E
+T 0e63
+E
+T 0e64
+E
+T 0e65
+E
+T 0e66
+E
+T 0e67
+E
+T 0e68
+E
+T 0e69
+E
+T 0e6a
+E
+T 0e6b
+E
+T 0e6c
+E
+T 0e6d
+E
+T 0e6e
+E
+T 0e6f
+E
+T 0e70
+E
+T 0e71
+E
+T 0e72
+E
+T 0e73
+E
+T 0e74
+E
+T 0e75
+E
+T 0e76
+E
+T 0e77
+E
+T 0e78
+E
+T 0e79
+E
+T 0e7a
+E
+T 0e7b
+E
+T 0e7c
+E
+T 0e7d
+E
+T 0e7e
+E
+T 0e7f
+E
+T 0e80
+E
+# static
+T 0e81
+E
+T 0e82
+E
+T 0e83
+E
+T 0e84
+E
+T 0e85
+E
+T 0e86
+E
+T 0e87
+E
+T 0e88
+E
+T 0e89
+E
+T 0e8a
+E
+T 0e8b
+E
+T 0e8c
+E
+T 0e8d
+E
+T 0e8e
+E
+T 0e8f
+E
+T 0e90
+E
+T 0e91
+E
+T 0e92
+E
+T 0e93
+E
+T 0e94
+E
+T 0e95
+E
+T 0e96
+E
+T 0e97
+E
+T 0e98
+E
+T 0e99
+E
+T 0e9a
+E
+T 0e9b
+E
+T 0e9c
+E
+T 0e9d
+E
+T 0e9e
+E
+T 0e9f
+E
+T 0ea0
+E
+T 0ea1
+E
+T 0ea2
+E
+T 0ea3
+E
+T 0ea4
+E
+T 0ea5
+E
+T 0ea6
+E
+T 0ea7
+E
+T 0ea8
+E
+T 0ea9
+E
+T 0eaa
+E
+T 0eab
+E
+T 0eac
+E
+T 0ead
+E
+# marker
+T 0ec2
+P #2060ff 5 2 2 14 2 14 16 2 16 2 2
+# marker
+T 0ec4
+P #ff2020 5 2 2 14 2 14 16 2 16 2 2
+# crossed marker
+T 0ec3
+P #ff2020 5 0.5 0.5 15.5 0.5 15.5 15.5 0.5 15.5 0.5 0.5
+P #ff2020 2 2 2 14 14
+P #ff2020 2 14 2 2 14
+# hit zigzag: not drawn
+T 0ecc
+E
+T 0ecd
+E
+T 0ece
+E
+T 0ecf
+E
+T 0ed0
+E
+T 0ed1
+E
+T 0ed2
+E
+T 0ed3
+E
+T 0ed4
+E
+T 0ed5
+E
+T 0ed6
+E
+T 0ed7
+E
+T 0ed8
+E
+T 0ed9
+E
+T 0eda
+E
+# hit zigzag: not drawn
+T 0edb
+E
+T 0edc
+E
+T 0edd
+E
+T 0ede
+E
+T 0edf
+E
+T 0ee0
+E
+T 0ee1
+E
+T 0ee2
+E
+T 0ee3
+E
+T 0ee4
+E
+T 0ee5
+E
+# hit zigzag: not drawn
+T 0ee6
+E
+T 0ee7
+E
+T 0ee8
+E
+T 0ee9
+E
+T 0eea
+E
+T 0eeb
+E
+T 0eec
+E
+T 0eed
+E
+T 0eee
+E
+T 0eef
+E
+T 0ef0
+E
+T 0ef1
+E
+T 0ef2
+E
+T 0ef3
+E
+X 0eb7 #c8c8c8
+L 5 78 15 15 SHIELD POWER
+X 0ebc #c8c8c8
+L 5 84 15 15 ENEMY'S SHIELD
+X 0ec6 #c8c8c8
+L 3 44 14 12 TIME
+X 0ec9 #c8c8c8
+L 4 38 14 12 WIN
+X 0ef4 #c8c8c8
+L 4 38 14 12 LOSE
+X 0ef7 #c8c8c8
+L 4 38 14 12 DRAW
+
+# ---- the big outlined font (2x2 tiles a letter): labels ----
+X 0235 80
+L 6 26 29 25 A
+X 0241 80
+L 6 16 29 24 .
+X 0248 80
+L 10 21 29 25 1
+X 024a 80
+L 7 25 29 26 2
+X 024c 80
+L 7 25 29 26 3
+X 024e 80
+L 7 24 29 25 4
+X 025a 80
+L 7 25 29 25 5
+X 0678 80
+L 6 29 28 25 M
+X 0686 80
+L 7 27 28 25 P
+X 068a 80
+L 8 27 28 26 S
+X 068c 80
+L 9 28 28 25 T
+X 0695 80
+L 8 28 28 25 U
+X 0697 80
+L 9 28 28 25 V
+X 6f833fbd4dbb4d77 80
+L 7 28 28 25 E
+X c0b7f1bbc805d793 80
+L 7 27 28 25 R
+X 294e61bd2d0e463d 80
+L 7 26 28 25 B
+X 6ee330bd4d302558 80
+L 7 28 28 25 F
+X bab965f5194cab39 80
+L 7 27 28 26 C
+X 809253f588fe93e3 80
+L 7 28 28 26 O
+X 2f27f3f5576fff83 80
+L 7 27 28 26 G
+
+# ---- small pieces, icons, labels ----
+X 0c5d 21
+L 3 60 39 14 MISSILES
+X 0c65 21
+L 6 50 30 14 SHIELD
+L 14 58 48 14 POWER
+X 0df6 14
+L 23 57 15 15 GUNS
+L 1 79 32 15 OVERHEATED
+# the namco logo (Star Blade's outline)
+T 0018
+P 79 10 4 0 4 16 8.1 16 8.1 4 16.2 4 16.2 16 20.3 16 20.3 2 18.3 0 4 0
+P 79 12 26.4 0 26.4 4 37.6 4 37.6 6 26.4 6 24.4 8 24.4 14 26.4 16 42.7 16 42.7 2 40.7 0 26.4 0
+P 79 14 46.8 0 46.8 16 50.9 16 50.9 4 55 4 55 16 59 16 59 4 63.1 4 63.1 16 67.2 16 67.2 2 65.2 0 46.8 0
+P 79 11 73.3 0 71.3 2 71.3 14 73.3 16 87.6 16 87.6 12 75.3 12 75.3 4 87.6 4 87.6 0 73.3 0
+P 79 9 93.7 0 91.7 2 91.7 14 93.7 16 108 16 110 14 110 2 108 0 93.7 0
+P 79 5 95.7 4 105.9 4 105.9 12 95.7 12 95.7 4
+P 79 5 28.5 10 37.6 10 37.6 12 28.5 12 28.5 10
+T 0019
+E
+T 001a
+E
+T 001b
+E
+T 001c
+E
+T 001d
+E
+T 001e
+E
+# box
+T 0014
+P 77 5 1.5 1.5 14.5 1.5 14.5 14.5 1.5 14.5 1.5 1.5
+# filled box
+T 0016
+P 76 5 1.5 1.5 14.5 1.5 14.5 14.5 1.5 14.5 1.5 1.5
+# copyright sign: a circle, its C a label
+T 0017
+P 78 21 15.5 8 15.1 10.3 14.1 12.4 12.4 14.1 10.3 15.1 8 15.5 5.7 15.1 3.6 14.1 1.9 12.4 0.9 10.3 0.5 8 0.9 5.7 1.9 3.6 3.6 1.9 5.7 0.9 8 0.5 10.3 0.9 12.4 1.9 14.1 3.6 15.1 5.7 15.5 8
+X 0017 78
+L 4 11 12 8 C
+# registered sign: too small
+T 0022
+E
+# dotted cross
+T 0dde
+P #20ff40 2 8 0 8 16
+P #20ff40 2 0 8 16 8
+# target frame
+T 0e00
+P #ff2020 5 0.5 0.5 15.5 0.5 15.5 15.5 0.5 15.5 0.5 0.5
+# target marker
+T 0e01
+P #ff2020 5 16 6 26 16 16 26 6 16 16 6
+T 0e02
+E
+T 0e03
+E
+T 0e04
+E
+# target marker
+T 0e05
+P #ff2020 5 16 6 26 16 16 26 6 16 16 6
+T 0e06
+E
+T 0e07
+E
+T 0e08
+E
+# scale line
+S 627931833ebafa6a
+P #ff2020 2 0 8 64 8
+T 0dda
+E
+# bracket
+T 0ddb
+P #20ff40 4 15 0.5 8 7.5 8 56.5 15 63.5
+T 0ddc
+E
+T 0ddd
+E
+# icon
+T 0dd3
+P #ff2020 30 3 2 5 2 5 5 4 5 5 8 6 8 7 3 8 3 9 8 10 8 10 6 11 6 10 2 12 2 12 14 10 14 10 12 11 12 10 10 9 10 9 13 8 12 6 13 6 10 5 10 4 11 5 14 3 14 3 2 3 2
+# icon
+T 0dd4
+P #ff2020 19 4 1 6 1 6 4 7 3 10 4 10 1 12 1 12 5 13 5 12 15 10 15 9 12 7 12 6 15 4 15 4 11 3 11 4 1 4 1
+# icon
+T 0dd5
+P #ff2020 26 5 1 6 1 6 6 8 5 8 3 11 6 11 1 12 1 12 7 15 7 15 8 12 8 12 14 11 14 11 9 9 10 9 12 6 9 6 14 5 14 5 8 2 8 2 7 5 7 5 1 5 1
+# icon
+T 0dd6
+P #ff2020 34 4 2 5 2 5 6 7 5 7 3 8 3 9 6 10 6 10 2 12 3 12 6 13 6 12 7 13 8 12 9 13 10 12 14 11 14 10 9 9 9 9 11 8 10 6 11 6 9 5 9 4 14 3 14 3 11 2 11 3 7 2 6 3 6 4 2 4 2
+# icon
+T 0ddf
+P #20ff40 7 7 1 10 2 10 15 6 15 6 2 7 1 7 1
+# icon
+T 0dff
+P #ff2020 18 3 3 5 3 5 6 6 6 6 3 7 3 7 5 9 3 9 6 10 6 10 3 12 3 12 14 10 14 10 13 3 14 3 3 3 3
+# icon
+T 0dd7
+P #ff2020 6 0 0 16 0 16 16 0 16 0 0 0 0
+# icon
+T 0dd8
+P #ff2020 6 0 0 16 0 16 16 0 16 0 0 0 0
+
+# ---- arrows, monitor bezels ----
+# arrow
+S 5b1fd5cda09378bd
+P 31 9 44 3 45 10 37 15 37 48 45 53 45 60 2 32 44 3 44 3
+T 0f9f
+E
+T 0fa0
+E
+T 0fa1
+E
+T 0fa2
+E
+T 0fa3
+E
+T 0fa4
+E
+T 0fa5
+E
+T 0fa6
+E
+T 0fa7
+E
+# arrow
+T 0fa8
+P 31 10 3 4 8 7 8 18 30 33 34 34 40 29 46 32 4 61 3 4 3 4
+T 0fa9
+E
+T 0faa
+E
+T 0fab
+E
+T 0fac
+E
+T 0fad
+E
+T 0fae
+E
+T 0faf
+E
+T 0fb0
+E
+T 0fb1
+E
+# arrow
+T 0fb2
+P 31 9 1 8 8 8 12 17 37 17 41 8 48 8 25 56 1 8 1 8
+T 0fb3
+E
+T 0fb4
+E
+T 0fb5
+E
+T 0fb6
+E
+T 0fb7
+E
+T 0fb8
+E
+T 0fb9
+E
+T 0fba
+E
+T 0fbb
+E
+# bezel piece 0fbc (its area hides the 3D: the monitor)
+S ee6d150c55198e4f
+P #c8c8c8 9 3 0 80 1 80 8 7 8 6 48 1 48 1 7 3 0 3 0
+H 0 0 80 48
+# bezel piece 0fbf (its area hides the 3D: the monitor)
+S 0288deef87802e86
+P #c8c8c8 10 21 0 61 0 63 7 63 48 58 48 57 8 0 8 0 1 21 0 21 0
+H 0 0 64 48
+# bezel piece 0fc1 (its area hides the 3D: the monitor)
+S 97d7cd53910b86b1
+P #c8c8c8 9 58 0 63 0 63 41 61 48 0 47 0 40 57 40 58 0 58 0
+H 0 0 64 48
+# bezel piece 0fc1 (its area hides the 3D: the monitor)
+S c2ae5cfc32cc448a
+P 119 10 58 0 63 0 63 25 61 32 0 31 0 26 56 26 58 22 58 0 58 0
+H 0 0 64 32
+# bezel piece 0fc2 (its area hides the 3D: the monitor)
+S a61e3ab21259c8e4
+P #c8c8c8 9 1 0 6 0 7 40 80 40 80 47 3 48 1 41 1 0 1 0
+H 0 0 80 48
+# bezel piece 0fcf (its area hides the 3D: the monitor)
+S a8a073409c0d9cef
+P 119 10 3 8 64 9 64 14 8 14 6 18 6 48 1 48 1 15 3 8 3 8
+H 0 0 64 48
+# bezel piece 0fd2 (its area hides the 3D: the monitor)
+S 2c3106e813424a81
+P 119 11 29 8 61 8 63 15 63 48 58 48 58 18 56 14 0 14 0 9 29 8 29 8
+H 0 0 64 48
+# bezel piece 0fda (its area hides the 3D: the monitor)
+S 9d5d25457e956946
+P 119 10 1 0 6 0 6 22 8 26 64 26 64 31 3 32 1 25 1 0 1 0
+H 0 0 64 32
+X 0fe5 125
+L 7 42 15 15 ITEM
+
+# ---- icons ----
+# missile item
+T 1398
+P 144 15 14 2 18 2 20 4.5 20 15 23 18 23 28 20 28 20 29.5 12 29.5 12 28 9 28 9 18 12 15 12 4.5 14 2
+P 145 2 12 7.5 20 7.5
+P 145 2 12 11.5 20 11.5
+P 145 2 12 16 12 28
+P 145 2 20 16 20 28
+T 1399
+E
+T 139a
+E
+T 139b
+E
+# icon
+T 139c
+P 145 9 7 2 27 2 27 21 25 25 18 30 12 28 7 21 7 2 7 2
+T 139d
+E
+T 139e
+E
+T 139f
+E
+# icon
+T 1820
+P 246 7 23 3 24 8 27 8 27 14 3 14 23 3 23 3
+T 1821
+E
+# icon
+T 1822
+P 246 7 12 2 13 31 8 31 8 28 3 27 12 2 12 2
+T 1823
+E
+# icon
+T 1824
+P 246 8 17 3 20 6 23 4 26 7 26 9 5 29 17 3 17 3
+T 1825
+E
+T 1826
+E
+T 1827
+E
+
+# ---- the attract's story pictures (city, poster, crowd, title, arena, cockpit, eyes): not drawn ----
+T 1832
+E
+T 1833
+E
+T 1834
+E
+T 1835
+E
+T 1836
+E
+T 1837
+E
+T 1838
+E
+T 1839
+E
+T 183a
+E
+T 183b
+E
+T 183c
+E
+T 183d
+E
+T 183e
+E
+T 183f
+E
+T 1840
+E
+T 1841
+E
+T 1842
+E
+T 1843
+E
+T 1844
+E
+T 1845
+E
+T 1846
+E
+T 1847
+E
+T 1848
+E
+T 1849
+E
+T 184a
+E
+T 184b
+E
+T 184c
+E
+T 184d
+E
+T 184e
+E
+T 184f
+E
+T 1850
+E
+T 1851
+E
+T 1852
+E
+T 1853
+E
+T 1854
+E
+T 1855
+E
+T 1856
+E
+T 1857
+E
+T 1858
+E
+T 1859
+E
+T 185a
+E
+T 185b
+E
+T 185c
+E
+T 185d
+E
+T 185e
+E
+T 185f
+E
+T 1860
+E
+T 1861
+E
+T 1862
+E
+T 1863
+E
+T 1864
+E
+T 1865
+E
+T 1866
+E
+T 1867
+E
+T 1868
+E
+T 1869
+E
+T 186a
+E
+T 186b
+E
+T 186c
+E
+T 186d
+E
+T 186e
+E
+T 186f
+E
+T 1870
+E
+T 1871
+E
+T 1872
+E
+T 1873
+E
+T 1874
+E
+T 1875
+E
+T 1876
+E
+T 1877
+E
+T 1878
+E
+T 1879
+E
+T 187a
+E
+T 187b
+E
+T 187c
+E
+T 187d
+E
+T 187e
+E
+T 187f
+E
+T 1880
+E
+T 1881
+E
+T 1882
+E
+T 1883
+E
+T 1884
+E
+T 1885
+E
+T 1886
+E
+T 1887
+E
+T 1888
+E
+T 1889
+E
+T 188a
+E
+T 188b
+E
+T 188c
+E
+T 188d
+E
+T 188e
+E
+T 188f
+E
+T 1890
+E
+T 1891
+E
+T 1892
+E
+T 1893
+E
+T 1894
+E
+T 1895
+E
+T 1896
+E
+T 1897
+E
+T 1898
+E
+T 1899
+E
+T 189a
+E
+T 189b
+E
+T 189c
+E
+T 189d
+E
+T 189e
+E
+T 189f
+E
+T 18a0
+E
+T 18a1
+E
+T 18a2
+E
+T 18a3
+E
+T 18a4
+E
+T 18a5
+E
+T 18a6
+E
+T 18a7
+E
+T 18a8
+E
+T 18a9
+E
+T 18aa
+E
+T 18ab
+E
+T 18ac
+E
+T 18ad
+E
+T 18ae
+E
+T 18af
+E
+T 18b0
+E
+T 18b1
+E
+T 18b2
+E
+T 18b3
+E
+T 18b4
+E
+T 18b5
+E
+T 18b6
+E
+T 18b7
+E
+T 18b8
+E
+T 18b9
+E
+T 18ba
+E
+T 18bb
+E
+T 18bc
+E
+T 18bd
+E
+T 18be
+E
+T 18bf
+E
+T 18c0
+E
+T 18c1
+E
+T 18c2
+E
+T 18c3
+E
+T 18c4
+E
+T 18c5
+E
+T 18c6
+E
+T 18c7
+E
+T 18c8
+E
+T 18c9
+E
+T 18ca
+E
+T 18cb
+E
+T 18cc
+E
+T 18cd
+E
+T 18ce
+E
+T 18cf
+E
+T 18d0
+E
+T 18d1
+E
+T 18d2
+E
+T 18d3
+E
+T 18d4
+E
+T 18d5
+E
+T 18d6
+E
+T 18d7
+E
+T 18d8
+E
+T 18d9
+E
+T 18da
+E
+T 18db
+E
+T 18dc
+E
+T 18dd
+E
+T 18de
+E
+T 18df
+E
+T 18e0
+E
+T 18e1
+E
+T 18e2
+E
+T 18e3
+E
+T 18e4
+E
+T 18e5
+E
+T 18e6
+E
+T 18e7
+E
+T 18e8
+E
+T 18e9
+E
+T 18ea
+E
+T 18eb
+E
+T 18ec
+E
+T 18ed
+E
+T 18ee
+E
+T 18ef
+E
+T 18f0
+E
+T 18f1
+E
+T 18f2
+E
+T 18f3
+E
+T 18f4
+E
+T 18f5
+E
+T 18f6
+E
+T 18f7
+E
+T 18f8
+E
+T 18f9
+E
+T 18fa
+E
+T 18fb
+E
+T 18fc
+E
+T 18fd
+E
+T 18fe
+E
+T 18ff
+E
+T 1900
+E
+T 1901
+E
+T 1902
+E
+T 1903
+E
+T 1904
+E
+T 1905
+E
+T 1906
+E
+T 1907
+E
+T 1908
+E
+T 1909
+E
+T 190a
+E
+T 190b
+E
+T 190c
+E
+T 190d
+E
+T 190e
+E
+T 190f
+E
+T 1910
+E
+T 1911
+E
+T 1912
+E
+T 1913
+E
+T 1914
+E
+T 1915
+E
+T 1916
+E
+T 1917
+E
+T 1918
+E
+T 1919
+E
+T 191a
+E
+T 191b
+E
+T 191c
+E
+T 191d
+E
+T 191e
+E
+T 191f
+E
+T 1920
+E
+T 1921
+E
+T 1922
+E
+T 1923
+E
+T 1924
+E
+T 1925
+E
+T 1926
+E
+T 1927
+E
+T 1928
+E
+T 1929
+E
+T 192a
+E
+T 192b
+E
+T 192c
+E
+T 192d
+E
+T 192e
+E
+T 192f
+E
+T 1930
+E
+T 1931
+E
+T 1932
+E
+T 1933
+E
+T 1934
+E
+T 1935
+E
+T 1936
+E
+T 1937
+E
+T 1938
+E
+T 1939
+E
+T 193a
+E
+T 193b
+E
+T 193c
+E
+T 193d
+E
+T 193e
+E
+T 193f
+E
+T 1940
+E
+T 1941
+E
+T 1942
+E
+T 1943
+E
+T 1944
+E
+T 1945
+E
+T 1946
+E
+T 1947
+E
+T 1948
+E
+T 1949
+E
+T 194a
+E
+T 194b
+E
+T 194c
+E
+T 194d
+E
+T 194e
+E
+T 194f
+E
+T 1950
+E
+T 1951
+E
+T 1952
+E
+T 1953
+E
+T 1954
+E
+T 1955
+E
+T 1956
+E
+T 1957
+E
+T 1958
+E
+T 1959
+E
+T 195a
+E
+T 195b
+E
+T 195c
+E
+T 195d
+E
+T 195e
+E
+T 195f
+E
+T 1960
+E
+T 1961
+E
+T 1962
+E
+T 1963
+E
+T 1964
+E
+T 1965
+E
+T 1966
+E
+T 1967
+E
+T 1968
+E
+T 1969
+E
+T 196a
+E
+T 196b
+E
+T 196c
+E
+T 196d
+E
+T 196e
+E
+T 196f
+E
+T 1970
+E
+T 1971
+E
+T 1972
+E
+T 1973
+E
+T 1974
+E
+T 1975
+E
+T 1976
+E
+T 1977
+E
+T 1978
+E
+T 1979
+E
+T 197a
+E
+T 197b
+E
+T 197c
+E
+T 197d
+E
+T 197e
+E
+T 197f
+E
+T 1980
+E
+T 1981
+E
+T 1982
+E
+T 1983
+E
+T 1984
+E
+T 1985
+E
+T 1986
+E
+T 1987
+E
+T 1988
+E
+T 1989
+E
+T 198a
+E
+T 198b
+E
+T 198c
+E
+T 198d
+E
+T 198e
+E
+T 198f
+E
+T 1990
+E
+T 1991
+E
+T 1992
+E
+T 1993
+E
+T 1994
+E
+T 1995
+E
+T 1996
+E
+T 1997
+E
+T 1998
+E
+T 1999
+E
+T 199a
+E
+T 199b
+E
+T 199c
+E
+T 199d
+E
+T 199e
+E
+T 199f
+E
+T 19a0
+E
+T 19a1
+E
+T 19a2
+E
+T 19a3
+E
+T 19a4
+E
+T 19a5
+E
+T 19a6
+E
+T 19a7
+E
+T 19a8
+E
+T 19a9
+E
+T 19aa
+E
+T 19ab
+E
+T 19ac
+E
+T 19ad
+E
+T 19ae
+E
+T 19af
+E
+T 19b0
+E
+T 19b1
+E
+T 19b2
+E
+T 19b3
+E
+T 19b4
+E
+T 19b5
+E
+T 19b6
+E
+T 19b7
+E
+T 19b8
+E
+T 19b9
+E
+T 19ba
+E
+T 19bb
+E
+T 19bc
+E
+T 19bd
+E
+T 19be
+E
+T 19bf
+E
+T 19c0
+E
+T 19c1
+E
+T 19c2
+E
+T 19c3
+E
+T 19c4
+E
+T 19c5
+E
+T 19c6
+E
+T 19c7
+E
+T 19c8
+E
+T 19c9
+E
+T 19ca
+E
+T 19cb
+E
+T 19cc
+E
+T 19cd
+E
+T 19ce
+E
+T 19cf
+E
+T 19d0
+E
+T 19d1
+E
+T 19d2
+E
+T 19d3
+E
+T 19d4
+E
+T 19d5
+E
+T 19d6
+E
+T 19d7
+E
+T 19d8
+E
+T 19d9
+E
+T 19da
+E
+T 19db
+E
+T 19dc
+E
+T 19dd
+E
+T 19de
+E
+T 19df
+E
+T 19e0
+E
+T 19e1
+E
+T 19e2
+E
+T 19e3
+E
+T 19e4
+E
+T 19e5
+E
+T 19e6
+E
+T 19e7
+E
+T 19e8
+E
+T 19e9
+E
+T 19ea
+E
+T 19eb
+E
+T 19ec
+E
+T 19ed
+E
+T 19ee
+E
+T 19ef
+E
+T 19f0
+E
+T 19f1
+E
+T 19f2
+E
+T 19f3
+E
+T 19f4
+E
+T 19f5
+E
+T 19f6
+E
+T 19f7
+E
+T 19f8
+E
+T 19f9
+E
+T 19fa
+E
+T 19fb
+E
+T 19fc
+E
+T 19fd
+E
+T 19fe
+E
+T 19ff
+E
+T 1a00
+E
+T 1a01
+E
+T 1a02
+E
+T 1a03
+E
+T 1a04
+E
+T 1a05
+E
+T 1a06
+E
+T 1a07
+E
+T 1a08
+E
+T 1a09
+E
+T 1a0a
+E
+T 1a0b
+E
+T 1a0c
+E
+T 1a0d
+E
+T 1a0e
+E
+T 1a0f
+E
+T 1a10
+E
+T 1a11
+E
+T 1a12
+E
+T 1a13
+E
+T 1a14
+E
+T 1a15
+E
+T 1a16
+E
+T 1a17
+E
+T 1a18
+E
+T 1a19
+E
+T 1a1a
+E
+T 1a1b
+E
+T 1a1c
+E
+T 1a1d
+E
+T 1a1e
+E
+T 1a1f
+E
+T 1a20
+E
+T 1a21
+E
+T 1a22
+E
+T 1a23
+E
+T 1a24
+E
+T 1a25
+E
+T 1a26
+E
+T 1a27
+E
+T 1a28
+E
+T 1a29
+E
+T 1a2a
+E
+T 1a2b
+E
+T 1a2c
+E
+T 1a2d
+E
+T 1a2e
+E
+T 1a2f
+E
+T 1a30
+E
+T 1a31
+E
+T 1a32
+E
+T 1a33
+E
+T 1a34
+E
+T 1a35
+E
+T 1a36
+E
+T 1a37
+E
+T 1a38
+E
+T 1a39
+E
+T 1a3a
+E
+T 1a3b
+E
+T 1a3c
+E
+T 1a3d
+E
+T 1a3e
+E
+T 1a3f
+E
+T 1a40
+E
+T 1a41
+E
+T 1a42
+E
+T 1a43
+E
+T 1a44
+E
+T 1a45
+E
+T 1a46
+E
+T 1a47
+E
+T 1a48
+E
+T 1a49
+E
+T 1a4a
+E
+T 1a4b
+E
+T 1a4c
+E
+T 1a4d
+E
+T 1a4e
+E
+T 1a4f
+E
+T 1a50
+E
+T 1a51
+E
+T 1a52
+E
+T 1a53
+E
+T 1a54
+E
+T 1a55
+E
+T 1a56
+E
+T 1a57
+E
+T 1a58
+E
+T 1a59
+E
+T 1a5a
+E
+T 1a5b
+E
+T 1a5c
+E
+T 1a5d
+E
+T 1a5e
+E
+T 1a5f
+E
+T 1a60
+E
+T 1a61
+E
+T 1a62
+E
+T 1a63
+E
+T 1a64
+E
+T 1a65
+E
+T 1a66
+E
+T 1a67
+E
+T 199a
+E
+T 1a68
+E
+T 1a69
+E
+T 1a6a
+E
+T 1a6b
+E
+T 1a6c
+E
+T 1a6d
+E
+T 1a6e
+E
+T 1a6f
+E
+T 1a70
+E
+T 1a71
+E
+T 1a72
+E
+T 1a73
+E
+T 1a74
+E
+T 1a75
+E
+T 1a76
+E
+T 1a77
+E
+T 1a78
+E
+T 1a79
+E
+T 1a7a
+E
+T 1a7b
+E
+T 1a7c
+E
+T 1a7d
+E
+T 1a7e
+E
+T 1a7f
+E
+T 1a80
+E
+T 1a81
+E
+T 1a82
+E
+T 1a83
+E
+T 1a84
+E
+T 1a85
+E
+T 1a86
+E
+T 1a87
+E
+T 1a88
+E
+T 1a89
+E
+T 1a8a
+E
+T 1a8b
+E
+T 1a8c
+E
+T 1a8d
+E
+T 1a8e
+E
+T 1a8f
+E
+T 1a90
+E
+T 1a91
+E
+T 1a92
+E
+T 1a93
+E
+T 1a94
+E
+T 1a95
+E
+T 1a96
+E
+T 1a97
+E
+T 1a98
+E
+T 1a99
+E
+T 1a9a
+E
+T 1a9b
+E
+T 1a9c
+E
+T 1a9d
+E
+T 1a9e
+E
+T 1a9f
+E
+T 1aa0
+E
+T 1aa1
+E
+T 1aa2
+E
+T 1aa3
+E
+T 1aa4
+E
+T 1aa5
+E
+T 1aa6
+E
+T 1aa7
+E
+T 1aa8
+E
+T 1aa9
+E
+T 1aaa
+E
+T 1aab
+E
+T 1aac
+E
+T 1aad
+E
+T 1aae
+E
+T 1aaf
+E
+T 1ab0
+E
+T 1ab1
+E
+T 1ab2
+E
+T 1ab3
+E
+T 1ab4
+E
+T 1ab5
+E
+T 1ab6
+E
+T 1ab7
+E
+T 1ab8
+E
+T 1ab9
+E
+T 1aba
+E
+T 1abb
+E
+T 1abc
+E
+T 1abd
+E
+T 1abe
+E
+T 1abf
+E
+T 1ac0
+E
+T 1ac1
+E
+T 1ac2
+E
+T 1ac3
+E
+T 1ac4
+E
+T 1ac5
+E
+T 1ac6
+E
+T 1ac7
+E
+T 1ac8
+E
+T 1ac9
+E
+T 1aca
+E
+T 1acb
+E
+T 1acc
+E
+T 1acd
+E
+T 1ace
+E
+T 1acf
+E
+T 1ad0
+E
+T 1ad1
+E
+T 1ad2
+E
+T 1ad3
+E
+T 1ad4
+E
+T 1ad5
+E
+T 1ad6
+E
+T 1ad7
+E
+T 1ad8
+E
+T 1ad9
+E
+T 1ada
+E
+T 1adb
+E
+T 1adc
+E
+T 1add
+E
+T 1ade
+E
+T 1adf
+E
+T 1ae0
+E
+T 1ae1
+E
+T 1ae2
+E
+T 1ae3
+E
+T 1ae4
+E
+T 1ae5
+E
+T 1ae6
+E
+T 1ae7
+E
+T 1ae8
+E
+T 1ae9
+E
+T 1aea
+E
+T 1aeb
+E
+T 1aec
+E
+T 1aed
+E
+T 1aee
+E
+T 1aef
+E
+T 1af0
+E
+T 1af1
+E
+T 1af2
+E
+T 1af3
+E
+T 1af4
+E
+T 1af5
+E
+T 1af6
+E
+T 1af7
+E
+T 1af8
+E
+T 1af9
+E
+T 1afa
+E
+T 1afb
+E
+T 1afc
+E
+T 1afd
+E
+T 1afe
+E
+T 1aff
+E
+T 1b00
+E
+T 1b01
+E
+T 1b02
+E
+T 1b03
+E
+T 1b04
+E
+T 1b05
+E
+T 1b06
+E
+T 1b07
+E
+T 1b08
+E
+T 1b09
+E
+T 1b0a
+E
+T 1b0b
+E
+T 1b0c
+E
+T 1b0d
+E
+T 1b0e
+E
+T 1b0f
+E
+T 1b10
+E
+T 1b11
+E
+T 1b12
+E
+T 1b13
+E
+T 1b14
+E
+T 1b15
+E
+T 1b16
+E
+T 1b17
+E
+T 1b18
+E
+T 1b19
+E
+T 1b1a
+E
+T 1b1b
+E
+T 1b1c
+E
+T 1b1d
+E
+T 1b1e
+E
+T 1b1f
+E
+T 1b20
+E
+T 1b21
+E
+T 1b22
+E
+T 1a6e
+E
+T 1a70
+E
+T 1a79
+E
+T 1b23
+E
+T 1b24
+E
+T 1b25
+E
+T 1b26
+E
+T 1b27
+E
+T 1b28
+E
+T 1b29
+E
+T 1b2a
+E
+T 1b2b
+E
+T 1b2c
+E
+T 1b2d
+E
+T 1b2e
+E
+T 1b2f
+E
+T 1b30
+E
+T 1b31
+E
+T 1b32
+E
+T 1b33
+E
+T 1b34
+E
+T 1b35
+E
+T 1b36
+E
+T 1b37
+E
+T 1b38
+E
+T 1b39
+E
+T 1b3a
+E
+T 1b3b
+E
+T 1b3c
+E
+T 1b3d
+E
+T 1b3e
+E
+T 1b3f
+E
+T 1b40
+E
+T 1b41
+E
+T 1b42
+E
+T 1b43
+E
+T 1b44
+E
+T 1b45
+E
+T 1b46
+E
+T 1b47
+E
+T 1b48
+E
+T 1b49
+E
+T 1b4a
+E
+T 1b4b
+E
+T 1b4c
+E
+T 1b4d
+E
+T 1b4e
+E
+T 1b4f
+E
+T 1b50
+E
+T 1b51
+E
+T 1b52
+E
+T 1b53
+E
+T 1b54
+E
+T 1b55
+E
+T 1b56
+E
+T 1b57
+E
+T 1b58
+E
+T 1b59
+E
+T 1b5a
+E
+T 1b5b
+E
+T 1b5c
+E
+T 1b5d
+E
+T 1b5e
+E
+T 1b5f
+E
+T 1b60
+E
+T 1b61
+E
+T 1b62
+E
+T 1b63
+E
+T 1b64
+E
+T 1b65
+E
+T 1b66
+E
+T 1b67
+E
+T 1b68
+E
+T 1b69
+E
+T 1b6a
+E
+T 1b6b
+E
+T 1b6c
+E
+T 1b6d
+E
+T 1b6e
+E
+T 1b6f
+E
+T 1b70
+E
+T 1b71
+E
+T 1b72
+E
+T 1b73
+E
+T 1b74
+E
+T 1b75
+E
+T 1b76
+E
+T 1b77
+E
+T 1b78
+E
+T 1b79
+E
+T 1b7a
+E
+T 1b7b
+E
+T 1b7c
+E
+T 1b7d
+E
+T 1b7e
+E
+T 1b7f
+E
+T 1b80
+E
+T 1b81
+E
+T 1b82
+E
+T 1b83
+E
+T 1b84
+E
+T 1b85
+E
+T 1b86
+E
+T 1b87
+E
+T 1b88
+E
+T 1b89
+E
+T 1b8a
+E
+T 1b8b
+E
+T 1b8c
+E
+T 1b8d
+E
+T 1b8e
+E
+T 1b8f
+E
+T 1b90
+E
+T 1b91
+E
+T 1b92
+E
+T 1b93
+E
+T 1b94
+E
+T 1b95
+E
+T 1b96
+E
+T 1b97
+E
+T 1b98
+E
+T 1b99
+E
+T 1b9a
+E
+T 1b9b
+E
+T 1b9c
+E
+T 1b9d
+E
+T 1b9e
+E
+T 1b9f
+E
+T 1ba0
+E
+T 1ba1
+E
+T 1ba2
+E
+T 1ba3
+E
+T 1ba4
+E
+T 1ba5
+E
+T 1ba6
+E
+T 1ba7
+E
+T 1ba8
+E
+T 1ba9
+E
+T 1baa
+E
+T 1bab
+E
+T 1bac
+E
+T 1bad
+E
+T 1bae
+E
+T 1baf
+E
+T 1bb0
+E
+T 1bb1
+E
+T 1bb2
+E
+T 1bb3
+E
+T 1bb4
+E
+T 1bb5
+E
+T 1bb6
+E
+T 1bb7
+E
+T 1bb8
+E
+T 1bb9
+E
+T 1bba
+E
+T 1bbb
+E
+T 1bbc
+E
+T 1bbd
+E
+T 1bbe
+E
+T 1bbf
+E
+T 1bc0
+E
+T 1bc1
+E
+T 1bc2
+E
+T 1bc3
+E
+T 1bc4
+E
+T 1bc5
+E
+T 1bc6
+E
+T 1bc7
+E
+T 1bc8
+E
+T 1bc9
+E
+T 1bca
+E
+T 1bcb
+E
+T 1bcc
+E
+T 1bcd
+E
+T 1bce
+E
+T 1bcf
+E
+T 1bd0
+E
+T 1bd1
+E
+T 1bd2
+E
+T 1bd3
+E
+T 1bd4
+E
+T 1bd5
+E
+T 1bd6
+E
+T 1bd7
+E
+T 1bd8
+E
+T 1bd9
+E
+T 1bda
+E
+T 1bdb
+E
+T 1bdc
+E
+T 1bdd
+E
+T 1bde
+E
+T 1bdf
+E
+T 1be0
+E
+T 1be1
+E
+T 1be2
+E
+T 1be3
+E
+T 1be4
+E
+T 1be5
+E
+T 1be6
+E
+T 1be7
+E
+T 1be8
+E
+T 1be9
+E
+T 1bea
+E
+T 1beb
+E
+T 1bec
+E
+T 1bed
+E
+T 1bee
+E
+T 1bef
+E
+T 1bf0
+E
+T 1bf1
+E
+T 1bf2
+E
+T 1bf3
+E
+T 1bf4
+E
+T 1bf5
+E
+T 1bf6
+E
+T 1bf7
+E
+T 1bf8
+E
+T 1bf9
+E
+T 1bfa
+E
+T 1bfb
+E
+T 1bfc
+E
+T 1bfd
+E
+T 1bfe
+E
+T 1bff
+E
+T 1c00
+E
+T 1c01
+E
+T 1c02
+E
+T 1c03
+E
+T 1c04
+E
+T 1c05
+E
+T 1c06
+E
+T 1c07
+E
+T 1c08
+E
+T 1c09
+E
+T 1c0a
+E
+T 1c0b
+E
+T 1c0c
+E
+T 1c0d
+E
+T 1c0e
+E
+T 1c0f
+E
+T 1c10
+E
+T 1c11
+E
+T 1c12
+E
+T 1c13
+E
+T 1c14
+E
+T 1c15
+E
+T 1c16
+E
+T 1c17
+E
+T 1c18
+E
+T 1c19
+E
+T 1c1a
+E
+T 1c1b
+E
+T 1c1c
+E
+T 1c1d
+E
+T 1c1e
+E
+T 1c1f
+E
+T 1c20
+E
+T 1c21
+E
+T 1c22
+E
+T 1c23
+E
+T 1c24
+E
+T 1c25
+E
+T 1c26
+E
+T 1c27
+E
+T 1c28
+E
+T 1c29
+E
+T 1c2a
+E
+T 1c2b
+E
+T 1c2c
+E
+T 1c2d
+E
+T 1c2e
+E
+T 1c2f
+E
+T 1c30
+E
+T 1c31
+E
+T 1c32
+E
+T 1c33
+E
+T 1c34
+E
+T 1c35
+E
+T 1c36
+E
+T 1c37
+E
+T 1c38
+E
+T 1c39
+E
+T 1c3a
+E
+T 1c3b
+E
+T 1c3c
+E
+T 1c3d
+E
+T 1c3e
+E
+T 1c3f
+E
+T 1c40
+E
+T 1c41
+E
+T 1c42
+E
+T 1c43
+E
+T 1c44
+E
+T 1c45
+E
+T 1c46
+E
+T 1c47
+E
+T 1c48
+E
+T 1c49
+E
+T 1c4a
+E
+T 1c4b
+E
+T 1c4c
+E
+T 1c4d
+E
+T 1c4e
+E
+T 1c4f
+E
+T 1c50
+E
+T 1c51
+E
+T 1c52
+E
+T 1c53
+E
+T 1c54
+E
+T 1c55
+E
+T 1c56
+E
+T 1c57
+E
+T 1c58
+E
+T 1c59
+E
+T 1c5a
+E
+T 1c5b
+E
+T 1c5c
+E
+T 1c5d
+E
+T 1c5e
+E
+T 1c5f
+E
+T 1c60
+E
+T 1c61
+E
+T 1c62
+E
+T 1c63
+E
+T 1c64
+E
+T 1c65
+E
+T 1c66
+E
+T 1c67
+E
+T 1c68
+E
+T 1c69
+E
+T 1c6a
+E
+T 1c6b
+E
+T 1c6c
+E
+T 1c6d
+E
+T 1c6e
+E
+T 1c6f
+E
+T 1c70
+E
+T 1c71
+E
+T 1c72
+E
+T 1c73
+E
+T 1c74
+E
+T 1c75
+E
+T 1c76
+E
+T 1c77
+E
+T 1c78
+E
+T 1c79
+E
+T 1c7a
+E
+T 1c7b
+E
+T 1c7c
+E
+T 1c7d
+E
+T 1c7e
+E
+T 1c7f
+E
+T 1c80
+E
+T 1c81
+E
+T 1c82
+E
+T 1c83
+E
+T 1c84
+E
+T 1c85
+E
+T 1c86
+E
+T 1c87
+E
+T 1c88
+E
+T 1c89
+E
+T 1c8a
+E
+T 1c8b
+E
+T 1c8c
+E
+T 1c8d
+E
+T 1c8e
+E
+T 1c8f
+E
+T 1c90
+E
+T 1c91
+E
+T 1c92
+E
+T 1c93
+E
+T 1c94
+E
+T 1c95
+E
+T 1c96
+E
+T 1c97
+E
+T 1c98
+E
+T 1c99
+E
+T 1c9a
+E
+T 1c9b
+E
+T 1c9c
+E
+T 1c9d
+E
+T 1c9e
+E
+T 1c9f
+E
+T 1ca0
+E
+T 1ca1
+E
+T 1ca2
+E
+T 1ca3
+E
+T 1ca4
+E
+T 1ca5
+E
+T 1ca6
+E
+T 1ca7
+E
+T 1ca8
+E
+T 1ca9
+E
+T 1caa
+E
+T 1cab
+E
+T 1cac
+E
+T 1cad
+E
+T 1cae
+E
+T 1caf
+E
+T 1cb0
+E
+T 1cb1
+E
+T 1cb2
+E
+T 1cb3
+E
+T 1cb4
+E
+T 1cb5
+E
+T 1cb6
+E
+T 1cb7
+E
+T 1cb8
+E
+T 1cb9
+E
+T 1cba
+E
+T 1cbb
+E
+T 1cbc
+E
+T 1cbd
+E
+T 1cbe
+E
+T 1cbf
+E
+T 1cc0
+E
+T 1cc1
+E
+T 1cc2
+E
+T 1cc3
+E
+T 1cc4
+E
+T 1cc5
+E
+T 1cc6
+E
+T 1cc7
+E
+T 1cc8
+E
+T 1cc9
+E
+T 1cca
+E
+T 1ccb
+E
+T 1ccc
+E
+T 1ccd
+E
+T 1cce
+E
+T 1ccf
+E
+T 1cd0
+E
+T 1cd1
+E
+T 1cd2
+E
+T 1cd3
+E
+T 1cd4
+E
+T 1cd5
+E
+T 1cd6
+E
+T 1cd7
+E
+T 1cd8
+E
+T 1cd9
+E
+T 1cda
+E
+T 1cdb
+E
+T 1cdc
+E
+T 1cdd
+E
+T 1cde
+E
+T 1cdf
+E
+T 1ce0
+E
+T 1ce1
+E
+T 1ce2
+E
+T 1ce3
+E
+T 1ce4
+E
+T 1ce5
+E
+T 1ce6
+E
+T 1ce7
+E
+T 1ce8
+E
+T 1ce9
+E
+T 1cea
+E
+T 1ceb
+E
+T 1cec
+E
+T 1ced
+E
+T 1cee
+E
+T 1cef
+E
+T 1cf0
+E
+T 1cf1
+E
+T 1cf2
+E
+T 1cf3
+E
+T 1cf4
+E
+T 1cf5
+E
+T 1cf6
+E
+T 1cf7
+E
+T 1cf8
+E
+T 1cf9
+E
+T 1cfa
+E
+T 1cfb
+E
+T 1cfc
+E
+T 1cfd
+E
+T 1cfe
+E
+T 1cff
+E
+T 1d00
+E
+T 1d01
+E
+T 1d02
+E
+T 1d03
+E
+T 1d04
+E
+T 1d05
+E
+T 1d06
+E
+T 1d07
+E
+T 1d08
+E
+T 1d09
+E
+T 1d0a
+E
+T 1d0b
+E
+T 1d0c
+E
+T 1d0d
+E
+T 1d0e
+E
+T 1d0f
+E
+T 1d10
+E
+T 1d11
+E
+T 1d12
+E
+T 1d13
+E
+T 1d14
+E
+T 1d15
+E
+T 1d16
+E
+T 1d17
+E
+T 1d18
+E
+T 1d19
+E
+T 1d1a
+E
+T 1d1b
+E
+T 1d1c
+E
+T 1d1d
+E
+T 1d1e
+E
+T 1d1f
+E
+T 1d20
+E
+T 1d21
+E
+T 1d22
+E
+T 1d23
+E
+T 1d24
+E
+T 1d25
+E
+T 1d26
+E
+T 1d27
+E
+T 1d28
+E
+T 1d29
+E
+T 1d2a
+E
+T 1d2b
+E
+T 1d2c
+E
+T 1d2d
+E
+T 1d2e
+E
+T 1d2f
+E
+T 1d30
+E
+T 1d31
+E
+T 1d32
+E
+T 1d33
+E
+T 1d34
+E
+T 1d35
+E
+T 1d36
+E
+T 1d37
+E
+T 1d38
+E
+T 1d39
+E
+T 1d3a
+E
+T 1d3b
+E
+T 1d3c
+E
+T 1d3d
+E
+T 1d3e
+E
+T 1d3f
+E
+T 1d40
+E
+T 1d41
+E
+T 1d42
+E
+T 1d43
+E
+T 1d44
+E
+T 1d45
+E
+T 1d46
+E
+T 1d47
+E
+T 1d48
+E
+T 1d49
+E
+T 1d4a
+E
+T 1d4b
+E
+T 1d4c
+E
+T 1d4d
+E
+# pilot portrait: not drawn
+S d6c2a216e8343f90
+E
+# pilot portrait: not drawn
+S 2140e1651b994e8f
+E
+# pilot portrait: not drawn
+S 98654d5abc9f2133
+E
+# pilot portrait: not drawn
+S 0c47520718f8b934
+E
+# pilot portrait: not drawn
+S ce301091f17b6a0c
+E
+# pilot portrait: not drawn
+S 39236e815ea26577
+E
+# pilot portrait: not drawn
+S 33e05d0fcb51e60d
+E
+# pilot portrait: not drawn
+S 5cf9c9707f699c8c
+E
+# pilot portrait: not drawn
+S 5ddc01d86904067c
+E
+# pilot portrait: not drawn
+S acf6c085afcaeed4
+E
+# pilot portrait: not drawn
+S 487ec7d288bdab66
+E
+# pilot portrait: not drawn
+S bdd4fb9a9170eff3
+E
+
+# ---- backdrops: the sky (the 3D one shows), the mountains' skyline ----
+# sky over mountains: the skyline
+S 56b9357954a92604
+P 176 16 0.5 168.2 11.5 172.1 21.5 181.4 27.5 183.9 41.5 182 56.5 173.6 87.5 174 102.5 164.1 121.5 160 153.5 164.6 169.5 169.3 198.5 157 222.5 164.6 233.5 155.7 243.5 163.7 255.5 164.8
+S c72af74f879f4f61
+P 176 16 0.5 168.2 11.5 172.1 21.5 181.4 27.5 183.9 41.5 182 56.5 173.6 87.5 174 102.5 164.1 121.5 160 153.5 164.6 169.5 169.3 198.5 157 222.5 164.6 233.5 155.7 243.5 163.7 255.5 164.8
+S 2b9e163c8c6038f3
+P 176 16 0.5 168.2 11.5 172.1 21.5 181.4 27.5 183.9 41.5 182 56.5 173.6 87.5 174 102.5 164.1 121.5 160 153.5 164.6 169.5 169.3 198.5 157 222.5 164.6 233.5 155.7 243.5 163.7 255.5 164.8
+T 331c
+E
+T 331d
+E
+T 331e
+E
+T 331f
+E
+T 3320
+E
+T 3321
+E
+T 3322
+E
+T 3323
+E
+T 3324
+E
+T 3325
+E
+T 3326
+E
+T 3327
+E
+T 3328
+E
+T 3329
+E
+T 332a
+E
+T 332b
+E
+T 332c
+E
+T 332d
+E
+T 332e
+E
+T 332f
+E
+T 3330
+E
+T 3331
+E
+T 3332
+E
+T 3333
+E
+T 3334
+E
+T 3335
+E
+T 3336
+E
+T 3337
+E
+T 3338
+E
+T 3339
+E
+T 333a
+E
+T 333b
+E
+T 333c
+E
+T 333d
+E
+T 333e
+E
+T 333f
+E
+T 3340
+E
+T 3341
+E
+T 3342
+E
+T 3343
+E
+T 3344
+E
+T 3345
+E
+T 3346
+E
+T 3347
+E
+T 3348
+E
+T 3349
+E
+T 334a
+E
+T 334b
+E
+T 334c
+E
+T 334d
+E
+T 334e
+E
+T 334f
+E
+T 3350
+E
+T 3351
+E
+T 3352
+E
+T 3353
+E
+T 3354
+E
+T 3355
+E
+T 3356
+E
+T 3357
+E
+T 3358
+E
+T 3359
+E
+T 335a
+E
+T 335b
+E
+T 335c
+E
+T 335d
+E
+T 335e
+E
+T 335f
+E
+T 3360
+E
+T 3361
+E
+T 3362
+E
+T 3363
+E
+T 3364
+E
+T 3365
+E
+T 3366
+E
+T 3367
+E
+T 3368
+E
+T 3369
+E
+T 336a
+E
+T 336b
+E
+T 336c
+E
+T 336d
+E
+T 336e
+E
+T 336f
+E
+T 3370
+E
+T 3371
+E
+T 3372
+E
+T 3373
+E
+T 3374
+E
+T 3375
+E
+T 3376
+E
+T 3377
+E
+T 3378
+E
+T 3379
+E
+T 337a
+E
+T 337b
+E
+T 337c
+E
+T 337d
+E
+T 337e
+E
+T 337f
+E
+T 3380
+E
+T 3381
+E
+T 3382
+E
+T 3383
+E
+T 3384
+E
+T 3385
+E
+T 3386
+E
+T 3387
+E
+T 3388
+E
+T 3389
+E
+T 338a
+E
+T 338b
+E
+T 338c
+E
+T 338d
+E
+T 338e
+E
+T 338f
+E
+T 3390
+E
+T 3391
+E
+T 3392
+E
+T 3393
+E
+T 3394
+E
+T 3395
+E
+T 3396
+E
+T 3397
+E
+T 3398
+E
+T 3399
+E
+T 339a
+E
+T 339b
+E
+T 339c
+E
+T 339d
+E
+T 339e
+E
+T 339f
+E
+T 33a0
+E
+T 33a1
+E
+T 33a2
+E
+T 33a3
+E
+T 33a4
+E
+T 33a5
+E
+T 33a6
+E
+T 33a7
+E
+T 33a8
+E
+T 33a9
+E
+T 33aa
+E
+T 33ab
+E
+T 33ac
+E
+T 33ad
+E
+T 33ae
+E
+T 33af
+E
+T 33b0
+E
+T 33b1
+E
+T 33b2
+E
+T 33b3
+E
+T 33b4
+E
+T 33b5
+E
+T 33b6
+E
+T 33b7
+E
+T 33b8
+E
+T 33b9
+E
+T 33ba
+E
+T 33bb
+E
+T 33bc
+E
+T 33bd
+E
+T 33be
+E
+T 33bf
+E
+T 33c0
+E
+T 33c1
+E
+T 33c2
+E
+T 33c3
+E
+T 33c4
+E
+T 33c5
+E
+T 33c6
+E
+T 33c7
+E
+T 33c8
+E
+T 33c9
+E
+T 33ca
+E
+T 33cb
+E
+T 33cc
+E
+T 33cd
+E
+T 33ce
+E
+T 33cf
+E
+T 33d0
+E
+T 33d1
+E
+T 33d2
+E
+T 33d3
+E
+T 33d4
+E
+T 33d5
+E
+T 33d6
+E
+T 33d7
+E
+T 33d8
+E
+T 33d9
+E
+T 33da
+E
+T 33db
+E
+T 33dc
+E
+T 33dd
+E
+T 33de
+E
+T 33df
+E
+T 33e0
+E
+T 33e1
+E
+T 33e2
+E
+T 33e3
+E
+T 33e4
+E
+T 33e5
+E
+T 33e6
+E
+T 33e7
+E
+T 33e8
+E
+T 33e9
+E
+T 33ea
+E
+T 33eb
+E
+T 33ec
+E
+T 33ed
+E
+T 33ee
+E
+T 33ef
+E
+T 33f0
+E
+T 33f1
+E
+T 33f2
+E
+T 33f3
+E
+T 33f4
+E
+T 33f5
+E
+T 33f6
+E
+T 33f7
+E
+T 33f8
+E
+T 33f9
+E
+T 33fa
+E
+T 33fb
+E
+T 33fc
+E
+T 33fd
+E
+T 33fe
+E
+T 33ff
+E
+T 3400
+E
+T 3401
+E
+T 3402
+E
+T 3403
+E
+T 3404
+E
+T 3405
+E
+T 3406
+E
+T 3407
+E
+T 3408
+E
+T 3409
+E
+T 340a
+E
+T 340b
+E
+T 340c
+E
+T 340d
+E
+T 340e
+E
+T 340f
+E
+T 3410
+E
+# sky
+T 2e02
+E
+T 2e03
+E
+T 2e04
+E
+T 2e05
+E
+T 2e06
+E
+T 2e07
+E
+T 2e08
+E
+T 2e09
+E
+T 2e0a
+E
+T 2e0b
+E
+T 2e0c
+E
+T 2e0d
+E
+T 2e0e
+E
+T 2e0f
+E
+T 2e10
+E
+T 2e11
+E
+T 2e12
+E
+T 2e13
+E
+T 2e14
+E
+T 2e15
+E
+T 2e16
+E
+T 2e17
+E
+T 2e18
+E
+T 2e19
+E
+T 2e1a
+E
+T 2e1b
+E
+T 2e1c
+E
+T 2e1d
+E
+T 2e1e
+E
+T 2e1f
+E
+T 2e20
+E
+T 2e21
+E
+T 2e22
+E
+T 2e23
+E
+T 2e24
+E
+T 2e25
+E
+T 2e26
+E
+T 2e27
+E
+T 2e28
+E
+T 2e29
+E
+T 2e2a
+E
+T 2e2b
+E
+T 2e2c
+E
+T 2e2d
+E
+T 2e2e
+E
+T 2e2f
+E
+T 2e30
+E
+T 2e31
+E
+T 2e32
+E
+T 2e33
+E
+T 2e34
+E
+T 2e35
+E
+T 2e36
+E
+T 2e37
+E
+T 2e38
+E
+T 2e39
+E
+T 2e3a
+E
+T 2e3b
+E
+T 2e3c
+E
+T 2e3d
+E
+T 2e3e
+E
+T 2e3f
+E
+T 2e40
+E
+T 2e41
+E
+T 2e42
+E
+T 2e43
+E
+T 2e44
+E
+T 2e45
+E
+T 2e46
+E
+T 2e47
+E
+T 2e48
+E
+T 2e49
+E
+T 2e4a
+E
+T 2e4b
+E
+T 2e4c
+E
+T 2e4d
+E
+T 2e4e
+E
+T 2e4f
+E
+T 2e50
+E
+T 2e51
+E
+T 2e52
+E
+T 2e53
+E
+T 2e54
+E
+T 2e55
+E
+T 2e56
+E
+T 2e57
+E
+T 2e58
+E
+T 2e59
+E
+T 2e5a
+E
+T 2e5b
+E
+T 2e5c
+E
+T 2e5d
+E
+T 2e5e
+E
+T 2e5f
+E
+T 2e60
+E
+T 2e61
+E
+T 2e62
+E
+T 2e63
+E
+T 2e64
+E
+T 2e65
+E
+T 2e66
+E
+T 2e67
+E
+T 2e68
+E
+T 2e69
+E
+T 2e6a
+E
+T 2e6b
+E
+T 2e6c
+E
+T 2e6d
+E
+T 2e6e
+E
+T 2e6f
+E
+T 2e70
+E
+T 2e71
+E
+T 2e72
+E
+T 2e73
+E
+T 2e74
+E
+T 2e75
+E
+T 2e76
+E
+T 2e77
+E
+T 2e78
+E
+T 2e79
+E
+T 2e7a
+E
+T 2e7b
+E
+T 2e7c
+E
+T 2e7d
+E
+T 2e7e
+E
+T 2e7f
+E
+T 2e80
+E
+T 2e81
+E
+T 2e82
+E
+T 2e83
+E
+T 2e84
+E
+T 2e85
+E
+T 2e86
+E
+T 2e87
+E
+T 2e88
+E
+T 2e89
+E
+T 2e8a
+E
+T 2e8b
+E
+T 2e8c
+E
+T 2e8d
+E
+T 2e8e
+E
+T 2e8f
+E
+T 2e90
+E
+T 2e91
+E
+T 2e92
+E
+T 2e93
+E
+T 2e94
+E
+T 2e95
+E
+T 2e96
+E
+T 2e97
+E
+T 2e98
+E
+T 2e99
+E
+T 2e9a
+E
+T 2e9b
+E
+T 2e9c
+E
+T 2e9d
+E
+T 2e9e
+E
+T 2e9f
+E
+T 2ea0
+E
+T 2ea1
+E
+T 2ea2
+E
+T 2ea3
+E
+T 2ea4
+E
+T 2ea5
+E
+T 2ea6
+E
+T 2ea7
+E
+T 2ea8
+E
+T 2ea9
+E
+T 2eaa
+E
+T 2eab
+E
+T 2eac
+E
+T 2ead
+E
+T 2eae
+E
+T 2eaf
+E
+T 2eb0
+E
+T 2eb1
+E
+T 2eb2
+E
+T 2eb3
+E
+T 2eb4
+E
+T 2eb5
+E
+T 2eb6
+E
+T 2eb7
+E
+T 2eb8
+E
+T 2eb9
+E
+T 2eba
+E
+T 2ebb
+E
+T 2ebc
+E
+T 2ebd
+E
+T 2ebe
+E
+T 2ebf
+E
+T 2ec0
+E
+T 2ec1
+E
+T 2ec2
+E
+T 2ec3
+E
+T 2ec4
+E
+T 2ec5
+E
+T 2ec6
+E
+T 2ec7
+E
+T 2ec8
+E
+T 2ec9
+E
+T 2eca
+E
+T 2ecb
+E
+T 2ecc
+E
+T 2ecd
+E
+T 2ece
+E
+T 2ecf
+E
+T 2ed0
+E
+T 2ed1
+E
+T 2ed2
+E
+T 2ed3
+E
+T 2ed4
+E
+T 2ed5
+E
+T 2ed6
+E
+T 2ed7
+E
+T 2ed8
+E
+T 2ed9
+E
+T 2eda
+E
+T 2edb
+E
+T 2edc
+E
+T 2edd
+E
+T 2ede
+E
+T 2edf
+E
+T 2ee0
+E
+T 2ee1
+E
+T 2ee2
+E
+T 2ee3
+E
+T 2ee4
+E
+T 2ee5
+E
+T 2ee6
+E
+T 2ee7
+E
+T 2ee8
+E
+T 2ee9
+E
+T 2eea
+E
+T 2eeb
+E
+T 2eec
+E
+T 2eed
+E
+T 2eee
+E
+T 2eef
+E
+T 2ef0
+E
+T 2ef1
+E
+T 2ef2
+E
+T 2ef3
+E
+T 2ef4
+E
+T 2ef5
+E
+T 2ef6
+E
+T 2ef7
+E
+T 2ef8
+E
+T 2ef9
+E
+T 2efa
+E
+T 2efb
+E
+T 2efc
+E
+T 2efd
+E
+T 2efe
+E
+T 2eff
+E
+T 2f00
+E
+T 2f01
+E
+T 2f02
+E
+T 2f03
+E
+T 2f04
+E
+T 2f05
+E
+T 2f06
+E
+T 2f07
+E
+T 2f08
+E
+T 2f09
+E
+T 2f0a
+E
+T 2f0b
+E
+T 2f0c
+E
+T 2f0d
+E
+T 2f0e
+E
+T 2f0f
+E
+T 2f10
+E
+T 2f11
+E
+T 2f12
+E
+T 2f13
+E
+T 2f14
+E
+T 2f15
+E
+T 2f16
+E
+T 2f17
+E
+T 2f18
+E
+T 2f19
+E
+T 2f1a
+E
+T 2f1b
+E
+T 2f1c
+E
+T 2f1d
+E
+T 2f1e
+E
+T 2f1f
+E
+T 2f20
+E
+T 2f21
+E
+T 2f22
+E
+T 2f23
+E
+T 2f24
+E
+T 2f25
+E
+T 2f26
+E
+T 2f27
+E
+T 2f28
+E
+T 2f29
+E
+T 2f2a
+E
+T 2f2b
+E
+T 2f2c
+E
+T 2f2d
+E
+T 2f2e
+E
+T 2f2f
+E
+T 2f30
+E
+T 2f31
+E
+T 2f32
+E
+T 2f33
+E
+T 2f34
+E
+T 2f35
+E
+T 2f36
+E
+T 2f37
+E
+T 2f38
+E
+T 2f39
+E
+T 2f3a
+E
+T 2f3b
+E
+T 2f3c
+E
+T 2f3d
+E
+T 2f3e
+E
+T 2f3f
+E
+T 2f40
+E
+T 2f41
+E
+T 2f42
+E
+T 2f43
+E
+T 2f44
+E
+T 2f45
+E
+T 2f46
+E
+T 2f47
+E
+T 2f48
+E
+T 2f49
+E
+T 2f4a
+E
+T 2f4b
+E
+T 2f4c
+E
+T 2f4d
+E
+T 2f4e
+E
+T 2f4f
+E
+T 2f50
+E
+T 2f51
+E
+T 2f52
+E
+T 2f53
+E
+T 2f54
+E
+T 2f55
+E
+T 2f56
+E
+T 2f57
+E
+T 2f58
+E
+T 2f59
+E
+T 2f5a
+E
+T 2f5b
+E
+T 2f5c
+E
+T 2f5d
+E
+T 2f5e
+E
+T 2f5f
+E
+T 2f60
+E
+T 2f61
+E
+T 2f62
+E
+T 2f63
+E
+T 2f64
+E
+T 2f65
+E
+T 2f66
+E
+T 2f67
+E
+T 2f68
+E
+T 2f69
+E
+T 2f6a
+E
+T 2f6b
+E
+T 2f6c
+E
+T 2f6d
+E
+T 2f6e
+E
+T 2f6f
+E
+T 2f70
+E
+T 2f71
+E
+T 2f72
+E
+T 2f73
+E
+T 2f74
+E
+T 2f75
+E
+T 2f76
+E
+T 2f77
+E
+T 2f78
+E
+T 2f79
+E
+T 2f7a
+E
+T 2f7b
+E
+T 2f7c
+E
+T 2f7d
+E
+T 2f7e
+E
+T 2f7f
+E
+T 2f80
+E
+T 2f81
+E
+T 2f82
+E
+T 2f83
+E
+T 2f84
+E
+T 2f85
+E
+T 2f86
+E
+T 2f87
+E
+T 2f88
+E
+T 2f89
+E
+T 2f8a
+E
+T 2f8b
+E
+T 2f8c
+E
+T 2f8d
+E
+T 2f8e
+E
+T 2f8f
+E
+T 2f90
+E
+T 2f91
+E
+T 2f92
+E
+T 2f93
+E
+T 2f94
+E
+T 2f95
+E
+T 2f96
+E
+T 2f97
+E
+T 2f98
+E
+T 2f99
+E
+T 2f9a
+E
+T 2f9b
+E
+T 2f9c
+E
+T 2f9d
+E
+T 2f9e
+E
+T 2f9f
+E
+T 2fa0
+E
+T 2fa1
+E
+T 2fa2
+E
+T 2fa3
+E
+T 2fa4
+E
+T 2fa5
+E
+T 2fa6
+E
+T 2fa7
+E
+T 2fa8
+E
+T 2fa9
+E
+T 2faa
+E
+T 2fab
+E
+T 2fac
+E
+T 2fad
+E
+T 2fae
+E
+T 2faf
+E
+T 2fb0
+E
+T 2fb1
+E
+T 2fb2
+E
+T 2fb3
+E
+T 2fb4
+E
+T 2fb5
+E
+T 2fb6
+E
+T 2fb7
+E
+T 2fb8
+E
+T 2fb9
+E
+T 2fba
+E
+T 2fbb
+E
+T 2fbc
+E
+T 2fbd
+E
+T 2fbe
+E
+T 2fbf
+E
+T 2fc0
+E
+T 2fc1
+E
+T 2fc2
+E
+T 2fc3
+E
+T 2fc4
+E
+T 2fc5
+E
+T 2fc6
+E
+T 2fc7
+E
+T 2fc8
+E
+T 2fc9
+E
+T 2fca
+E
+T 2fcb
+E
+T 2fcc
+E
+T 2fcd
+E
+T 2fce
+E
+T 2fcf
+E
+T 2fd0
+E
+T 2fd1
+E
+T 2fd2
+E
+T 2fd3
+E
+T 2fd4
+E
+T 2fd5
+E
+T 2fd6
+E
+T 2fd7
+E
+T 2fd8
+E
+T 2fd9
+E
+T 2fda
+E
+T 2fdb
+E
+T 2fdc
+E
+T 2fdd
+E
+T 2fde
+E
+T 2fdf
+E
+T 2fe0
+E
+T 2fe1
+E
+T 2fe2
+E
+T 2fe3
+E
+T 2fe4
+E
+T 2fe5
+E
+T 2fe6
+E
+T 2fe7
+E
+T 2fe8
+E
+T 2fe9
+E
+T 2fea
+E
+T 2feb
+E
+T 2fec
+E
+T 2fed
+E
+T 2fee
+E
+T 2fef
+E
+T 2ff0
+E
+T 2ff1
+E
+T 2ff2
+E
+T 2ff3
+E
+T 2ff4
+E
+T 2ff5
+E
+T 2ff6
+E
+T 2ff7
+E
+T 2ff8
+E
+T 2ff9
+E
+T 2ffa
+E
+T 2ffb
+E
+T 2ffc
+E
+T 2ffd
+E
+T 2ffe
+E
+T 2fff
+E
+T 3000
+E
+T 3001
+E
+T 3002
+E
+T 3003
+E
+T 3004
+E
+T 3005
+E
+T 3006
+E
+T 3007
+E
+T 3008
+E
+T 3009
+E
+T 300a
+E
+T 300b
+E
+T 300c
+E
+T 300d
+E
+T 300e
+E
+T 300f
+E
+T 3010
+E
+T 3011
+E
+T 3012
+E
+T 3013
+E
+T 3014
+E
+T 3015
+E
+T 3016
+E
+T 3017
+E
+T 3018
+E
+T 3019
+E
+T 301a
+E
+T 301b
+E
+T 301c
+E
+T 301d
+E
+T 301e
+E
+T 301f
+E
+T 3020
+E
+T 3021
+E
+T 3022
+E
+T 3023
+E
+T 3024
+E
+T 3025
+E
+T 3026
+E
+T 3027
+E
+T 3028
+E
+T 3029
+E
+T 302a
+E
+T 302b
+E
+T 302c
+E
+T 302d
+E
+T 302e
+E
+T 302f
+E
+T 3030
+E
+T 3031
+E
+T 3032
+E
+T 3033
+E
+T 3034
+E
+T 3035
+E
+T 3036
+E
+T 3037
+E
+T 3038
+E
+T 3039
+E
+T 303a
+E
+T 303b
+E
+T 303c
+E
+T 303d
+E
+T 303e
+E
+T 303f
+E
+T 3040
+E
+T 3041
+E
+T 3042
+E
+T 3043
+E
+T 3044
+E
+T 3045
+E
+T 3046
+E
+T 3047
+E
+T 3048
+E
+T 3049
+E
+T 304a
+E
+T 304b
+E
+T 304c
+E
+T 304d
+E
+T 304e
+E
+T 304f
+E
+T 3050
+E
+T 3051
+E
+T 3052
+E
+T 3053
+E
+T 3054
+E
+T 3055
+E
+T 3056
+E
+T 3057
+E
+T 3058
+E
+T 3059
+E
+T 305a
+E
+T 305b
+E
+T 305c
+E
+T 305d
+E
+T 305e
+E
+T 305f
+E
+T 3060
+E
+T 3061
+E
+T 3062
+E
+T 3063
+E
+T 3064
+E
+T 3065
+E
+T 3066
+E
+T 3067
+E
+T 3068
+E
+T 3069
+E
+T 306a
+E
+T 306b
+E
+T 306c
+E
+T 306d
+E
+T 306e
+E
+T 306f
+E
+T 3070
+E
+T 3071
+E
+T 3072
+E
+T 3073
+E
+T 3074
+E
+T 3075
+E
+T 3076
+E
+T 3077
+E
+T 3078
+E
+T 3079
+E
+T 307a
+E
+T 307b
+E
+T 307c
+E
+T 307d
+E
+T 307e
+E
+T 307f
+E
+T 3080
+E
+T 3081
+E
+T 3082
+E
+T 3083
+E
+T 3084
+E
+T 3085
+E
+T 3086
+E
+T 3087
+E
+T 3088
+E
+T 3089
+E
+T 308a
+E
+T 308b
+E
+T 308c
+E
+T 308d
+E
+T 308e
+E
+T 308f
+E
+T 3090
+E
+T 3091
+E
+T 3092
+E
+T 3093
+E
+T 3094
+E
+T 3095
+E
+T 3096
+E
+T 3097
+E
+T 3098
+E
+T 3099
+E
+T 309a
+E
+T 309b
+E
+T 309c
+E
+T 309d
+E
+T 309e
+E
+T 309f
+E
+T 30a0
+E
+T 30a1
+E
+T 30a2
+E
+T 30a3
+E
+T 30a4
+E
+T 30a5
+E
+T 30a6
+E
+T 30a7
+E
+T 30a8
+E
+T 30a9
+E
+T 30aa
+E
+T 30ab
+E
+T 30ac
+E
+T 30ad
+E
+T 30ae
+E
+T 30af
+E
+T 30b0
+E
+T 30b1
+E
+T 30b2
+E
+T 30b3
+E
+T 30b4
+E
+T 30b5
+E
+T 30b6
+E
+T 30b7
+E
+T 30b8
+E
+T 30b9
+E
+T 30ba
+E
+T 30bb
+E
+T 30bc
+E
+T 30bd
+E
+T 30be
+E
+T 30bf
+E
+T 30c0
+E
+T 30c1
+E
+T 30c2
+E
+T 30c3
+E
+T 30c4
+E
+T 30c5
+E
+T 30c6
+E
+T 30c7
+E
+T 30c8
+E
+T 30c9
+E
+T 30ca
+E
+T 30cb
+E
+T 30cc
+E
+T 30cd
+E
+T 30ce
+E
+T 30cf
+E
+T 30d0
+E
+T 30d1
+E
+T 30d2
+E
+T 30d3
+E
+T 30d4
+E
+T 30d5
+E
+T 30d6
+E
+T 30d7
+E
+T 30d8
+E
+T 30d9
+E
+T 30da
+E
+T 30db
+E
+T 30dc
+E
+T 30dd
+E
+T 30de
+E
+T 30df
+E
+T 30e0
+E
+T 30e1
+E
+T 30e2
+E
+T 30e3
+E
+T 30e4
+E
+T 30e5
+E
+T 30e6
+E
+T 30e7
+E
+T 30e8
+E
+T 30e9
+E
+T 30ea
+E
+T 30eb
+E
+T 30ec
+E
+T 30ed
+E
+T 30ee
+E
+T 30ef
+E
+T 30f0
+E
+T 30f1
+E
+T 30f2
+E
+T 30f3
+E
+T 30f4
+E
+T 30f5
+E
+T 30f6
+E
+T 30f7
+E
+T 30f8
+E
+T 30f9
+E
+T 30fa
+E
+T 30fb
+E
+T 30fc
+E
+T 30fd
+E
+T 30fe
+E
+T 30ff
+E
+T 3100
+E
+T 3101
+E
+T 3102
+E
+T 3103
+E
+T 3104
+E
+T 3105
+E
+T 3106
+E
+T 3107
+E
+T 3108
+E
+T 3109
+E
+T 310a
+E
+T 310b
+E
+T 310c
+E
+T 310d
+E
+T 310e
+E
+T 310f
+E
+T 3110
+E
+T 3111
+E
+T 3112
+E
+T 3113
+E
+T 3114
+E
+T 3115
+E
+T 3116
+E
+T 3117
+E
+T 3118
+E
+T 3119
+E
+T 311a
+E
+T 311b
+E
+T 311c
+E
+T 311d
+E
+T 311e
+E
+T 311f
+E
+T 3120
+E
+T 3121
+E
+T 3122
+E
+T 3123
+E
+T 3124
+E
+T 3125
+E
+T 3126
+E
+T 3127
+E
+T 3128
+E
+T 3129
+E
+T 312a
+E
+T 312b
+E
+T 312c
+E
+T 312d
+E
+T 312e
+E
+T 312f
+E
+T 3130
+E
+T 3131
+E
+T 3132
+E
+T 3133
+E
+T 3134
+E
+T 3135
+E
+T 3136
+E
+T 3137
+E
+T 3138
+E
+T 3139
+E
+T 313a
+E
+T 313b
+E
+T 313c
+E
+T 313d
+E
+T 313e
+E
+T 313f
+E
+T 3140
+E
+T 3141
+E
+T 3142
+E
+T 3143
+E
+T 3144
+E
+T 3145
+E
+T 3146
+E
+T 3147
+E
+T 3148
+E
+T 3149
+E
+T 314a
+E
+T 314b
+E
+T 314c
+E
+T 314d
+E
+T 314e
+E
+T 314f
+E
+T 3150
+E
+T 3151
+E
+T 3152
+E
+T 3153
+E
+T 3154
+E
+T 3155
+E
+T 3156
+E
+T 3157
+E
+T 3158
+E
+T 3159
+E
+T 315a
+E
+T 315b
+E
+T 315c
+E
+T 315d
+E
+T 315e
+E
+T 315f
+E
+T 3160
+E
+T 3161
+E
+T 3162
+E
+T 3163
+E
+T 3164
+E
+T 3165
+E
+T 3166
+E
+T 3167
+E
+T 3168
+E
+T 3169
+E
+T 316a
+E
+T 316b
+E
+T 316c
+E
+T 316d
+E
+T 316e
+E
+T 316f
+E
+T 3170
+E
+T 3171
+E
+T 3172
+E
+T 3173
+E
+T 3174
+E
+T 3175
+E
+T 3176
+E
+T 3177
+E
+T 3178
+E
+T 3179
+E
+T 317a
+E
+T 317b
+E
+T 317c
+E
+T 317d
+E
+T 317e
+E
+T 317f
+E
+T 3180
+E
+T 3181
+E
+T 3182
+E
+T 3183
+E
+T 3184
+E
+T 3185
+E
+T 3186
+E
+T 3187
+E
+T 3188
+E
+T 3189
+E
+T 318a
+E
+T 318b
+E
+T 318c
+E
+T 318d
+E
+T 318e
+E
+T 318f
+E
+T 3190
+E
+T 3191
+E
+T 3192
+E
+T 3193
+E
+T 3194
+E
+T 3195
+E
+T 3196
+E
+T 3197
+E
+T 3198
+E
+T 3199
+E
+T 319a
+E
+T 319b
+E
+T 319c
+E
+T 319d
+E
+T 319e
+E
+T 319f
+E
+T 31a0
+E
+T 31a1
+E
+T 31a2
+E
+T 31a3
+E
+T 31a4
+E
+T 31a5
+E
+T 31a6
+E
+T 31a7
+E
+T 31a8
+E
+T 31a9
+E
+T 31aa
+E
+T 31ab
+E
+T 31ac
+E
+T 31ad
+E
+T 31ae
+E
+T 31af
+E
+T 31b0
+E
+T 31b1
+E
+T 31b2
+E
+T 31b3
+E
+T 31b4
+E
+T 31b5
+E
+T 31b6
+E
+T 31b7
+E
+T 31b8
+E
+T 31b9
+E
+T 31ba
+E
+T 31bb
+E
+T 31bc
+E
+T 31bd
+E
+T 31be
+E
+T 31bf
+E
+T 31c0
+E
+T 31c1
+E
+T 31c2
+E
+T 31c3
+E
+T 31c4
+E
+T 31c5
+E
+T 31c6
+E
+T 31c7
+E
+T 31c8
+E
+T 31c9
+E
+T 31ca
+E
+T 31cb
+E
+T 31cc
+E
+T 31cd
+E
+T 31ce
+E
+T 31cf
+E
+T 31d0
+E
+T 31d1
+E
+T 31d2
+E
+T 31d3
+E
+T 31d4
+E
+T 31d5
+E
+T 31d6
+E
+T 31d7
+E
+T 31d8
+E
+T 31d9
+E
+T 31da
+E
+T 31db
+E
+T 31dc
+E
+T 31dd
+E
+T 31de
+E
+T 31df
+E
+T 31e0
+E
+T 31e1
+E
+T 31e2
+E
+T 31e3
+E
+T 31e4
+E
+T 31e5
+E
+T 31e6
+E
+T 31e7
+E
+T 31e8
+E
+T 31e9
+E
+T 31ea
+E
+T 31eb
+E
+T 31ec
+E
+T 31ed
+E
+T 31ee
+E
+T 31ef
+E
+T 31f0
+E
+T 31f1
+E
+T 31f2
+E
+T 31f3
+E
+T 31f4
+E
+T 31f5
+E
+T 31f6
+E
+T 31f7
+E
+T 31f8
+E
+T 31f9
+E
+T 31fa
+E
+T 31fb
+E
+T 31fc
+E
+T 31fd
+E
+T 31fe
+E
+T 31ff
+E
+T 3200
+E
+T 3201
+E
+T 3202
+E
+T 3203
+E
+T 3204
+E
+T 3205
+E
+T 3206
+E
+T 3207
+E
+T 3208
+E
+T 3209
+E
+T 320a
+E
+T 320b
+E
+T 320c
+E
+T 320d
+E
+T 320e
+E
+T 320f
+E
+T 3210
+E
+T 3211
+E
+T 3212
+E
+T 3213
+E
+T 3214
+E
+T 3215
+E
+T 3216
+E
+T 3217
+E
+T 3218
+E
+T 3219
+E
+T 321a
+E
+T 321b
+E
+T 321c
+E
+T 321d
+E
+T 321e
+E
+T 321f
+E
+T 3220
+E
+T 3221
+E
+T 3222
+E
+T 3223
+E
+T 3224
+E
+T 3225
+E
+T 3226
+E
+T 3227
+E
+T 3228
+E
+T 3229
+E
+T 322a
+E
+T 322b
+E
+T 322c
+E
+T 322d
+E
+T 322e
+E
+T 322f
+E
+T 3230
+E
+T 3231
+E
+T 3232
+E
+T 3233
+E
+T 3234
+E
+T 3235
+E
+T 3236
+E
+T 3237
+E
+T 3238
+E
+T 3239
+E
+T 323a
+E
+T 323b
+E
+T 323c
+E
+T 323d
+E
+T 323e
+E
+T 323f
+E
+T 3240
+E
+T 3241
+E
+T 3242
+E
+T 3243
+E
+T 3244
+E
+T 3245
+E
+T 3246
+E
+T 3247
+E
+T 3248
+E
+T 3249
+E
+T 324a
+E
+T 324b
+E
+T 324c
+E
+T 324d
+E
+T 324e
+E
+T 324f
+E
+T 3250
+E
+# sky
+T 3251
+E
+T 3252
+E
+T 3253
+E
+T 3254
+E
+T 3255
+E
+T 3256
+E
+T 3257
+E
+T 3258
+E
+T 3259
+E
+T 325a
+E
+T 325b
+E
+T 325c
+E
+T 325d
+E
+T 325e
+E
+T 325f
+E
+T 3260
+E
+T 3261
+E
+T 3262
+E
+T 3263
+E
+T 3264
+E
+T 3265
+E
+T 3266
+E
+T 3267
+E
+T 3268
+E
+T 3269
+E
+T 326a
+E
+T 326b
+E
+T 326c
+E
+T 326d
+E
+T 326e
+E
+T 326f
+E
+T 3270
+E
+T 3271
+E
+T 3272
+E
+T 3273
+E
+T 3274
+E
+T 3275
+E
+T 3276
+E
+T 3277
+E
+T 3278
+E
+T 3279
+E
+T 327a
+E
+T 327b
+E
+T 327c
+E
+T 327d
+E
+T 327e
+E
+T 327f
+E
+T 3280
+E
+T 3281
+E
+T 3282
+E
+T 3283
+E
+T 3284
+E
+T 3285
+E
+T 3286
+E
+T 3287
+E
+T 3288
+E
+T 3289
+E
+T 328a
+E
+T 328b
+E
+T 328c
+E
+T 328d
+E
+T 328e
+E
+T 328f
+E
+T 3290
+E
+T 3291
+E
+T 3292
+E
+T 3293
+E
+T 3294
+E
+T 3295
+E
+T 3296
+E
+T 3297
+E
+T 3298
+E
+T 3299
+E
+T 329a
+E
+T 329b
+E
+T 329c
+E
+T 329d
+E
+T 329e
+E
+T 329f
+E
+T 32a0
+E
+T 32a1
+E
+T 32a2
+E
+T 32a3
+E
+T 32a4
+E
+T 32a5
+E
+T 32a6
+E
+T 32a7
+E
+T 32a8
+E
+T 32a9
+E
+T 32aa
+E
+T 32ab
+E
+T 32ac
+E
+T 32ad
+E
+T 32ae
+E
+T 32af
+E
+T 32b0
+E
+T 32b1
+E
+T 32b2
+E
+T 32b3
+E
+T 32b4
+E
+T 32b5
+E
+T 32b6
+E
+T 32b7
+E
+T 32b8
+E
+T 32b9
+E
+T 32ba
+E
+T 32bb
+E
+T 32bc
+E
+T 32bd
+E
+T 32be
+E
+T 32bf
+E
+T 32c0
+E
+T 32c1
+E
+T 32c2
+E
+T 32c3
+E
+T 32c4
+E
+T 32c5
+E
+T 32c6
+E
+T 32c7
+E
+T 32c8
+E
+T 32c9
+E
+T 32ca
+E
+T 32cb
+E
+T 32cc
+E
+T 32cd
+E
+T 32ce
+E
+T 32cf
+E
+T 32d0
+E
+T 32d1
+E
+T 32d2
+E
+T 32d3
+E
+T 32d4
+E
+T 32d5
+E
+T 32d6
+E
+T 32d7
+E
+T 32d8
+E
+T 32d9
+E
+T 32da
+E
+T 32db
+E
+T 32dc
+E
+T 32dd
+E
+T 32de
+E
+T 32df
+E
+T 32e0
+E
+T 32e1
+E
+T 32e2
+E
+T 32e3
+E
+T 32e4
+E
+T 32e5
+E
+T 32e6
+E
+T 32e7
+E
+T 32e8
+E
+T 32e9
+E
+T 32ea
+E
+T 32eb
+E
+T 32ec
+E
+T 32ed
+E
+T 32ee
+E
+T 32ef
+E
+T 32f0
+E
+T 32f1
+E
+T 32f2
+E
+T 32f3
+E
+T 32f4
+E
+T 32f5
+E
+T 32f6
+E
+T 32f7
+E
+T 32f8
+E
+T 32f9
+E
+T 32fa
+E
+T 32fb
+E
+T 32fc
+E
+T 32fd
+E
+T 32fe
+E
+T 32ff
+E
+T 3300
+E
+T 3301
+E
+T 3302
+E
+T 3303
+E
+T 3304
+E
+T 3305
+E
+T 3306
+E
+T 3307
+E
+T 3308
+E
+T 3309
+E
+T 330a
+E
+T 330b
+E
+T 330c
+E
+T 330d
+E
+T 330e
+E
+T 330f
+E
+T 3310
+E
+T 3311
+E
+T 3312
+E
+T 3313
+E
+T 3314
+E
+T 3315
+E
+T 3316
+E
+T 3317
+E
+T 3318
+E
+T 3319
+E
+T 331a
+E
+
+# ---- not drawn: color fills, a swatch strip, the explosion's frames (3D debris only, as in Star Blade) ----
+# panel fill 181d
+S 355c22d985955983
+H 0 0 128 128
+T 181c
+E
+T 181d
+E
+T 1e78
+E
+T 1e79
+E
+T 1e7a
+E
+T 1e7b
+E
+T 0ff8
+E
+T 0fee
+E
+T 0ff9
+E
+T 0ffa
+E
+T 0ffb
+E
+T 0ffc
+E
+T 0ffd
+E
+T 0ffe
+E
+T 0fff
+E
+T 1000
+E
+T 1001
+E
+T 1002
+E
+T 1003
+E
+T 1004
+E
+T 1005
+E
+T 1006
+E
+T 1007
+E
+T 1008
+E
+T 0fec
+E
+T 0fee
+E
+T 1009
+E
+T 100a
+E
+T 100b
+E
+T 100c
+E
+T 100d
+E
+T 100e
+E
+T 100f
+E
+T 1010
+E
+T 1011
+E
+T 1012
+E
+T 1013
+E
+T 1014
+E
+T 1015
+E
+T 1016
+E
+T 1017
+E
+T 1018
+E
+T 1019
+E
+T 101a
+E
+T 101b
+E
+T 101c
+E
+T 0fee
+E
+T 101d
+E
+T 101e
+E
+T 101f
+E
+T 1020
+E
+T 1021
+E
+T 1022
+E
+T 1023
+E
+T 1024
+E
+T 1025
+E
+T 1026
+E
+T 1027
+E
+T 1028
+E
+T 1029
+E
+T 102a
+E
+T 102b
+E
+T 102c
+E
+T 102d
+E
+T 102e
+E
+T 102f
+E
+T 1030
+E
+T 1031
+E
+T 1032
+E
+T 1033
+E
+T 1034
+E
+T 1035
+E
+T 1036
+E
+T 1037
+E
+T 0fee
+E
+T 1038
+E
+T 1039
+E
+T 103a
+E
+T 103b
+E
+T 103c
+E
+T 103d
+E
+T 103e
+E
+T 103f
+E
+T 1040
+E
+T 1041
+E
+T 1042
+E
+T 1043
+E
+T 1044
+E
+T 1045
+E
+T 1046
+E
+T 1047
+E
+T 1048
+E
+T 1049
+E
+T 104a
+E
+T 104b
+E
+T 104c
+E
+T 104d
+E
+T 104e
+E
+T 104f
+E
+T 1050
+E
+T 1051
+E
+T 1052
+E
+T 1053
+E
+T 1054
+E
+T 1055
+E
+T 1056
+E
+T 1057
+E
+T 1058
+E
+T 1059
+E
+T 105a
+E
+T 105b
+E
+T 105c
+E
+T 105d
+E
+T 105e
+E
+T 105f
+E
+T 1060
+E
+T 1061
+E
+T 1062
+E
+T 1063
+E
+T 1064
+E
+T 1065
+E
+T 1066
+E
+T 1067
+E
+T 1068
+E
+T 1069
+E
+T 106a
+E
+T 106b
+E
+T 106c
+E
+T 106d
+E
+T 106e
+E
+T 106f
+E
+T 1070
+E
+T 1071
+E
+T 1072
+E
+T 1073
+E
+T 1074
+E
+T 1075
+E
+T 1076
+E
+T 1077
+E
+T 1078
+E
+T 1079
+E
+T 107a
+E
+T 107b
+E
+T 107c
+E
+T 107d
+E
+T 107e
+E
+T 107f
+E
+T 1080
+E
+T 1081
+E
+T 1082
+E
+T 1083
+E
+T 1084
+E
+T 1085
+E
+T 1086
+E
+T 1087
+E
+T 1088
+E
+T 1089
+E
+T 108a
+E
+T 108b
+E
+T 108c
+E
+T 108d
+E
+T 108e
+E
+T 108f
+E
+T 1090
+E
+T 1091
+E
+T 1092
+E
+T 1093
+E
+T 1094
+E
+T 1095
+E
+T 1096
+E
+T 1097
+E
+T 1098
+E
+T 1099
+E
+T 109a
+E
+T 109b
+E
+T 109c
+E
+T 109d
+E
+T 109e
+E
+T 109f
+E
+T 10a0
+E
+T 10a1
+E
+T 10a2
+E
+T 10a3
+E
+T 10a4
+E
+T 12c3
+E
+T 12c4
+E
+T 12c5
+E
+T 12c6
+E
+T 12c7
+E
+T 12c8
+E
+T 12c9
+E
+T 12ca
+E
+T 12cb
+E
+T 12cc
+E
+T 12cd
+E
+T 12ce
+E
+T 12cf
+E
+T 12d0
+E
+T 12d1
+E
+T 12d2
+E
+T 12d3
+E
+T 12d4
+E
+T 12d5
+E
+T 12d6
+E
+T 12d7
+E
+T 12d8
+E
+T 12d9
+E
+T 12da
+E
+T 12db
+E
+T 12dc
+E
+T 12dd
+E
+T 12de
+E
+T 12df
+E
+T 12e0
+E
+T 10a5
+E
+T 10a6
+E
+T 10a7
+E
+T 10a8
+E
+T 10a9
+E
+T 10aa
+E
+T 10ab
+E
+T 10ac
+E
+T 10ad
+E
+T 10ae
+E
+T 10af
+E
+T 10b0
+E
+T 10b1
+E
+T 10b2
+E
+T 10b3
+E
+T 10b4
+E
+T 10b5
+E
+T 10b6
+E
+T 10b7
+E
+T 10b8
+E
+T 10b9
+E
+T 10ba
+E
+T 10bb
+E
+T 10bc
+E
+T 10bd
+E
+T 10be
+E
+T 10bf
+E
+T 10c0
+E
+T 10c1
+E
+T 10c2
+E
+T 10c3
+E
+T 10c4
+E
+T 10c5
+E
+T 10c6
+E
+T 10c7
+E
+T 10c8
+E
+T 10c9
+E
+T 10ca
+E
+T 10cb
+E
+T 10cc
+E
+T 10cd
+E
+T 10ce
+E
+T 10cf
+E
+T 10d0
+E
+T 10d1
+E
+T 10d2
+E
+T 10d3
+E
+T 10d4
+E
+T 10d5
+E
+T 10d6
+E
+T 10d7
+E
+T 10d8
+E
+T 10d9
+E
+T 10da
+E
+T 10db
+E
+T 10dc
+E
+T 10dd
+E
+T 10de
+E
+T 10df
+E
+T 10e0
+E
+T 10e1
+E
+T 10e2
+E
+T 10e3
+E
+T 10e4
+E
+T 10e5
+E
+T 10e6
+E
+T 10e7
+E
+T 10e8
+E
+T 10e9
+E
+T 10ea
+E
+T 10eb
+E
+T 10ec
+E
+T 10ed
+E
+T 10ee
+E
+T 10ef
+E
+T 10f0
+E
+T 10f1
+E
+T 10f2
+E
+T 10f3
+E
+T 10f4
+E
+T 10f5
+E
+T 10f6
+E
+T 10f7
+E
+T 10f8
+E
+T 10f9
+E
+T 10fa
+E
+T 10fb
+E
+T 10fc
+E
+T 10fd
+E
+T 10fe
+E
+T 10ff
+E
+T 1100
+E
+T 1101
+E
+T 1102
+E
+T 1103
+E
+T 1104
+E
+T 1105
+E
+T 1106
+E
+T 1107
+E
+T 1108
+E
+T 1109
+E
+T 110a
+E
+T 110b
+E
+T 110c
+E
+T 110d
+E
+T 110e
+E
+T 110f
+E
+T 1110
+E
+T 1111
+E
+T 1112
+E
+T 1113
+E
+T 1114
+E
+T 1115
+E
+T 1116
+E
+T 1117
+E
+T 1118
+E
+T 1119
+E
+T 111a
+E
+T 111b
+E
+T 111c
+E
+T 111d
+E
+T 111e
+E
+T 111f
+E
+T 1120
+E
+T 1121
+E
+T 1122
+E
+T 1123
+E
+T 1124
+E
+T 1125
+E
+T 1126
+E
+T 1127
+E
+T 1128
+E
+T 1129
+E
+T 112a
+E
+T 112b
+E
+T 112c
+E
+T 112d
+E
+T 112e
+E
+T 112f
+E
+T 1130
+E
+T 1131
+E
+T 1132
+E
+T 1133
+E
+T 1134
+E
+T 1135
+E
+T 1136
+E
+T 1137
+E
+T 1138
+E
+T 1139
+E
+T 113a
+E
+T 113b
+E
+T 113c
+E
+T 113d
+E
+T 113e
+E
+T 113f
+E
+T 1140
+E
+T 1141
+E
+T 1142
+E
+T 1143
+E
+T 1144
+E
+T 1145
+E
+T 1146
+E
+T 1147
+E
+T 1148
+E
+T 1149
+E
+T 114a
+E
+T 114b
+E
+T 114c
+E
+T 114d
+E
+T 114e
+E
+T 114f
+E
+T 1150
+E
+T 1151
+E
+T 1152
+E
+T 1153
+E
+T 1154
+E
+T 1155
+E
+T 1156
+E
+T 1157
+E
+T 1158
+E
+T 1159
+E
+T 115a
+E
+T 115b
+E
+T 115c
+E
+T 115d
+E
+T 115e
+E
+T 115f
+E
+T 1160
+E
+T 1161
+E
+T 1162
+E
+T 1163
+E
+T 1164
+E
+T 1165
+E
+T 1166
+E
+T 1167
+E
+T 1168
+E
+T 1169
+E
+T 116a
+E
+T 116b
+E
+T 116c
+E
+T 116d
+E
+T 116e
+E
+T 116f
+E
+T 1170
+E
+T 1171
+E
+T 1172
+E
+T 1173
+E
+T 1174
+E
+T 1175
+E
+T 1176
+E
+T 1177
+E
+T 1178
+E
+T 1179
+E
+T 117a
+E
+T 117b
+E
+T 117c
+E
+T 117d
+E
+T 117e
+E
+T 117f
+E
+T 1180
+E
+T 1181
+E
+T 1182
+E
+T 1183
+E
+T 1184
+E
+T 1185
+E
+T 1186
+E
+T 1187
+E
+T 1188
+E
+T 1189
+E
+T 118a
+E
+T 118b
+E
+T 118c
+E
+T 118d
+E
+T 118e
+E
+T 118f
+E
+T 1190
+E
+T 1191
+E
+T 1192
+E
+T 1193
+E
+T 1194
+E
+T 1195
+E
+T 1196
+E
+T 1197
+E
+T 1198
+E
+T 1199
+E
+T 119a
+E
+T 119b
+E
+T 119c
+E
+T 119d
+E
+T 119e
+E
+T 119f
+E
+T 11a0
+E
+T 11a1
+E
+T 11a2
+E
+T 11a3
+E
+T 11a4
+E
+T 11a5
+E
+T 11a6
+E
+T 11a7
+E
+T 11a8
+E
+T 11a9
+E
+T 11aa
+E
+T 11ab
+E
+T 11ac
+E
+T 11ad
+E
+T 11ae
+E
+T 11af
+E
+T 11b0
+E
+T 11b1
+E
+T 11b2
+E
+T 11b3
+E
+T 11b4
+E
+T 11b5
+E
+T 11b6
+E
+T 11b7
+E
+T 11b8
+E
+T 11b9
+E
+T 11ba
+E
+T 11bb
+E
+T 11bc
+E
+T 11bd
+E
+T 11be
+E
+T 11bf
+E
+T 11c0
+E
+T 11c1
+E
+T 11c2
+E
+T 11c3
+E
+T 11c4
+E
+T 11c5
+E
+T 11c6
+E
+T 11c7
+E
+T 11c8
+E
+T 11c9
+E
+T 11ca
+E
+T 11cb
+E
+T 11cc
+E
+T 11cd
+E
+T 11ce
+E
+T 11cf
+E
+T 11d0
+E
+T 11d1
+E
+T 11d2
+E
+T 11d3
+E
+T 11d4
+E
+T 11d5
+E
+T 11d6
+E
+T 11d7
+E
+T 11d8
+E
+T 11d9
+E
+T 11da
+E
+T 11db
+E
+T 11dc
+E
+T 11dd
+E
+T 11de
+E
+T 11df
+E
+T 11e0
+E
+T 11e1
+E
+T 11e2
+E
+T 11e3
+E
+T 11e4
+E
+T 11e5
+E
+T 11e6
+E
+T 11e7
+E
+T 11e8
+E
+T 11e9
+E
+T 11ea
+E
+T 11eb
+E
+T 11ec
+E
+T 11ed
+E
+T 11ee
+E
+T 11ef
+E
+T 11fd
+E
+T 1033
+E
+T 11fe
+E
+T 11ff
+E
+T 1200
+E
+T 1201
+E
+T 1202
+E
+T 1203
+E
+T 1204
+E
+T 1205
+E
+T 1206
+E
+T 1207
+E
+T 1208
+E
+T 1209
+E
+T 120a
+E
+T 120b
+E
+T 120c
+E
+T 120d
+E
+T 120e
+E
+T 1226
+E
+T 1227
+E
+T 1228
+E
+T 1229
+E
+T 122a
+E
+T 122b
+E
+T 122c
+E
+T 122d
+E
+T 122e
+E
+T 122f
+E
+T 1230
+E
+T 1231
+E
+T 1232
+E
+T 1233
+E
+T 1234
+E
+T 1235
+E
+T 1236
+E
+T 1237
+E
+T 1238
+E
+T 1239
+E
+T 123a
+E
+T 123b
+E
+T 123c
+E
+T 123d
+E
+T 123e
+E
+T 1272
+E
+T 1273
+E
+T 1274
+E
+T 1275
+E
+T 1276
+E
+T 1277
+E
+T 1278
+E
+T 1279
+E
+T 127a
+E
+T 127b
+E
+T 127c
+E
+T 127d
+E
+T 127e
+E
+T 127f
+E
+T 1280
+E
+T 1281
+E
+T 1282
+E
+T 1283
+E
+T 1284
+E
+T 1285
+E
+T 1286
+E
+T 1287
+E
+T 1288
+E
+T 1289
+E
+T 128a
+E
+T 128b
+E
+T 128c
+E
+T 128d
+E
+T 128e
+E
+T 128f
+E
+T 1290
+E
+T 1291
+E
+T 1292
+E
+T 1293
+E
+T 1294
+E
+T 1295
+E
+T 1296
+E
+T 1297
+E
+T 1298
+E
+T 1299
+E
+T 129a
+E
+T 129b
+E
+T 129c
+E
+T 129d
+E
+T 129e
+E
+T 129f
+E
+T 12a0
+E
+T 12a1
+E
+T 12a2
+E
+T 12a3
+E
+T 12a4
+E
+T 12a5
+E
+T 12a6
+E
+T 12e1
+E
+T 1089
+E
+T 12e2
+E
+T 12e3
+E
+T 12e4
+E
+T 12e5
+E
+T 12e6
+E
+T 12e7
+E
+T 12e8
+E
+T 12e9
+E
+T 12ea
+E
+T 12eb
+E
+T 12ec
+E
+T 12ed
+E
+T 12ee
+E
+T 12ef
+E
+T 12f0
+E
+T 12f1
+E
+T 12f2
+E
+T 12f3
+E
+T 12f4
+E
+T 12f5
+E
+T 12f6
+E
+T 12f7
+E
+T 12f8
+E
+T 12f9
+E
+T 12fa
+E
+T 12fb
+E
+T 12fc
+E
+T 12fd
+E
+T 12fe
+E
+T 12ff
+E
+T 1300
+E
+T 1301
+E
+T 1302
+E
+T 1303
+E
+T 1304
+E
+T 1305
+E
+T 1306
+E
+T 1307
+E
+T 1308
+E
+T 1309
+E
+T 130a
+E
+T 130b
+E
+T 130c
+E
+T 130d
+E
+T 130e
+E
+T 130f
+E
+T 1310
+E
+T 1311
+E
+T 1312
+E
+T 1313
+E
+T 1314
+E
+T 1315
+E
+T 1316
+E
+T 1317
+E
+T 1318
+E
+T 1319
+E
+T 1351
+E
+T 1352
+E
+T 1353
+E
+T 1354
+E
+T 1355
+E
+T 1356
+E
+T 1357
+E
+T 1358
+E
+T 1359
+E
+T 135a
+E
+T 135b
+E
+T 135c
+E
+T 135d
+E
+T 135e
+E
+T 135f
+E
+T 1360
+E
+T 1361
+E
+T 1362
+E
+T 1363
+E
+T 1364
+E
+T 1365
+E
+T 1366
+E
+T 1367
+E
+T 1368
+E
+T 1369
+E
+T 136a
+E
+T 136b
+E
+T 136c
+E
+T 136d
+E
+T 136e
+E
+T 136f
+E
+
+# ---- the game: course select, vehicle select, round start, play ----
+X 51e2133c49d0cbcb 23
+L 0 32 46 43 0
+X 1a1d21160a5f86c9 23
+L 3 32 46 43 9
+X 3e6c2caee019b644 23
+L 0 32 46 43 8
+X cc4ae2993856d959 23
+L 0 29 46 43 6
+X 59577101581689e8 23
+L 3 29 46 43 5
+X 1e9935358562aa1b 212
+L 19 32 44 39 1
+X 7d4232cf56e413a1 23
+L 0 32 46 43 2
+X b40e1bf57d7fb55f 23
+L 8 32 44 41 7
+X 53046447a6e7ad95 23
+L 3 32 46 43 3
+X 8b255eb759da41a2 23
+L 3 32 44 39 4
+X 08b5 240
+L 2 47 90 86 ?
+X 0860 240
+L 2 238 92 88 READY
+X 08c5 240
+L 3 187 92 88 GO!!
+X 0aa4 240
+L 2 174 46 44 ROUND
+X 0ac5 219
+L 10 39 62 60 1
+X 0a0c 240
+L 0 190 46 44 TIME'S
+X 0a2f 240
+L 22 111 46 44 UP!
+X 0b3d 27
+L 4 140 92 88 []
+L 13 61 38 16 TAKING
+L 13 131 74 32 DAMAGE!!
+X 1631 116
+L 8 123 18 18 TRAINING
+L 54 72 40 16 &
+L 4 123 64 18 PRACTICE
+X 1651 116
+L 4 40 18 18 VS.
+L 4 123 41 18 COMPUTER
+L 4 96 64 18 COMBAT
+X 1d6f 126
+L 7 57 16 15 ADVICE
+X 0f9c 110
+L 2 47 16 15 ENEMY
+# course square
+T 147f
+P 119 10 19 4 141 4 156 19 156 109 141 124 19 124 4 109 4 19 19 4 19 4
+T 1480
+E
+T 1481
+E
+T 1482
+E
+T 1483
+E
+T 1484
+E
+T 1485
+E
+T 1486
+E
+T 1487
+E
+T 1488
+E
+T 1489
+E
+T 148a
+E
+T 148b
+E
+T 148c
+E
+T 148d
+E
+T 148e
+E
+T 148f
+E
+T 1490
+E
+T 1491
+E
+T 1492
+E
+T 1493
+E
+T 1494
+E
+T 1495
+E
+T 1496
+E
+T 1497
+E
+T 1498
+E
+T 1499
+E
+T 149a
+E
+T 149b
+E
+T 149c
+E
+T 149d
+E
+# vehicle square
+T 156e
+P 99 10 16 8 128 8 136 16 136 128 128 136 16 136 8 128 8 16 16 8 16 8
+T 152a
+E
+T 156f
+E
+T 1570
+E
+T 1571
+E
+T 1572
+E
+T 1573
+E
+T 1574
+E
+T 1575
+E
+T 1576
+E
+T 1577
+E
+T 1578
+E
+T 1579
+E
+T 157a
+E
+T 157b
+E
+T 157c
+E
+T 157d
+E
+T 157e
+E
+T 157f
+E
+T 1580
+E
+T 1581
+E
+T 1582
+E
+T 1583
+E
+T 1584
+E
+T 1585
+E
+T 1586
+E
+T 1587
+E
+T 1588
+E
+T 1589
+E
+T 158a
+E
+T 158b
+E
+T 158c
+E
+T 158d
+E
+# info panel piece
+T 1d4e
+P #c8c8c8 9 3 0 208 1 208 8 7 8 6 48 1 48 1 7 3 0 3 0
+T 1d4f
+E
+T 1d50
+E
+T 1d51
+E
+T 1d52
+E
+T 1d53
+E
+T 1d54
+E
+T 1d55
+E
+T 1d56
+E
+T 1d57
+E
+T 1d58
+E
+# info panel piece
+S f78dc8d0f6f10c32
+P #c8c8c8 10 61 0 189 0 191 7 191 48 186 48 185 8 0 8 0 1 61 0 61 0
+T 1d55
+E
+T 1d4f
+E
+T 1d52
+E
+T 1d57
+E
+T 1d59
+E
+T 1d5a
+E
+T 1d5b
+E
+T 1d5c
+E
+T 1d5d
+E
+T 1d5e
+E
+T 1d5f
+E
+# info panel piece
+S 4b6bb2335f4576f7
+P #c8c8c8 9 186 0 191 0 191 41 189 48 0 47 0 40 185 40 186 0 186 0
+T 1d57
+E
+T 1d5f
+E
+T 1d62
+E
+T 1d65
+E
+T 1d68
+E
+T 1d69
+E
+T 1d6a
+E
+T 1d6b
+E
+T 1d6c
+E
+T 1d6d
+E
+T 1d6e
+E
+# info panel piece
+S b23842c17542d728
+P #c8c8c8 9 1 0 6 0 7 40 208 40 208 47 3 48 1 41 1 0 1 0
+T 1d58
+E
+T 1d57
+E
+T 1d60
+E
+T 1d61
+E
+T 1d62
+E
+T 1d63
+E
+T 1d64
+E
+T 1d65
+E
+T 1d66
+E
+T 1d67
+E
+T 1d68
+E
+# target box
+T 0f88
+P 28 5 0.5 0.5 31.5 0.5 31.5 31.5 0.5 31.5 0.5 0.5
+T 0f89
+E
+T 0f8a
+E
+T 0f8b
+E
+# lock-on diamond
+T 0f8c
+P 28 5 24 3.5 44.5 24 24 44.5 3.5 24 24 3.5
+T 0f8d
+E
+T 0f8e
+E
+T 0f8f
+E
+T 0f90
+E
+T 0f91
+E
+T 0f92
+E
+T 0f93
+E
+# lock-on diamond
+T 0f94
+P 31 5 24 3.5 44.5 24 24 44.5 3.5 24 24 3.5
+T 0f95
+E
+T 0f96
+E
+T 0f97
+E
+T 0f98
+E
+T 0f99
+E
+T 0f9a
+E
+T 0f9b
+E
+# icon
+T 0dd2
+P 71 29 3 2 5 2 5 5 4 5 5 8 6 8 7 3 8 3 9 8 10 8 10 6 11 6 10 2 12 2 12 14 10 14 10 12 11 12 10 10 9 10 9 12 6 12 6 10 5 10 4 11 5 14 3 14 3 2 3 2
+T 2322
+E
+T 2323
+E
+T 2324
+E
+T 2325
+E
+T 2326
+E
+T 2327
+E
+T 2328
+E
+T 2329
+E
+T 232a
+E
+T 232b
+E
+T 232c
+E
+T 232d
+E
+T 232e
+E
+T 232f
+E
+T 2330
+E
+T 2331
+E
+T 2332
+E
+T 2333
+E
+T 2334
+E
+T 2335
+E
+T 2336
+E
+T 2337
+E
+T 2338
+E
+T 2339
+E
+T 233a
+E
+T 233b
+E
+T 233c
+E
+T 233d
+E
+T 233e
+E
+T 233f
+E
+T 2340
+E
+T 2341
+E
+T 2342
+E
+T 2343
+E
+T 2344
+E
+T 2345
+E
+T 2346
+E
+T 2347
+E
+T 2348
+E
+T 2349
+E
+T 234a
+E
+T 234b
+E
+T 234c
+E
+T 234d
+E
+T 234e
+E
+T 234f
+E
+T 2350
+E
+T 2351
+E
+T 2352
+E
+T 2353
+E
+T 2354
+E
+T 2355
+E
+T 2356
+E
+T 2357
+E
+T 2358
+E
+T 2359
+E
+T 235a
+E
+T 235b
+E
+T 235c
+E
+T 235d
+E
+T 235e
+E
+T 235f
+E
+T 2360
+E
+T 2361
+E
+T 2362
+E
+T 2363
+E
+T 2364
+E
+T 2365
+E
+T 2366
+E
+T 2367
+E
+T 2368
+E
+T 2369
+E
+T 236a
+E
+T 236b
+E
+T 236c
+E
+T 236d
+E
+T 236e
+E
+T 236f
+E
+T 2370
+E
+T 2371
+E
+T 2372
+E
+T 2373
+E
+T 2374
+E
+T 2375
+E
+T 2376
+E
+T 2377
+E
+T 2378
+E
+T 2379
+E
+T 237a
+E
+T 237b
+E
+T 237c
+E
+T 237d
+E
+T 237e
+E
+T 237f
+E
+T 2380
+E
+T 2381
+E
+T 2382
+E
+T 2383
+E
+T 2384
+E
+T 2385
+E
+T 2386
+E
+T 2387
+E
+T 2388
+E
+T 2389
+E
+T 238a
+E
+T 238b
+E
+T 238c
+E
+T 238d
+E
+T 238e
+E
+T 238f
+E
+T 2390
+E
+T 2391
+E
+T 2392
+E
+T 2393
+E
+T 2394
+E
+T 2395
+E
+T 2396
+E
+T 2397
+E
+T 2398
+E
+T 2399
+E
+T 239a
+E
+T 239b
+E
+T 239c
+E
+T 239d
+E
+T 239e
+E
+T 239f
+E
+T 23a0
+E
+T 23a1
+E
+T 23a2
+E
+T 23a3
+E
+T 23a4
+E
+T 23a5
+E
+T 23a6
+E
+T 23a7
+E
+T 23a8
+E
+T 23a9
+E
+T 23aa
+E
+T 23ab
+E
+T 23ac
+E
+T 23ad
+E
+T 23ae
+E
+T 23af
+E
+T 23b0
+E
+T 23b1
+E
+T 23b2
+E
+T 23b3
+E
+T 23b4
+E
+T 23b5
+E
+T 23b6
+E
+T 23b7
+E
+T 23b8
+E
+T 23b9
+E
+T 23ba
+E
+T 23bb
+E
+T 23bc
+E
+T 23bd
+E
+T 23be
+E
+T 23bf
+E
+T 23c0
+E
+T 23c1
+E
+T 23c2
+E
+T 23c3
+E
+T 23c4
+E
+T 23c5
+E
+T 23c6
+E
+T 23c7
+E
+T 23c8
+E
+T 23c9
+E
+T 23ca
+E
+T 23cb
+E
+T 23cc
+E
+T 23cd
+E
+T 23ce
+E
+T 23cf
+E
+T 23d0
+E
+T 23d1
+E
+T 23d2
+E
+T 23d3
+E
+T 23d4
+E
+T 23d5
+E
+T 23d6
+E
+T 23d7
+E
+T 23d8
+E
+T 23d9
+E
+T 23da
+E
+T 23db
+E
+T 23dc
+E
+T 23dd
+E
+T 23de
+E
+T 23df
+E
+T 23e0
+E
+T 23e1
+E
+T 23e2
+E
+T 23e3
+E
+T 23e4
+E
+T 23e5
+E
+T 23e6
+E
+T 23e7
+E
+T 23e8
+E
+T 23e9
+E
+T 23ea
+E
+T 23eb
+E
+T 23ec
+E
+T 23ed
+E
+T 23ee
+E
+T 233f
+E
+T 2322
+E
+T 2323
+E
+T 2324
+E
+T 2325
+E
+T 2326
+E
+T 2327
+E
+T 2328
+E
+T 2329
+E
+T 232a
+E
+T 232b
+E
+T 232c
+E
+T 232d
+E
+T 2332
+E
+T 2333
+E
+T 2334
+E
+T 2335
+E
+T 2336
+E
+T 2337
+E
+T 2338
+E
+T 2339
+E
+T 233a
+E
+T 233b
+E
+T 233c
+E
+T 233d
+E
+T 2340
+E
+T 2341
+E
+T 234f
+E
+T 2350
+E
+T 2351
+E
+T 235f
+E
+T 2360
+E
+T 2361
+E
+T 236c
+E
+T 236d
+E
+T 236e
+E
+T 236f
+E
+T 2370
+E
+T 2371
+E
+T 2372
+E
+T 2373
+E
+T 2374
+E
+T 2375
+E
+T 2376
+E
+T 2377
+E
+T 2378
+E
+T 2379
+E
+T 237a
+E
+T 237b
+E
+T 237c
+E
+T 237d
+E
+T 237e
+E
+T 237f
+E
+T 2380
+E
+T 2381
+E
+T 2382
+E
+T 2383
+E
+T 2384
+E
+T 2385
+E
+T 2386
+E
+T 2387
+E
+T 2388
+E
+T 2389
+E
+T 238a
+E
+T 238b
+E
+T 238c
+E
+T 238d
+E
+T 238e
+E
+T 238f
+E
+T 2390
+E
+T 2391
+E
+T 2392
+E
+T 2393
+E
+T 2394
+E
+T 2395
+E
+T 2396
+E
+T 2397
+E
+T 2398
+E
+T 2399
+E
+T 239a
+E
+T 239b
+E
+T 239c
+E
+T 239d
+E
+T 239e
+E
+T 239f
+E
+T 23a0
+E
+T 23a1
+E
+T 23a2
+E
+T 23a3
+E
+T 23a4
+E
+T 23a5
+E
+T 23a6
+E
+T 23a7
+E
+T 23a8
+E
+T 23a9
+E
+T 23aa
+E
+T 23ab
+E
+T 23ac
+E
+T 23ad
+E
+T 23ae
+E
+T 23af
+E
+T 23b0
+E
+T 23b1
+E
+T 23b2
+E
+T 23b3
+E
+T 23b4
+E
+T 23b5
+E
+T 23b6
+E
+T 23b7
+E
+T 23b8
+E
+T 23b9
+E
+T 23ba
+E
+T 23bb
+E
+T 23bc
+E
+T 23bd
+E
+T 23be
+E
+T 23bf
+E
+T 23c0
+E
+T 23c1
+E
+T 23c2
+E
+T 23c3
+E
+T 23c4
+E
+T 23c5
+E
+T 23c6
+E
+T 23c7
+E
+T 23c8
+E
+T 23c9
+E
+T 23ca
+E
+T 23cb
+E
+T 23cc
+E
+T 23cd
+E
+T 23ce
+E
+T 23cf
+E
+T 23d0
+E
+T 23d1
+E
+T 23d2
+E
+T 23d3
+E
+T 23d4
+E
+T 23d5
+E
+T 23d6
+E
+T 23d7
+E
+T 23d8
+E
+T 23d9
+E
+T 23da
+E
+T 23db
+E
+T 23dc
+E
+T 23dd
+E
+T 23de
+E
+T 23df
+E
+T 23e0
+E
+T 23e2
+E
+T 23e3
+E
+T 23e4
+E
+T 23e5
+E
+T 23e6
+E
+T 23e7
+E
+T 23e8
+E
+T 23e9
+E
+T 23ea
+E
+T 23eb
+E
+T 23ec
+E
+T 23ed
+E
+T 23ef
+E
+T 2362
+E
+T 2322
+E
+T 2323
+E
+T 2324
+E
+T 2325
+E
+T 2326
+E
+T 2327
+E
+T 2328
+E
+T 2329
+E
+T 232a
+E
+T 232b
+E
+T 232c
+E
+T 232d
+E
+T 232e
+E
+T 232f
+E
+T 2330
+E
+T 2331
+E
+T 2332
+E
+T 2333
+E
+T 2334
+E
+T 2335
+E
+T 2336
+E
+T 2337
+E
+T 2338
+E
+T 2339
+E
+T 233a
+E
+T 233b
+E
+T 233c
+E
+T 233d
+E
+T 233e
+E
+T 233f
+E
+T 2340
+E
+T 2342
+E
+T 2343
+E
+T 2344
+E
+T 2345
+E
+T 2346
+E
+T 2347
+E
+T 2348
+E
+T 2349
+E
+T 234a
+E
+T 234b
+E
+T 234c
+E
+T 234d
+E
+T 234e
+E
+T 234f
+E
+T 2350
+E
+T 2352
+E
+T 2353
+E
+T 2354
+E
+T 2355
+E
+T 2356
+E
+T 2357
+E
+T 2358
+E
+T 2359
+E
+T 235a
+E
+T 235b
+E
+T 235c
+E
+T 235d
+E
+T 235e
+E
+T 235f
+E
+T 2360
+E
+T 2363
+E
+T 2364
+E
+T 2365
+E
+T 2366
+E
+T 2367
+E
+T 2368
+E
+T 2369
+E
+T 236a
+E
+T 236b
+E
+T 236c
+E
+T 236d
+E
+T 236e
+E
+T 236f
+E
+T 2370
+E
+T 2371
+E
+T 2372
+E
+T 2373
+E
+T 2374
+E
+T 2375
+E
+T 2376
+E
+T 2377
+E
+T 2378
+E
+T 2379
+E
+T 237a
+E
+T 237b
+E
+T 237c
+E
+T 237d
+E
+T 237e
+E
+T 237f
+E
+T 2380
+E
+T 2381
+E
+T 2382
+E
+T 2383
+E
+T 2384
+E
+T 2385
+E
+T 2386
+E
+T 2387
+E
+T 2388
+E
+T 2389
+E
+T 238a
+E
+T 238b
+E
+T 238c
+E
+T 238d
+E
+T 238e
+E
+T 238f
+E
+T 2390
+E
+T 2391
+E
+T 2392
+E
+T 2393
+E
+T 2394
+E
+T 2395
+E
+T 2396
+E
+T 2397
+E
+T 2398
+E
+T 2399
+E
+T 239a
+E
+T 239b
+E
+T 239c
+E
+T 239d
+E
+T 239e
+E
+T 239f
+E
+T 23a0
+E
+T 23a1
+E
+T 23a2
+E
+T 23a3
+E
+T 23a4
+E
+T 23a5
+E
+T 23a6
+E
+T 23a7
+E
+T 23a8
+E
+T 23a9
+E
+T 23aa
+E
+T 23ab
+E
+T 23ac
+E
+T 23ad
+E
+T 23ae
+E
+T 23af
+E
+T 23b0
+E
+T 23b1
+E
+T 23b2
+E
+T 23b3
+E
+T 23b4
+E
+T 23b5
+E
+T 23b6
+E
+T 23b7
+E
+T 23b8
+E
+T 23b9
+E
+T 23ba
+E
+T 23bb
+E
+T 23bc
+E
+T 23bd
+E
+T 23be
+E
+T 23bf
+E
+T 23c0
+E
+T 23c1
+E
+T 23c2
+E
+T 23c3
+E
+T 23c4
+E
+T 23c5
+E
+T 23c6
+E
+T 23c7
+E
+T 23c8
+E
+T 23c9
+E
+T 23ca
+E
+T 23cb
+E
+T 23cc
+E
+T 23cd
+E
+T 23ce
+E
+T 23cf
+E
+T 23d0
+E
+T 23d1
+E
+T 23d2
+E
+T 23d3
+E
+T 23d4
+E
+T 23d5
+E
+T 23d6
+E
+T 23d7
+E
+T 23d8
+E
+T 23d9
+E
+T 23da
+E
+T 23db
+E
+T 23dc
+E
+T 23dd
+E
+T 23de
+E
+T 23df
+E
+T 23e0
+E
+T 23e1
+E
+T 23e2
+E
+T 23e3
+E
+T 23e4
+E
+T 23e5
+E
+T 23e6
+E
+T 23e7
+E
+T 23e8
+E
+T 23e9
+E
+T 23ea
+E
+T 23eb
+E
+T 23ec
+E
+T 23ed
+E
+T 23ee
+E
+T 23d2
+E
+T 232c
+E
+T 232d
+E
+T 232e
+E
+T 232f
+E
+T 2330
+E
+T 2331
+E
+T 2332
+E
+T 2333
+E
+T 2334
+E
+T 2335
+E
+T 2336
+E
+T 2337
+E
+T 2338
+E
+T 2339
+E
+T 233a
+E
+T 233b
+E
+T 233c
+E
+T 233d
+E
+T 233e
+E
+T 233f
+E
+T 2340
+E
+T 2341
+E
+T 2342
+E
+T 2343
+E
+T 2344
+E
+T 2345
+E
+T 2346
+E
+T 2347
+E
+T 2348
+E
+T 2349
+E
+T 234a
+E
+T 234b
+E
+T 234c
+E
+T 234d
+E
+T 234e
+E
+T 234f
+E
+T 2350
+E
+T 2351
+E
+T 2352
+E
+T 2353
+E
+T 2354
+E
+T 2355
+E
+T 2356
+E
+T 2357
+E
+T 2358
+E
+T 2359
+E
+T 235a
+E
+T 235b
+E
+T 235c
+E
+T 235d
+E
+T 235e
+E
+T 235f
+E
+T 2360
+E
+T 2361
+E
+T 2362
+E
+T 2363
+E
+T 2364
+E
+T 2365
+E
+T 2366
+E
+T 2367
+E
+T 2368
+E
+T 2369
+E
+T 236a
+E
+T 236b
+E
+T 236c
+E
+T 236d
+E
+T 236e
+E
+T 236f
+E
+T 2370
+E
+T 2371
+E
+T 2372
+E
+T 2373
+E
+T 2374
+E
+T 2375
+E
+T 2376
+E
+T 2377
+E
+T 2378
+E
+T 2379
+E
+T 237a
+E
+T 237b
+E
+T 237c
+E
+T 237d
+E
+T 237e
+E
+T 237f
+E
+T 2380
+E
+T 2381
+E
+T 2382
+E
+T 2383
+E
+T 2384
+E
+T 2385
+E
+T 2386
+E
+T 2387
+E
+T 2388
+E
+T 2389
+E
+T 238a
+E
+T 238b
+E
+T 238c
+E
+T 238d
+E
+T 238e
+E
+T 238f
+E
+T 2390
+E
+T 2391
+E
+T 2392
+E
+T 2393
+E
+T 2394
+E
+T 2395
+E
+T 2396
+E
+T 2397
+E
+T 2398
+E
+T 2399
+E
+T 239a
+E
+T 239b
+E
+T 239c
+E
+T 239d
+E
+T 239e
+E
+T 239f
+E
+T 23a0
+E
+T 23a1
+E
+T 23a2
+E
+T 23a3
+E
+T 23a4
+E
+T 23a5
+E
+T 23a6
+E
+T 23a7
+E
+T 23a8
+E
+T 23a9
+E
+T 23aa
+E
+T 23ab
+E
+T 23af
+E
+T 23b0
+E
+T 23b1
+E
+T 23b2
+E
+T 23b3
+E
+T 23b4
+E
+T 23b5
+E
+T 23b6
+E
+T 23b7
+E
+T 23bb
+E
+T 23bc
+E
+T 23bd
+E
+T 23be
+E
+T 23bf
+E
+T 23c0
+E
+T 23c1
+E
+T 23c2
+E
+T 23c3
+E
+T 23c4
+E
+T 23c8
+E
+T 23c9
+E
+T 23ca
+E
+T 23cb
+E
+T 23cc
+E
+T 23cd
+E
+T 23ce
+E
+T 23cf
+E
+T 23d0
+E
+T 23d1
+E
+T 23d3
+E
+T 23d4
+E
+T 23df
+E
+T 23e0
+E
+T 23e1
+E
+T 23ec
+E
+T 23ed
+E
+T 23ee
+E
+T 2514
+E
+T 2515
+E
+T 2516
+E
+T 2517
+E
+T 2518
+E
+T 2519
+E
+T 251a
+E
+T 251b
+E
+T 251c
+E
+T 251d
+E
+T 251e
+E
+T 251f
+E
+T 2520
+E
+T 2521
+E
+T 2522
+E
+T 2523
+E
+T 2524
+E
+T 2525
+E
+T 2526
+E
+T 2527
+E
+T 2528
+E
+T 2529
+E
+T 252a
+E
+T 252b
+E
+T 252c
+E
+T 252d
+E
+T 252e
+E
+T 252f
+E
+T 2530
+E
+T 2531
+E
+T 2532
+E
+T 2533
+E
+T 2534
+E
+T 2535
+E
+T 2536
+E
+T 2537
+E
+T 2538
+E
+T 2539
+E
+T 253a
+E
+T 253b
+E
+T 253c
+E
+T 253d
+E
+T 253e
+E
+T 253f
+E
+T 2540
+E
+T 2541
+E
+T 2542
+E
+T 2543
+E
+T 2544
+E
+T 2545
+E
+T 2546
+E
+T 2547
+E
+T 2548
+E
+T 2549
+E
+T 254a
+E
+T 254b
+E
+T 254c
+E
+T 254d
+E
+T 254e
+E
+T 254f
+E
+T 2550
+E
+T 2551
+E
+T 2552
+E
+T 2553
+E
+T 2554
+E
+T 2555
+E
+T 2556
+E
+T 2557
+E
+T 2558
+E
+T 2559
+E
+T 255a
+E
+T 255b
+E
+T 255c
+E
+T 255d
+E
+T 255e
+E
+T 255f
+E
+T 2560
+E
+T 2561
+E
+T 2562
+E
+T 2563
+E
+T 2564
+E
+T 2565
+E
+T 2566
+E
+T 2567
+E
+T 2568
+E
+T 2569
+E
+T 256a
+E
+T 256b
+E
+T 256c
+E
+T 256d
+E
+T 256e
+E
+T 256f
+E
+T 2570
+E
+T 2571
+E
+T 2572
+E
+T 2573
+E
+T 2574
+E
+T 2575
+E
+T 2576
+E
+T 2577
+E
+T 2578
+E
+T 2579
+E
+T 257a
+E
+T 257b
+E
+T 257c
+E
+T 257d
+E
+T 257e
+E
+T 257f
+E
+T 2580
+E
+T 2581
+E
+T 2582
+E
+T 2583
+E
+T 2584
+E
+T 2585
+E
+T 2586
+E
+T 2587
+E
+T 2588
+E
+T 2589
+E
+T 258a
+E
+T 258b
+E
+T 258c
+E
+T 258d
+E
+T 258e
+E
+T 258f
+E
+T 2590
+E
+T 2591
+E
+T 2592
+E
+T 258f
+E
+T 2593
+E
+T 2594
+E
+T 2595
+E
+T 2596
+E
+T 2597
+E
+T 2598
+E
+T 2599
+E
+T 259a
+E
+T 259b
+E
+T 259c
+E
+T 259d
+E
+T 259e
+E
+T 259f
+E
+T 25a0
+E
+T 25a1
+E
+T 25a2
+E
+T 25a3
+E
+T 25a4
+E
+T 25a5
+E
+T 25a6
+E
+T 25a7
+E
+T 25a8
+E
+T 25a9
+E
+T 25aa
+E
+T 25ab
+E
+T 25ac
+E
+T 25ad
+E
+T 25ae
+E
+T 25af
+E
+T 25b0
+E
+T 25b1
+E
+T 25b2
+E

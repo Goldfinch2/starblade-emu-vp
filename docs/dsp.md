@@ -57,7 +57,7 @@ waits on the DSP. What the DSP answers:
 |---|---|---|
 | 0 | 2 | flags (bit 0 cleared by the master) |
 | 1 | 1 | camera mode |
-| 2 | 8192 | zoom (clamped `0AAAh..5555h`) |
+| 2 | 8192 | zoom: the field of view, `10000h` a turn (clamped `0AAAh..5555h`) |
 | 3-8 | sin,cos x3 | camera angles C1 (Q15 pairs) |
 | 9, 10 | 4096 | x / y scale, 1.0 = `1000h` (clamped `800h..2000h`) |
 | 11, 12 | 0 | screen offset (clamped +-`1000h`) |
@@ -145,6 +145,10 @@ depth    = view.z
 
 The two focal lengths come from the zoom (8192) and the aspect words; fitted
 on the slave DSP's own output (median error 1.5-2.5 px, center offset < 1 px).
+The zoom word is the field of view, `10000h` a full turn: the focal lengths
+go as `1 / tan(zoom / 2)`. Cyber Sled's `3333h` (72 degrees) gives 333 and 457,
+fitted the same way on two of its views (x 332-335, y 457-462, median error
+0.25-0.5 px); its screen offset word 11 (`FFFAh`) moves the picture 6 px left.
 `overlay-check.png`: this projection drawn over MAME's picture of the same
 frames.
 

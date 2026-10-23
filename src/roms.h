@@ -10,9 +10,10 @@ struct Profile;
 
 struct Roms {
     std::vector<uint8_t> main;      // master 68000 program, 1 MB, as the CPU sees it (big-endian)
-    std::vector<uint8_t> slave;     // slave 68000 program, 512 KB
-    std::vector<uint8_t> data;      // data ROM at 0x800000, 1 MB (256 KB loaded)
-    std::vector<uint8_t> sprites;   // C355 sprite tiles, 2 MB: 16x16 pixels, one byte each
+    std::vector<uint8_t> slave;     // slave 68000 program, 1 MB (512 KB mapped)
+    std::vector<uint8_t> data;      // data ROM at 0x800000, 1 MB (Star Blade: 256 KB loaded)
+    std::vector<uint8_t> edata;     // more data at 0xC00000, 1 MB (FFh where none)
+    std::vector<uint8_t> sprites;   // C355 sprite tiles, 16x16 pixels, one byte each: 2 MB, 4 MB
     std::vector<uint8_t> nvram;     // the default settings, 8 KB
     std::vector<uint8_t> sound;     // the sound board's 6809 program, 128 KB
     std::vector<uint8_t> voices;    // the C140's samples, its four 512 KB ROMs one after the other

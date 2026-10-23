@@ -19,7 +19,13 @@ int sext(int v, int bits) { int m = 1 << (bits - 1); v &= (1 << bits) - 1; retur
 // The HUD's pictures: tick and side marks, the shield's frame, the distance
 // panel's frame, SCORE, SHIELD, DISTANCE, TO RED EYE (0x35E-0x398); the
 // distance's unit and divider. Its digits are the game's digit fonts.
-bool isHud(int tile) { return (tile >= 0x35E && tile <= 0x398) || tile == 0x3BE || tile == 0x3C2; }
+bool isHud(int tile)
+{
+    const Profile &game = profile();
+    for (size_t k = 0; k < game.nhud; k++)
+        if (tile >= game.hud[k].first && tile <= game.hud[k].last) return true;
+    return false;
+}
 
 void brightColor(vp_dvg *d, uint32_t rgb)
 {
@@ -27,6 +33,23 @@ void brightColor(vp_dvg *d, uint32_t rgb)
     int top = r > g ? (r > b ? r : b) : (g > b ? g : b);
     if (top < 8) { vp_color(d, 200, 200, 200); return; }
     vp_color(d, (uint8_t)(r * 255 / top), (uint8_t)(g * 255 / top), (uint8_t)(b * 255 / top));
+}
+
+// How bright a color is drawn when the game keeps dark colors dark
+// (profile.h keepDark): 1 from keepDark up, less below it, at least DARK_MIN.
+const float DARK_MIN = 0.15f;
+float darkness(uint32_t rgb)
+{
+    const int keep = profile().keepDark;
+    if (keep <= 0) return 1.0f;
+    int r = rgb >> 16 & 0xff, g = rgb >> 8 & 0xff, b = rgb & 0xff;
+    int top = r > g ? (r > b ? r : b) : (g > b ? g : b);
+    return top >= keep ? 1.0f : std::max(DARK_MIN, (float)top / keep);
+}
+
+void scaledColor(vp_dvg *d, uint32_t rgb, float k)
+{
+    vp_color(d, (uint8_t)((rgb >> 16 & 0xff) * k), (uint8_t)((rgb >> 8 & 0xff) * k), (uint8_t)((rgb & 0xff) * k));
 }
 
 // A sprite image's key: its size, tile offset and tile list (the sprite
@@ -41,14 +64,16 @@ uint64_t spriteKey(const uint16_t *tiles, int cols, int rows, int offset)
     return key;
 }
 
+// Copies of a sprite this near (pixels) are its shadow or outline (Cyber
+// Sled: 4 off; its radar blips, 8 apart, are not).
+const int COPY_NEAR = 4;
+
 } // namespace
 
-// The game's fonts in the sprite ROM: the ASCII font at 20h-7Fh (60h-7Fh
-// repeat 20h-3Fh; 5Bh-5Fh are box pieces, not letters), every game's; then
-// the game's own (profile.h; Star Blade: five more fonts as A-Z, 0-9 and their
-// symbols, three digit sets, and some extras. tools/font_from_tiles.py has
-// Star Blade's table too).
-Sprites::Sprites(const std::vector<uint8_t> &tiles) : tiles_(tiles)
+// The game's fonts in the sprite ROM (profile.h; Star Blade: the ASCII font
+// at 20h-7Fh, five more fonts as A-Z, 0-9 and their symbols, three digit sets,
+// and some extras. tools/font_from_tiles.py has Star Blade's table too).
+Sprites::Sprites(const std::vector<uint8_t> &tiles) : tiles_(tiles), tileCount_((int)(tiles.size() / 256))
 {
     const int count = (int)(tiles.size() / 256);
     glyphs_.assign(count, Glyph());
@@ -75,8 +100,6 @@ Sprites::Sprites(const std::vector<uint8_t> &tiles) : tiles_(tiles)
         for (int p = 0; p < 256; p++)
             if (counts[p] > best) { best = counts[p]; g.pen = (uint8_t)p; }
     };
-    for (int t = 0x20; t < 0x5b; t++) setChar(t, (char)t);
-    for (int t = 0x60; t < 0x80; t++) setChar(t, (char)(t - 0x40));
     const Profile &game = profile();
     for (size_t k = 0; k < game.nfonts; k++)
         for (int i = 0; game.fonts[k].chars[i]; i++) setChar(game.fonts[k].base + i, game.fonts[k].chars[i]);
@@ -90,11 +113,13 @@ Sprites::Sprites(const std::vector<uint8_t> &tiles) : tiles_(tiles)
 }
 
 // sprites.vec: "S <key hex>" or "T <tile hex>", then "E" (draw nothing) or
-// "P <pen> <count> x y ..." lines; "X <first tile hex, or sprite key> <pen>", then
+// "P <pen> <count> x y ..." lines (the pen may be a color: #RRGGBB); "X <first tile hex, or sprite key> <pen or #RRGGBB>", then
 // "L <x0> <x1> <baseline> <height> <text>" lines: a picture of text (text
 // starting with "@<pen> ": that line's own pen; then ">": right-aligned;
 // "--": a dash, a straight line across the box; "[]": a rectangle around it);
-// "G <lo hex> <hi hex> <pen> <segments> <cx> <cy> <yscale> <r0> <r1> <a0> <a1>": a gauge.
+// "G <lo hex> <hi hex> <pen> <segments> <cx> <cy> <yscale> <r0> <r1> <a0> <a1>": a gauge;
+// after S or T, "H x0 y0 x1 y1" (a rectangle) or "H x y x y x y ..." (a convex
+// polygon): an area of the picture that hides the 3D (a HUD panel).
 void Sprites::load(const std::string &path)
 {
     FILE *f = fopen(path.c_str(), "r");
@@ -112,7 +137,9 @@ void Sprites::load(const std::string &path)
             unsigned long long id = strtoull(start, &end, 16);
             label = (end - start > 8) ? &keyLabels_[(uint64_t)id] : &labels_[(int)id];
             *label = Label();
-            label->pen = (uint8_t)strtol(end, nullptr, 10);
+            while (*end == ' ' || *end == '\t') end++;
+            if (*end == '#') label->rgb = (int32_t)strtol(end + 1, nullptr, 16);
+            else label->pen = (uint8_t)strtol(end, nullptr, 10);
             cur = nullptr;
             continue;
         }
@@ -151,10 +178,26 @@ void Sprites::load(const std::string &path)
             *cur = Trace();
         } else if (*p == 'E' && cur) {
             cur->empty = true;
+        } else if (*p == 'H' && cur) {
+            std::vector<float> v;
+            char *end = p + 1, *next;
+            for (float f = strtof(end, &next); next != end; f = strtof(end, &next)) {
+                v.push_back(f);
+                end = next;
+            }
+            if (v.size() == 4) v = { v[0], v[1], v[2], v[1], v[2], v[3], v[0], v[3] };
+            if (v.size() >= 6 && v.size() % 2 == 0) cur->hides.push_back(v);
         } else if (*p == 'P' && cur) {
             char *end;
             Poly poly;
-            poly.pen = (uint8_t)strtol(p + 1, &end, 10);
+            const char *q = p + 1;
+            while (*q == ' ' || *q == '\t') q++;
+            if (*q == '#') {
+                poly.rgb = (int32_t)strtol(q + 1, &end, 16);
+                poly.pen = 0;
+            } else {
+                poly.pen = (uint8_t)strtol(q, &end, 10);
+            }
             long n = strtol(end, &end, 10);
             for (long i = 0; i < 2 * n; i++) {
                 char *next;
@@ -171,6 +214,7 @@ void Sprites::load(const std::string &path)
 
 void Sprites::draw(vp_dvg *d, const Machine &m)
 {
+    hides_.clear();
     const uint16_t *ram = m.spriteram();
     const uint16_t *pos = m.spritePosition();
     const uint16_t *table = ram;                    // 0x0000: 8 words per sprite
@@ -185,8 +229,42 @@ void Sprites::draw(vp_dvg *d, const Machine &m)
     const float sx = 4096.0f / 496.0f, sy = 4096.0f / 480.0f;
     vp_text_font(VP_FONT_ASTEROIDS);
 
+    // A sprite drawn again a little apart, the same picture at the same
+    // size, later in the list, is a shadow or an outline of that one
+    // (Cyber Sled's titles: four dark copies 4 pixels off, then the white
+    // one in the middle): only the last is drawn.
+    struct Copy { uint64_t key; int x, y, w, h; };
+    Copy copies[256];
+    int count = 0;
+    for (int i = 0; i < 256; i++) {
+        const uint16_t which = list[i];
+        const uint16_t *e = table + ((which & 0xff) << 3);
+        const uint16_t *f = format + ((e[0] & 0x7ff) << 2);
+        int cols = (f[1] >> 4) & 0xf, rows = f[1] & 0xf;
+        if (!cols) cols = 16;
+        if (!rows) rows = 16;
+        Copy &c = copies[count++];
+        c.key = f[0] + cols * rows <= 0x8000 / 2 ? spriteKey(tileRam + f[0], cols, rows, e[1]) : 0;
+        c.x = e[2]; c.y = e[3]; c.w = e[4]; c.h = e[5];
+        if (which & 0x100) break;
+    }
+    auto shadow = [&](int i) {
+        const Copy &a = copies[i];
+        for (int j = i + 1; j < count; j++) {
+            const Copy &b = copies[j];
+            if (b.key == a.key && b.w == a.w && b.h == a.h &&
+                std::abs((int16_t)(b.x - a.x)) <= COPY_NEAR && std::abs((int16_t)(b.y - a.y)) <= COPY_NEAR)
+                return true;
+        }
+        return false;
+    };
+
     for (int i = 0; i < 256; i++) {
         uint16_t which = list[i];
+        if (i < count && copies[i].key && shadow(i)) {
+            if (which & 0x100) break;
+            continue;
+        }
         const uint16_t *e = table + ((which & 0xff) << 3);
         uint16_t palette = e[6];
         int link = e[0] & 0x7ff;
@@ -218,10 +296,36 @@ void Sprites::draw(vp_dvg *d, const Machine &m)
             const float y0 = (float)(flipy ? vpos - vsize : vpos);
             auto bx = [&](float px) { return (int)((x0 + (flipx ? W - px : px) * zx) * sx); };
             auto by = [&](float py) { return (int)(4095 - (y0 + (flipy ? H - py : py) * zy) * sy); };
-            auto penColor = [&](int pen) { brightColor(d, m.paletteRgb(0x1000 + ((palette & 0xf) << 8) + pen)); };
+            // A pen's color: from the bank the sprite's color number picks (flipped
+            // as on the board: profile.h), brightened, dark ones kept darker.
+            auto penRgb = [&](int pen) { return m.paletteRgb(0x1000 + (((palette ^ profile().spriteBankXor) & 0xf) << 8) + pen); };
+            auto penColor = [&](int pen) {
+                const uint32_t rgb = penRgb(pen);
+                const float k = darkness(rgb);
+                if (k >= 1.0f) { brightColor(d, rgb); return; }
+                int r = rgb >> 16 & 0xff, g = rgb >> 8 & 0xff, b = rgb & 0xff;
+                int top = std::max(r, std::max(g, b));
+                if (top < 1) top = 1;
+                scaledColor(d, (uint32_t)(r * 255 / top) << 16 | (uint32_t)(g * 255 / top) << 8 | (uint32_t)(b * 255 / top), k);
+            };
+            // Text: the game's one text color (profile.h), as dark as its pen is; else its pen's.
+            auto textColor = [&](int pen) {
+                const int32_t rgb = profile().textRgb;
+                if (rgb >= 0) scaledColor(d, (uint32_t)rgb, darkness(penRgb(pen)));
+                else penColor(pen);
+            };
             auto drawTrace = [&](const Trace &t, float ox, float oy) {
+                for (const std::vector<float> &h : t.hides) {
+                    std::vector<float> area;
+                    for (size_t k = 0; k + 1 < h.size(); k += 2) {
+                        area.push_back((float)bx(ox + h[k]));
+                        area.push_back((float)by(oy + h[k + 1]));
+                    }
+                    hides_.push_back(std::move(area));
+                }
                 for (const Poly &p : t.polys) {
-                    penColor(p.pen);
+                    if (p.rgb >= 0) vp_color(d, (uint8_t)(p.rgb >> 16), (uint8_t)(p.rgb >> 8), (uint8_t)p.rgb);
+                    else penColor(p.pen);
                     vp_moveto(d, bx(ox + p.xy[0]), by(oy + p.xy[1]));
                     for (size_t k = 2; k + 1 < p.xy.size(); k += 2) vp_lineto(d, bx(ox + p.xy[k]), by(oy + p.xy[k + 1]));
                 }
@@ -247,7 +351,7 @@ void Sprites::draw(vp_dvg *d, const Machine &m)
             auto st = spriteTraces_.find(key);
             int first = -1;
             for (int t = 0; t < cols * rows && first < 0; t++)
-                if (!(tiles[t] & 0x8000)) first = (tiles[t] + offset) % 8192;
+                if (!(tiles[t] & 0x8000)) first = (tiles[t] + offset) % tileCount_;
             // The HUD (its marks, frames, labels and the distance): the game
             // unfolds it from a line at the start and squeezes it into the
             // middle at the game over. Drawn only at its full size: it shows
@@ -267,7 +371,7 @@ void Sprites::draw(vp_dvg *d, const Machine &m)
                     if (x < 0 || y < 0 || x >= W || y >= H) return false;
                     uint16_t tw = tiles[(y / 16) * cols + x / 16];
                     if (tw & 0x8000) return false;
-                    size_t at = (size_t)((tw + offset) % 8192) * 256 + (y % 16) * 16 + x % 16;
+                    size_t at = (size_t)((tw + offset) % tileCount_) * 256 + (y % 16) * 16 + x % 16;
                     if (at >= tiles_.size()) return false;
                     uint8_t p = tiles_[at];
                     return p != 0xff && p != 0x00 && p != 0x01;
@@ -302,7 +406,7 @@ void Sprites::draw(vp_dvg *d, const Machine &m)
                 if (lb != labels_.end()) label = &lb->second;
             }
             // A drawing and a label can go together (a frame with words in it).
-            if (st != spriteTraces_.end() && !st->second.empty) drawTrace(st->second, 0, 0);
+            if (st != spriteTraces_.end()) drawTrace(st->second, 0, 0);
             if (st != spriteTraces_.end() && !label) {
                 // drawn
             } else if (label) {
@@ -310,23 +414,26 @@ void Sprites::draw(vp_dvg *d, const Machine &m)
                 // whatever of it is drawn in its tiles (a frame around words).
                 for (int t = 0; t < cols * rows; t++) {
                     if (tiles[t] & 0x8000) continue;
-                    auto tt = tileTraces_.find((tiles[t] + offset) % 8192);
-                    if (tt != tileTraces_.end() && !tt->second.empty)
+                    auto tt = tileTraces_.find((tiles[t] + offset) % tileCount_);
+                    if (tt != tileTraces_.end())
                         drawTrace(tt->second, (float)(t % cols * 16), (float)(t / cols * 16));
                 }
                 for (const Line &l : label->lines) {
                     // "@pen text": its own pen; ">text": right-aligned (a column of values)
                     const char *text = l.text.c_str();
                     int pen = label->pen;
+                    bool own = label->rgb >= 0;     // the label's own color, unless the line names a pen
                     if (*text == '@') {
                         char *end;
                         pen = (int)strtol(text + 1, &end, 10);
+                        own = false;
                         text = end;
                         while (*text == ' ') text++;
                     }
                     const bool right = *text == '>';
                     if (right) text++;
-                    penColor(pen);
+                    if (own) vp_color(d, (uint8_t)(label->rgb >> 16), (uint8_t)(label->rgb >> 8), (uint8_t)label->rgb);
+                    else textColor(pen);
                     if (!strcmp(text, "[]")) {          // a frame: a rectangle around the box
                         int x0 = bx(l.x0), x1 = bx(l.x1), y0 = by(l.base - l.height), y1 = by(l.base);
                         vp_moveto(d, x0, y0);
@@ -357,7 +464,7 @@ void Sprites::draw(vp_dvg *d, const Machine &m)
                 bool missing = false;
                 for (int t = 0; t < cols * rows; t++) {
                     if (tiles[t] & 0x8000) continue;
-                    const int tile = (tiles[t] + offset) % 8192;
+                    const int tile = (tiles[t] + offset) % tileCount_;
                     const float tx = (float)(t % cols * 16), ty = (float)(t / cols * 16);
                     if (tile < (int)glyphs_.size() && glyphs_[tile].ch) {
                         const Glyph &g = glyphs_[tile];
@@ -365,10 +472,15 @@ void Sprites::draw(vp_dvg *d, const Machine &m)
                         // The glyph's box on the board (a mirrored sprite: still upright text).
                         float xa = (float)bx(tx + g.x0), xb = (float)bx(tx + g.x1);
                         float ya = (float)by(ty + g.y0), yb = (float)by(ty + g.y1);
+                        // The game's letter size (profile.h), centered on the box.
                         float height = std::fabs(ya - yb);
                         if (height < 1) continue;
+                        const float scaled = height * profile().textScale;
+                        if (ya < yb) { ya += (height - scaled) * 0.5f; yb = ya + scaled; }
+                        else { yb += (height - scaled) * 0.5f; ya = yb + scaled; }
+                        height = scaled;
                         const char str[2] = { g.ch, 0 };
-                        penColor(g.pen);
+                        textColor(g.pen);
                         if (g.text)
                             vp_text_fit(d, g.text, (xa + xb) * 0.5f, std::min(ya, yb), height, std::fabs(xb - xa),
                                         VP_TEXT_CENTER);
@@ -379,13 +491,17 @@ void Sprites::draw(vp_dvg *d, const Machine &m)
                             // centered on its box.
                             const float h = std::fabs(xb - xa) * 2.0f;
                             vp_text(d, str, (xa + xb) * 0.5f, (ya + yb) * 0.5f - h * 0.5f, h, VP_TEXT_CENTER);
-                        } else
-                            vp_text(d, str, (xa + xb) * 0.5f, std::min(ya, yb), height, VP_TEXT_CENTER);
+                        } else {
+                            // At most its tile's width on the screen (a squeezed
+                            // sprite: narrower letters, never overlapping).
+                            const float cell = std::fabs((float)(bx(tx + 15) - bx(tx + 1)));
+                            vp_text_fit(d, str, (xa + xb) * 0.5f, std::min(ya, yb), height, cell, VP_TEXT_CENTER);
+                        }
                         continue;
                     }
                     auto tt = tileTraces_.find(tile);
                     if (tt == tileTraces_.end()) { missing = true; continue; }
-                    if (!tt->second.empty) drawTrace(tt->second, tx, ty);
+                    drawTrace(tt->second, tx, ty);
                 }
                 if (missing && showIds_) {
                     // Its box and its ID, in the sprite's bank color.
@@ -443,7 +559,7 @@ void Sprites::list(FILE *out, const Machine &m) const
             uint64_t key = spriteKey(tiles, cols, rows, offset);
             int first = -1;
             for (int t = 0; t < cols * rows && first < 0; t++)
-                if (!(tiles[t] & 0x8000)) first = (tiles[t] + offset) % 8192;
+                if (!(tiles[t] & 0x8000)) first = (tiles[t] + offset) % tileCount_;
             const uint16_t *c = clipTable + (((palette >> 8) & 0xf) << 2);
             const char *how = "tiles";
             if (spriteTraces_.count(key)) how = "sprite trace";

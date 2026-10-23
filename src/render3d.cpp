@@ -8,9 +8,12 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <map>
+#include <set>
 
 #include "machine.h"
 #include "models.h"
+#include "profile.h"
 
 namespace {
 
@@ -82,6 +85,17 @@ const float BACKDROP_SCALE = 4096.0f;
 // the long, fast ones; the far ones are specks at the center.
 const int MAX_STREAKS = 15;
 
+// The floor (Cyber Sled): the ground the sled stands on, as a grid of the
+// arena's own squares, FLOOR_CELLS of them each way from the camera. The
+// sled: the objects nearer the camera than SLED_NEAR.
+const int FLOOR_CELLS = 10;
+const float SLED_NEAR = 600.0f;
+const float FLOOR_LIFT = 5.0f;          // over the ground's faces and the markings on them
+const uint8_t FLOOR_RGB[3] = { 15, 20, 30 };   // the floor grid: dim, under everything
+const float FLOOR_DIM = 0.3f;           // the drawings on the floor: their colors this bright
+const float FLAT = 2.0f;
+const float HUD_Z = 20.0f;              // the HUD's screens: just past the near plane (16)                // a model this thin, or less: drawn flat on the floor
+
 // An object record's length in words, or 0 (the end, or a type not known).
 size_t recordLength(uint16_t type)
 {
@@ -116,12 +130,35 @@ Render3d::Model &Render3d::model(int code)
     Model &m = models_[code];
     SbModel rom;
     if (!points_ || !sb_model(*points_, code, rom)) return m;
+    m.verts = rom.verts;
+    for (const SbModel::Line &l : rom.lines) { m.verts.push_back(l.a); m.verts.push_back(l.b); }
+    for (size_t k = 0; k < m.verts.size(); k++)
+        if (k == 0 || m.verts[k].y < m.minY) m.minY = m.verts[k].y;
     auto entryOf = [](int word) { return (uint16_t)((word & 0xff) | (word & 0x200 ? 0 : 0x100)); };
     // A model of lines only (the warp's streaks, the horizon band): drawn
     // line by line, each in its own color (the SDK's lines have none).
     if (!rom.lines.empty()) {
         for (const SbModel::Line &l : rom.lines) m.lines.push_back({ l.a, l.b, entryOf(l.color) });
         return m;
+    }
+    // A flat model where the game has a floor (Cyber Sled: the ground, the
+    // drawings on it, the sled's shadow, each a few units over the other):
+    // its faces' outlines, hiding nothing. As solids they would cut each
+    // other's edges, and the floor's grid.
+    if (profile().floorCell > 0 && !rom.faces.empty() && rom.verts.size() > 2) {
+        float lo = rom.verts[0].y, hi = lo;
+        for (const vp_vec3 &v : rom.verts) { lo = std::min(lo, v.y); hi = std::max(hi, v.y); }
+        if (hi - lo <= FLAT) {
+            std::set<std::pair<int, int>> seen;
+            for (const SbModel::Face &f : rom.faces)
+                for (size_t i = 0; i < f.corners.size(); i++) {
+                    const int a = f.corners[i], b = f.corners[(i + 1) % f.corners.size()];
+                    if (seen.insert({ std::min(a, b), std::max(a, b) }).second)
+                        m.lines.push_back({ rom.verts[a], rom.verts[b], entryOf(f.color) });
+                }
+            m.flat = true;
+            return m;
+        }
     }
     if (vp3d_mesh_create(&m.mesh) != VP_OK) {
         m.mesh = nullptr;
@@ -131,11 +168,17 @@ Render3d::Model &Render3d::model(int code)
     for (const SbModel::Face &f : rom.faces) {
         vp3d_mesh_face(m.mesh, f.corners.data(), (int)f.corners.size());
         m.entry.push_back(entryOf(f.color));
+        // Where the game has a floor: a face lying flat at the model's foot
+        // is a drawing on the ground (the walls' painted bases).
+        bool ground = profile().floorCell > 0;
+        for (int c : f.corners) ground = ground && rom.verts[c].y - m.minY <= FLAT;
+        m.ground.push_back(ground);
     }
     if (vp3d_mesh_finish(m.mesh) != VP_OK) {
         vp3d_mesh_free(m.mesh);
         m.mesh = nullptr;
         m.entry.clear();
+        m.ground.clear();
         return m;
     }
     vp3d_mesh_set_crease(m.mesh, 0.0f);
@@ -143,24 +186,89 @@ Render3d::Model &Render3d::model(int code)
     return m;
 }
 
-void Render3d::draw(vp_dvg *d, const Dsp::Frame &frame, const Machine &machine)
+// Where the floor is: the game does not say (the positions are the
+// camera's). The arena's pieces (records without rotation) stand on it on a
+// grid of floorCell squares: the height most of their bottoms share, and
+// where the squares are (their positions modulo floorCell). Where the sled
+// is (near the camera), the floor is where its treads touch the ground: the
+// arena has higher levels.
+bool Render3d::findFloor(const std::vector<uint16_t> &list, float &y, float &offX, float &offZ)
+{
+    const int cell = profile().floorCell;
+    if (cell <= 0) return false;
+    std::map<int, int> bottoms, xs, zs;
+    float sled = 0;
+    bool near = false;
+    for (size_t i = 0; i < list.size() && list[i] != 0xffff;) {
+        const size_t len = recordLength(list[i]);
+        if (!len || i + len > list.size()) break;
+        const uint16_t *r = &list[i];
+        i += len;
+        if (r[0] != 0 && r[0] != 1) continue;           // type 2 is in the camera's space
+        const Model &mdl = model((r[1] + 1) & 0xffff);
+        if (mdl.verts.empty()) continue;
+        const int px = s16(r[3]), py = s16(r[4]), pz = s16(r[5]);
+        if (r[0] == 0) {
+            bottoms[(int)(py + mdl.minY)]++;
+            xs[(px % cell + cell) % cell]++;
+            zs[(pz % cell + cell) % cell]++;
+        } else if ((float)px * px + (float)py * py + (float)pz * pz < SLED_NEAR * SLED_NEAR) {
+            int order = s16(r[12]);
+            if (order < 0 || order > 5) order = 0;
+            const Mat R = rotation(r + 6, order);
+            for (const vp_vec3 &v : mdl.verts) {
+                const float vy = py + R.m[3] * v.x + R.m[4] * v.y + R.m[5] * v.z;
+                if (!near || vy < sled) sled = vy;
+                near = true;
+            }
+        }
+    }
+    auto most = [](const std::map<int, int> &m, int &value) {
+        int n = 0;
+        for (const auto &e : m)
+            if (e.second > n) { n = e.second; value = e.first; }
+        return n;
+    };
+    int bottom = 0, x = 0, z = 0;
+    if (most(bottoms, bottom) < 4) return false;        // no arena: a title, a ranking
+    most(xs, x);
+    most(zs, z);
+    y = near ? sled : (float)bottom;
+    offX = (float)x;
+    offZ = (float)z;
+    return true;
+}
+
+void Render3d::draw(vp_dvg *d, const Dsp::Frame &frame, const Machine &machine,
+                    const std::vector<std::vector<float>> &hides)
 {
     if (!frame.valid || !scene_) return;
     for (int e = 0; e < 512; e++) brightColor(machine.paletteRgb(0x3e00 | e), rgb_[e]);
     const uint16_t *cam = frame.camera;
 
     // The lens: screen x = 248 + 582 vx/vz, y = 240 - 797 vy/vz on the
-    // 496 x 480 picture, which fills the tube; the focal lengths scale with
-    // the zoom word (8192 when fitted). As the SDK's view: the horizontal
-    // field of view, and the vertical focal length over the horizontal one.
-    float zoom = cam[2] ? cam[2] / 8192.0f : 1.0f;
-    float fx = 4096.0f * 582.0f / 496.0f * zoom;
-    float fy = 4096.0f * 797.0f / 480.0f * zoom;
+    // 496 x 480 picture, which fills the tube, at Star Blade's zoom word
+    // 2000h. The zoom word is the field of view, 10000h a full turn: the
+    // focal lengths go as 1 / tan(half of it) (Cyber Sled's 3333h, 72
+    // degrees: 333 and 457, fitted on its slave DSP's output). (Its word 11,
+    // a screen offset of -6 pixels in Cyber Sled, is left out.) As the SDK's
+    // view: the horizontal field of view, and the vertical focal length over
+    // the horizontal one.
+    const float PI = 3.14159265f;
+    const int zoomWord = cam[2] ? cam[2] : 0x2000;
+    const float lens = std::tan(PI * 0x2000 / 65536.0f) / std::tan(PI * zoomWord / 65536.0f);
+    float fx = 4096.0f * 582.0f / 496.0f * lens;
+    float fy = 4096.0f * 797.0f / 480.0f * lens;
     vp3d_view view;
     vp3d_view_init(&view, 2.0f * std::atan(2048.0f / fx) * 180.0f / 3.14159265f);
     view.aspect = fy / fx;
     view.near_z = 16.0f;
     view.far_z = 1.0e8f;                // the backdrop, pushed out (BACKDROP_SCALE)
+    if (profile().fogEnd > 0) {         // depth cueing (profile.h)
+        view.fog_start = profile().fogStart;
+        view.fog_end = profile().fogEnd;
+        view.fog_floor = profile().fogFloor;
+    }
 
     int camOrder = s16(cam[0x26]);
     if (camOrder < 0 || camOrder > 5) camOrder = 0;
@@ -186,6 +294,29 @@ void Render3d::draw(vp_dvg *d, const Dsp::Frame &frame, const Machine &machine)
     }
 
     vp3d_scene_begin(scene_, d, &view);
+    // The HUD's panels: invisible screens just in front of the camera, where
+    // they are on the screen (board units back through the lens), hiding
+    // the 3D behind them.
+    for (const std::vector<float> &h : hides) {
+        vp_vec3 pts[16];
+        int n = 0;
+        for (size_t k = 0; k + 1 < h.size() && n < 16; k += 2)
+            pts[n++] = vp_v3((h[k] - 2048.0f) / fx * HUD_Z, (h[k + 1] - 2048.0f) / fy * HUD_Z, HUD_Z);
+        if (n >= 3) vp3d_scene_polygon(scene_, pts, n, 0);
+    }
+    // The floor's grid, a little over the ground (Cyber Sled's ground is one
+    // grey square, model 239 or 240, the drawings on it flat models: all
+    // drawn as outlines, model()). The pieces standing on it hide it.
+    float floorY, offX, offZ;
+    if (findFloor(list, floorY, offX, offZ)) {
+        const float cell = (float)profile().floorCell, span = FLOOR_CELLS * cell, y = floorY + FLOOR_LIFT;
+        vp_color(d, FLOOR_RGB[0], FLOOR_RGB[1], FLOOR_RGB[2]);
+        for (int k = -FLOOR_CELLS; k <= FLOOR_CELLS; k++) {
+            const float x = offX + k * cell, z = offZ + k * cell;
+            vp3d_scene_line(scene_, apply(M, vp_v3(x, y, offZ - span)), apply(M, vp_v3(x, y, offZ + span)));
+            vp3d_scene_line(scene_, apply(M, vp_v3(offX - span, y, z)), apply(M, vp_v3(offX + span, y, z)));
+        }
+    }
     size_t i = 0;
     while (i < list.size() && list[i] != 0xffff) {
         uint16_t type = list[i];
@@ -205,7 +336,8 @@ void Render3d::draw(vp_dvg *d, const Dsp::Frame &frame, const Machine &machine)
         // This frame's colors (the scene keeps them as it is added).
         for (size_t f = 0; f < mdl.entry.size(); f++) {
             const uint8_t *c = rgb_[mdl.entry[f]];
-            vp3d_mesh_face_color(mdl.mesh, (int)f, c[0], c[1], c[2]);
+            const float dim = mdl.ground[f] ? FLOOR_DIM : 1.0f;
+            vp3d_mesh_face_color(mdl.mesh, (int)f, (uint8_t)(c[0] * dim), (uint8_t)(c[1] * dim), (uint8_t)(c[2] * dim));
         }
         vp_vec3 pos = vp_v3((float)s16(r[3]), (float)s16(r[4]), (float)s16(r[5]));
         int order = len == 13 ? s16(r[12]) : 0;
@@ -222,9 +354,10 @@ void Render3d::draw(vp_dvg *d, const Dsp::Frame &frame, const Machine &machine)
         place.t[0] = t.x * scale; place.t[1] = t.y * scale; place.t[2] = t.z * scale;
         if (!mdl.lines.empty()) {
             // Lines only: hidden by the solids in front, hiding nothing.
+            const float dim = mdl.flat ? FLOOR_DIM : 1.0f;
             for (const Model::Line &l : mdl.lines) {
                 const uint8_t *c = rgb_[l.entry];
-                vp_color(d, c[0], c[1], c[2]);
+                vp_color(d, (uint8_t)(c[0] * dim), (uint8_t)(c[1] * dim), (uint8_t)(c[2] * dim));
                 vp3d_scene_line(scene_, vp_xf_point(&place, l.a), vp_xf_point(&place, l.b));
             }
             continue;

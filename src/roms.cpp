@@ -156,10 +156,19 @@ bool roms_load(const std::string &path, const Profile &game, Roms &roms, std::st
     std::map<std::string, std::vector<uint8_t>> files;
     if (!unzip(zip, files, error)) { error = found + ": " + error; return false; }
 
+    // The sprites' region is as big as the game's ROMs fill (2 MB, 4 MB): the
+    // C355 wraps tile numbers at its size.
+    size_t spriteBytes = 0x200000;
+    for (size_t k = 0; k < game.nroms; k++) {
+        const RomFile &rf = game.roms[k];
+        if (rf.region != Region::Sprites) continue;
+        while (spriteBytes < rf.offset + (size_t)(rf.size - 1) * rf.step + 1) spriteBytes *= 2;
+    }
     roms.main.assign(0x100000, 0);
-    roms.slave.assign(0x80000, 0);
+    roms.slave.assign(0x100000, 0);
     roms.data.assign(0x100000, 0);
-    roms.sprites.assign(0x200000, 0);
+    roms.edata.assign(0x100000, 0xff);
+    roms.sprites.assign(spriteBytes, 0);
     roms.sound.assign(0x20000, 0);
     roms.voices.assign(0x200000, 0);
     // The point ROM: each 24-bit word from three files (high, middle, low
@@ -172,6 +181,7 @@ bool roms_load(const std::string &path, const Profile &game, Roms &roms, std::st
         case Region::Main:    region = &roms.main; break;
         case Region::Slave:   region = &roms.slave; break;
         case Region::Data:    region = &roms.data; break;
+        case Region::EData:   region = &roms.edata; break;
         case Region::Sprites: region = &roms.sprites; break;
         case Region::Sound:   region = &roms.sound; break;
         case Region::Voices:  region = &roms.voices; break;

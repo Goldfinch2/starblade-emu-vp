@@ -97,7 +97,19 @@ fonts' tiles. The package says which game it is, in `game.ini`:
     [system21]
     game = starblad
 
-Star Blade is the only profile so far. The others on the same board (MAME's
-`namcos21_c67.cpp`): Solvalou (`solvalou`), Air Combat (`aircomb`) and Cyber
-Sled (`cybsled`). Each would be its own package (its own `game.ini`,
-`sprites.vec`, `leds.cfg`, marquee and saves) built from this code.
+The profiles so far: Star Blade (`starblad`) and Cyber Sled (`cybsled`, being
+started: its ROM set, controls and sticks; no traces, no models drawn as lines,
+its DSP boot checksums not captured yet). The others on the same board (MAME's
+`namcos21_c67.cpp`): Solvalou (`solvalou`) and Air Combat (`aircomb`).
+
+Each game is its own package, its files in `games/<set>/`: `game.ini` (the
+package id, the executable's name, `[system21] game`), `leds.cfg`,
+`sprites.vec`, `guide/*.wav` and the marquee. The program is the same for
+all, copied under each package's executable name:
+
+    cmake --build --preset pi --target vpk            # every game's package
+    cmake --build --preset pi --target vpk_cybsled    # one game's
+
+From a build folder, `--game cybsled` runs another game than the one whose
+files were copied next to the program (`-DSB_GAME=cybsled` copies Cyber
+Sled's).

@@ -9,7 +9,7 @@
 #include <cstdint>
 
 // Where a ROM file goes (roms.h).
-enum class Region { Main, Slave, Data, Sprites, Sound, Voices, PointH, PointU, PointL };
+enum class Region { Main, Slave, Data, EData, Sprites, Sound, Voices, PointH, PointU, PointL };
 
 struct RomFile {
     const char *name;       // in the zip
@@ -28,6 +28,18 @@ struct GameFunction {
     uint8_t bit;
 };
 
+// A stick: two of the I/O board's analog channels (dual-port RAM bytes 08h +
+// the channel: 3Fh..BFh, centered 80h), what moves them.
+struct Stick {
+    int channelX, channelY;
+    const char *axisX, *axisY;  // the advmame.rc axes: "p1_stickx", "p1_sticky"
+    bool upHigh;                // pushed up reads high (Star Blade: up aims up)
+    // The functions that push it like a stick when held (springing back to
+    // the center), or nullptr.
+    const char *up, *down, *left, *right;
+    bool mouse;                 // the mouse or trackball moves it too
+};
+
 // One of the game's fonts in the sprite ROM: its tiles from `base`, one per
 // character of `chars`.
 struct FontRange { int base; const char *chars; };
@@ -43,16 +55,35 @@ struct Profile {
     const RomFile *roms; size_t nroms;
     const char *nvram;                  // the factory settings in the zip ("starblad.nv"), or nullptr
     const GameFunction *functions; size_t nfunctions;
-    int stickX, stickY;                 // the dual-port RAM bytes the stick's channels are read from
+    const Stick *sticks; size_t nsticks;
+    uint16_t pointSums[2];              // the point ROM checksums the DSP reports at boot, or 0, 0
     const CodeRange *streaks; size_t nstreaks;     // drawn as their long diagonals
     const CodeRange *backdrops; size_t nbackdrops; // pushed out behind everything, their stripes halved
     const FontRange *fonts; size_t nfonts;
     const FontChar *chars; size_t nchars;          // single characters outside the ranges
     const FontWord *words; size_t nwords;
+    float textScale;                    // letters' height over their pixels' (Star Blade 1)
+    int32_t textRgb;                    // all text in this color (0xRRGGBB), or -1: the game's pens
+    // Sprite colors: the bank a sprite's color number picks is flipped by this
+    // (MAME's mixer: color ^ Fh); and colors darker than keepDark (their
+    // strongest channel) stay that much darker, 0: every color brightened
+    // (Cyber Sled dims what is not selected).
+    int spriteBankXor, keepDark;
+    // The HUD's sprites (their first tile): drawn only at their full size (the
+    // game unfolds and squeezes them).
+    const CodeRange *hud; size_t nhud;
+    // A floor drawn as a grid of squares this size (the arena's, render3d.cpp), or 0.
+    int floorCell;
+    // Depth cueing (the board darkened polygons by depth): full brightness up
+    // to fogStart, fogFloor of it from fogEnd on (world units); fogEnd 0: none.
+    float fogStart, fogEnd, fogFloor;
 };
 
 // The game this package is: from game.ini's [system21] game, Star Blade if
 // none. Chosen once, at start.
 const Profile &profile();
+// Before the first profile(): the game to be, whatever game.ini says
+// (--game: running from a build).
+void profile_choose(const char *set);
 // The profile of a set ("starblad"), or nullptr.
 const Profile *profile_find(const char *set);

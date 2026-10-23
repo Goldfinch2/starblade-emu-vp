@@ -27,6 +27,9 @@ public:
     // sprites.vec; a missing file means nothing is traced.
     void load(const std::string &path);
     void draw(vp_dvg *d, const Machine &machine);
+    // The areas of the last draw that hide the 3D (the HUD's panels: H lines
+    // in sprites.vec): convex polygons, board units, x y pairs.
+    const std::vector<std::vector<float>> &hides() const { return hides_; }
     void setShowIds(bool on) { showIds_ = on; }
     // The sprite list as text, one sprite a line (key, size, place, clip,
     // tiles, how it is drawn): for the pause capture.
@@ -35,11 +38,13 @@ public:
 private:
     struct Poly {
         uint8_t pen;
+        int32_t rgb = -1;           // its own color (#RRGGBB in sprites.vec), or -1: the pen's
         std::vector<float> xy;      // pixels, x y pairs
     };
     struct Trace {
         bool empty = false;         // draw nothing
         std::vector<Poly> polys;
+        std::vector<std::vector<float>> hides;  // areas hiding the 3D: pixels, x y pairs, convex
     };
 
     struct Line {
@@ -48,6 +53,7 @@ private:
     };
     struct Label {
         uint8_t pen = 0;
+        int32_t rgb = -1;           // its own color (#RRGGBB), or -1: the pen's
         std::vector<Line> lines;
     };
     struct Glyph {
@@ -68,6 +74,7 @@ private:
     };
     std::vector<Gauge> gauges_;
     const std::vector<uint8_t> &tiles_;
+    const int tileCount_;              // tile numbers wrap at it, as on the C355 (8192, 16384)
 
     std::vector<Glyph> glyphs_;                         // by tile number
     std::unordered_map<uint64_t, Trace> spriteTraces_;  // by sprite key
@@ -75,4 +82,5 @@ private:
     std::unordered_map<int, Label> labels_;             // by the sprite's first tile
     std::unordered_map<uint64_t, Label> keyLabels_;     // by sprite key (two pictures sharing a first tile)
     bool showIds_ = false;
+    std::vector<std::vector<float>> hides_;
 };

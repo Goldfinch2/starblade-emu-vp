@@ -3,7 +3,8 @@
 // program (soundboard.cpp).
 // Needs MAME's starblad.zip (the cabinet's ROM folders are searched).
 //
-//   starblade_emu [--roms PATH] [--dvg [PORT] | --window | --windowed | --maximized]
+//   starblade_emu [--roms PATH] [--game SET] [--dvg [PORT] | --window | --windowed | --maximized]
+//   (--game cybsled: another System 21 game than game.ini's, profile.cpp)
 //   TAB, or START 1 and START 2 together: the CONTROLS page (the player's own
 //   controls for the gun, gun 2 and aim keys, kept in save/controls.ini;
 //   the aim speed, in save/options.ini)
@@ -20,6 +21,7 @@
 //   --dump DIR: for comparing with MAME (tools/sb_dump.lua): the DSP RAM
 //               every 300 frames (sbdump_dspram_<frame>.bin, 64 KB big-endian)
 //               and trace.txt (each frame: page select, records drawn by type)
+#include <algorithm>
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
@@ -170,7 +172,7 @@ void saveOptions(Game &s)
 {
     FILE *f = fopen(optionsPath().c_str(), "w");
     if (!f) { fprintf(stderr, "starblade: cannot write %s\n", optionsPath().c_str()); return; }
-    fprintf(f, "# Starblade Emulator: the CONTROLS page's settings\naim_speed = %s\n", SPEEDS[s.speed].name);
+    fprintf(f, "# %s: the CONTROLS page's settings\naim_speed = %s\n", profile().title, SPEEDS[s.speed].name);
     fclose(f);
 }
 
@@ -273,27 +275,32 @@ void drawControls(const Game &s, vp_game *g, vp_dvg *d)
     vp_text_font(VP_FONT_ASTEROIDS);
     vp_color(d, 0, 200, 255);
     vp_text(d, "CONTROLS", 2048, 3450, 170, VP_TEXT_CENTER);
+    // Star Blade's 8 rows fill the page; more (Cyber Sled's 12) are squeezed
+    // into the same height, their letters a little smaller (at least 80%).
+    const float span = 7 * 250.0f + 120.0f;
+    const float fit = std::min(1.0f, span / ((rows() - 1) * 250.0f + 120.0f));
+    const float step = 250.0f * fit, gap = 60.0f * fit, size = std::max(fit, 0.8f);
     for (int i = 0; i < rows(); i++) {
         const bool sel = i == s.ctlRow;
-        const float y = 3050 - i * 250.0f - (i >= rowSpeed() ? 60.0f : 0.0f) - (i == rowExit() ? 60.0f : 0.0f);
+        const float y = 3050 - i * step - (i >= rowSpeed() ? gap : 0.0f) - (i == rowExit() ? gap : 0.0f);
         vp_text_font(VP_FONT_ASTEROIDS);
         if (sel) vp_color(d, 255, 60, 60); else vp_color(d, 255, 255, 255);
         if (i == rowExit()) {
-            vp_text(d, "EXIT", 2048, y, 100, VP_TEXT_CENTER);
+            vp_text(d, "EXIT", 2048, y, 100 * size, VP_TEXT_CENTER);
             break;
         }
         if (i == rowSpeed()) {
-            vp_text(d, "AIM SPEED", 450, y, 90, VP_TEXT_LEFT);
+            vp_text(d, "AIM SPEED", 450, y, 90 * size, VP_TEXT_LEFT);
             if (s.speed == SPEED_STANDARD) vp_color(d, 150, 150, 150);
             else if (!sel) vp_color(d, 120, 255, 120);
-            vp_text(d, SPEEDS[s.speed].name, 1900, y, 90, VP_TEXT_LEFT);
+            vp_text(d, SPEEDS[s.speed].name, 1900, y, 90 * size, VP_TEXT_LEFT);
             continue;
         }
-        vp_text(d, function(i).label, 450, y, 90, VP_TEXT_LEFT);
+        vp_text(d, function(i).label, 450, y, 90 * size, VP_TEXT_LEFT);
         if (sel && s.capture.capturing) {
             if ((int)(vp_game_time(g) * 3) % 2 == 0) {
                 vp_color(d, 255, 220, 60);
-                vp_text(d, "...", 1900, y, 90, VP_TEXT_LEFT);
+                vp_text(d, "...", 1900, y, 90 * size, VP_TEXT_LEFT);
             }
             continue;
         }
@@ -302,7 +309,7 @@ void drawControls(const Game &s, vp_game *g, vp_dvg *d)
         vp_text_font(VP_FONT_HERSHEY);
         if (has && !strcmp(has, "standard")) vp_color(d, 150, 150, 150);
         else if (!sel) vp_color(d, 120, 255, 120);
-        vp_text(d, text, 1900, y, 75, VP_TEXT_LEFT);
+        vp_text(d, text, 1900, y, 75 * size, VP_TEXT_LEFT);
     }
     vp_text_font(VP_FONT_HERSHEY);
     if (!s.said.empty()) {
@@ -440,8 +447,14 @@ int init(vp_game *g)
         return VP_ERR_NOMEM;
     }
     s.sprites = std::make_unique<Sprites>(s.roms.sprites);
+    // The traces: the package's sprites.vec. In a build folder every game's
+    // are in games/<set>/ too (--game: another game than game.ini's).
     char vec[1024];
-    s.sprites->load(vp_asset_path("sprites.vec", vec, sizeof vec));
+    const std::string own = std::string("games/") + profile().set + "/sprites.vec";
+    vp_asset_path(own.c_str(), vec, sizeof vec);
+    if (FILE *f = fopen(vec, "r")) fclose(f);
+    else vp_asset_path("sprites.vec", vec, sizeof vec);
+    s.sprites->load(vec);
     s.sprites->setShowIds(DEV && s.spriteIds);
     vp_input *in = vp_game_input(g);
     for (int i = 0; i < nfunctions(); i++) vp_input_define(in, function(i).name, function(i).standard);
@@ -547,8 +560,9 @@ void draw(vp_game *g, vp_dvg *d)
         return;
     }
     if (s.machine->videoEnabled()) {
-        s.render3d->draw(d, s.dsp.finished(), *s.machine);
+        // The sprites first: the HUD's panels they find hide the 3D.
         s.sprites->draw(d, *s.machine);
+        s.render3d->draw(d, s.dsp.finished(), *s.machine, s.sprites->hides());
     }
     if (!s.stateSaid.empty() && vp_game_time(g) < s.stateSaidUntil) {
         vp_text_font(VP_FONT_ASTEROIDS);
@@ -576,6 +590,7 @@ int main(int argc, char **argv)
     std::vector<char *> rest;
     for (int i = 0; i < argc; i++) {
         if (i > 0 && !strcmp(argv[i], "--roms") && i + 1 < argc) { game.romPath = argv[++i]; continue; }
+        if (i > 0 && !strcmp(argv[i], "--game") && i + 1 < argc) { profile_choose(argv[++i]); continue; }
         if (i > 0 && !strcmp(argv[i], "--sprite-ids")) { game.spriteIds = true; continue; }
         if (i > 0 && !strcmp(argv[i], "--dump") && i + 1 < argc) { game.dumpDir = argv[++i]; continue; }
         if (i > 0 && !strcmp(argv[i], "--record") && i + 1 < argc) { game.recordSeconds = atof(argv[++i]); continue; }

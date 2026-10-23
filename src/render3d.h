@@ -20,15 +20,24 @@ public:
     Render3d();
     ~Render3d();
     int open(const std::vector<int32_t> &points);     // the point ROM (Roms::points)
-    void draw(vp_dvg *d, const Dsp::Frame &frame, const Machine &machine);
+    // hides: areas of the screen the 3D is hidden behind (the HUD's panels,
+    // Sprites::hides): convex polygons, board units, x y pairs.
+    void draw(vp_dvg *d, const Dsp::Frame &frame, const Machine &machine,
+              const std::vector<std::vector<float>> &hides);
 
 private:
     struct Model {
         vp3d_mesh *mesh = nullptr;      // nullptr: no such model
         std::vector<uint16_t> entry;    // per face: its palette entry in the 3D block (0-511)
+        std::vector<bool> ground;       // per face: flat at the model's foot (a drawing on the floor): dimmed
         struct Line { vp_vec3 a, b; uint16_t entry; };
         std::vector<Line> lines;        // a model of lines only (no faces): its lines, each in its color
+        std::vector<vp_vec3> verts;     // its points (the floor: where it touches the ground)
+        float minY = 0;                 // its lowest point
+        bool flat = false;              // lies on the floor (Cyber Sled's drawings on the ground): dimmed
     };
+    // The floor this frame (profile.h floorCell): false when there is none.
+    bool findFloor(const std::vector<uint16_t> &list, float &y, float &offX, float &offZ);
     Model &model(int code);
 
     vp3d_scene *scene_ = nullptr;

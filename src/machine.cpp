@@ -363,7 +363,7 @@ uint16_t Machine::read16(int cpu, uint32_t a)
     if (a >= 0xa00000 && a < 0xa01000) return dpram_[(a - 0xa00000) >> 1];
     if (a >= 0xb00000 && a < 0xb04000) return c139Ram_[(a - 0xb00000) >> 1];
     if (a == 0xb80000) return 4;                        // C139 status
-    if (a >= 0xc00000 && a < 0xe00000) return 0xffff;   // edata: not populated
+    if (a >= 0xc00000 && a < 0xe00000) return romWord(roms_.edata, (a - 0xc00000) & 0xfffff);   // 1 MB, twice
     return 0;
 }
 

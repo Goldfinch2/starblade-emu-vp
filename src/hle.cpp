@@ -21,8 +21,9 @@ void Mcu::reset(uint8_t *dp)
     dp[0x06] = 0x01;
     dp[0x07] = 0x09;
     for (int i = 0x08; i <= 0x0f; i++) dp[i] = 0xff;
-    dp[profile().stickX] = 0x80;    // the stick, centered (Star Blade: 09h, 0Ah)
-    dp[profile().stickY] = 0x80;
+    const Profile &game = profile();
+    for (size_t k = 0; k < game.nsticks; k++)         // the sticks, centered
+        dp[game.sticks[k].channelX] = dp[game.sticks[k].channelY] = 0x80;
     dp[0x11] = 0x01;
     dp[0x12] = 0x01;
     dp[0x13] = 0x20;
@@ -45,48 +46,57 @@ static uint8_t stick(float v)
 
 void Mcu::vblank(uint8_t *dp)
 {
+    const Profile &game = profile();
     uint8_t buttons = 0, coinsHeld = 0, coinsIn = 0;
-    float x = 0, y = 0;
+    float x[MAX_STICKS] = {}, y[MAX_STICKS] = {};
     if (in_) {
         if (vp_input_held(in_, "start1")) buttons |= 0x80;
         // the game's buttons (profile.h: Star Blade's gun 20h, gun 2 10h: the same trigger)
-        const Profile &game = profile();
         for (size_t k = 0; k < game.nfunctions; k++)
             if (game.functions[k].bit && vp_input_held(in_, game.functions[k].name)) buttons |= game.functions[k].bit;
         if (vp_input_held(in_, "coin1")) coinsHeld |= 0x10;
         if (vp_input_held(in_, "coin2")) coinsHeld |= 0x08;
         if (vp_input_pressed(in_, "coin1")) coinsIn |= 0x10;
         if (vp_input_pressed(in_, "coin2")) coinsIn |= 0x08;
-        x = vp_input_axis(in_, "p1_stickx");
-        y = -vp_input_axis(in_, "p1_sticky");       // up (the axis's negative side) aims up
-        // The game's Y: the low value aims DOWN (a flight stick: pull back to
-        // aim up). Here up aims up on everything: the stick's axis (up is its
-        // negative side), the aim keys and the mouse are all turned.
-        // Without a stick: the aim keys (aim_up ...: profile.cpp) push a stick that springs back to
-        // the center when released (as MAME does for analog controls), and
-        // the mouse or trackball moves it. While the stick is out of its
-        // center the keys are left out: a stick bound both ways (its axis,
-        // and its directions to the aim keys, AdvanceMAME's default) would
-        // have them fight.
+        // Each stick: its axes, then the keys that push it (aim_up ...:
+        // profile.cpp) like a stick that springs back to the center when
+        // released (as MAME does for analog controls), and the mouse or
+        // trackball. While the stick is out of its center its keys are left
+        // out: a stick bound both ways (its axis, and its directions to the
+        // keys, AdvanceMAME's default) would have them fight.
+        // Star Blade's Y: the low value aims DOWN (a flight stick: pull back
+        // to aim up). Its stick is turned (upHigh), so up aims up on
+        // everything: the axis (up is its negative side), the keys, the mouse.
         auto toward = [this](float v, float target) {
             const float rate = 0.06f * aimSpeed_;
             return v < target ? std::min(v + rate, target) : std::max(v - rate, target);
         };
+        auto held = [this](const char *function) { return function && vp_input_held(in_, function) ? 1.0f : 0.0f; };
         const float CENTERED = 0.1f;
-        float kx = (vp_input_held(in_, "aim_right") ? 1.0f : 0.0f) - (vp_input_held(in_, "aim_left") ? 1.0f : 0.0f);
-        float ky = (vp_input_held(in_, "aim_up") ? 1.0f : 0.0f) - (vp_input_held(in_, "aim_down") ? 1.0f : 0.0f);
-        if (std::fabs(x) > CENTERED) kx = 0;
-        if (std::fabs(y) > CENTERED) ky = 0;
-        keyX_ = toward(keyX_, kx);
-        keyY_ = toward(keyY_, ky);
-        const float mouse = aimSpeed_ / 250.0f;
-        mouseX_ = std::max(-1.0f, std::min(1.0f, mouseX_ + vp_input_delta(in_, "p1_trackballx") * mouse));
-        mouseY_ = std::max(-1.0f, std::min(1.0f, mouseY_ - vp_input_delta(in_, "p1_trackbally") * mouse));
-        // The aim speed: the stick reaches the edge with less travel (FAST) or more.
-        x *= aimSpeed_;
-        y *= aimSpeed_;
-        x = std::max(-1.0f, std::min(1.0f, x + keyX_ + mouseX_));
-        y = std::max(-1.0f, std::min(1.0f, y + keyY_ + mouseY_));
+        for (size_t k = 0; k < game.nsticks && k < MAX_STICKS; k++) {
+            const Stick &st = game.sticks[k];
+            x[k] = vp_input_axis(in_, st.axisX);
+            y[k] = -vp_input_axis(in_, st.axisY);      // up (the axis's negative side) is +
+            float kx = held(st.right) - held(st.left);
+            float ky = held(st.up) - held(st.down);
+            if (std::fabs(x[k]) > CENTERED) kx = 0;
+            if (std::fabs(y[k]) > CENTERED) ky = 0;
+            keyX_[k] = toward(keyX_[k], kx);
+            keyY_[k] = toward(keyY_[k], ky);
+            // The aim speed: the stick reaches the edge with less travel (FAST) or more.
+            x[k] = x[k] * aimSpeed_ + keyX_[k];
+            y[k] = y[k] * aimSpeed_ + keyY_[k];
+            if (st.mouse) {
+                const float mouse = aimSpeed_ / 250.0f;
+                mouseX_ = std::max(-1.0f, std::min(1.0f, mouseX_ + vp_input_delta(in_, "p1_trackballx") * mouse));
+                mouseY_ = std::max(-1.0f, std::min(1.0f, mouseY_ - vp_input_delta(in_, "p1_trackbally") * mouse));
+                x[k] += mouseX_;
+                y[k] += mouseY_;
+            }
+            x[k] = std::max(-1.0f, std::min(1.0f, x[k]));
+            y[k] = std::max(-1.0f, std::min(1.0f, y[k]));
+            if (!st.upHigh) y[k] = -y[k];
+        }
     }
 
     dp[0x00] = buttons;
@@ -116,8 +126,10 @@ void Mcu::vblank(uint8_t *dp)
     dp[0x46] = meter_[0];
     dp[0x47] = meter_[1];
 
-    dp[profile().stickX] = stick(x);    // Star Blade: channels 09h, 0Ah
-    dp[profile().stickY] = stick(y);
+    for (size_t k = 0; k < game.nsticks && k < MAX_STICKS; k++) {
+        dp[game.sticks[k].channelX] = stick(x[k]);
+        dp[game.sticks[k].channelY] = stick(y[k]);
+    }
 
     dp[0x1f]++;
     dp[0x21]++;
@@ -134,7 +146,7 @@ void Mcu::state(State &s)
     s.pod(coinPending_);
     s.bytes(coins_, sizeof coins_);
     s.bytes(meter_, sizeof meter_);
-    s.pod(keyX_); s.pod(keyY_);
+    s.bytes(keyX_, sizeof keyX_); s.bytes(keyY_, sizeof keyY_);
     s.pod(mouseX_); s.pod(mouseY_);
 }
 
@@ -178,10 +190,17 @@ void Dsp::vblank(uint16_t *ram)
     // The boot handshake (docs/dsp.md): what the master DSP answers.
     if (ram[0x89] != 0) {               // 0x200112: are you there?
         ram[0x89] = 0;
-        ram[0x85] = 0xee52;             // 0x20010A/C: the point ROM checksums
-        ram[0x86] = 0xd5df;
-        ram[0x12] = 0x4545;             // 0x200024: "EE52", shown on the PTR: line
-        ram[0x13] = 0x3532;
+        // Star Blade's DSP answers with its point ROM checksums (0x20010A/C)
+        // and shows the first in hex at 0x200024 ("EE52", the PTR: line).
+        // Cyber Sled's reports none: the game writes its own text there.
+        const uint16_t sum = profile().pointSums[0];
+        if (sum || profile().pointSums[1]) {
+            ram[0x85] = sum;
+            ram[0x86] = profile().pointSums[1];
+            auto hex = [](int v) { return (uint16_t)(v < 10 ? '0' + v : 'A' + v - 10); };
+            ram[0x12] = hex(sum >> 12) << 8 | hex(sum >> 8 & 15);
+            ram[0x13] = hex(sum >> 4 & 15) << 8 | hex(sum & 15);
+        }
         ram[0x88] = 1;                  // 0x200110: ready
     }
     if (ram[0x87] != 0) ram[0x87] = 0;              // 0x20010E: program upload done
