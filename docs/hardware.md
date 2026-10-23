@@ -53,7 +53,7 @@ Offsets are dual-port RAM bytes (68000 address `A00000 + 2 x offset`).
 
 | Offset | What |
 |---|---|
-| `00` | buttons held: `80` start, `40` button 3 (view), `20` button 2 (gun), `10` button 1 (missile) |
+| `00` | buttons held: `80` start, `40` button 3 (view), `20` button 2 (gun), `10` button 1 (gun 2: the game fires the same for both) |
 | `03` | the same bits, pressed this frame |
 | `02` | coin switches held: `10` coin 1, `08` coin 2 (`20` test, `40` service) |
 | `05` | coins inserted this frame (same bits) |

@@ -8,6 +8,8 @@
 // merged, faces of fewer than 3 distinct corners dropped.
 #include "models.h"
 
+#include "profile.h"
+
 #include <algorithm>
 #include <cmath>
 #include <map>
@@ -88,8 +90,16 @@ void asLines(const Body &body, bool halfStripes, bool allThin, SbModel &out)
 
 } // namespace
 
-bool sb_isStreak(int code) { return (code >= 1297 && code <= 1320) || (code >= 4743 && code <= 4766); }
-bool sb_isBackdrop(int code) { return code == 2 || code == 3448; }
+// The game's (profile.h; Star Blade: the warp's streaks 1297-1320 and
+// 4743-4766, the horizon band 2 and 3448).
+static bool inRanges(const CodeRange *r, size_t n, int code)
+{
+    for (size_t i = 0; i < n; i++)
+        if (code >= r[i].first && code <= r[i].last) return true;
+    return false;
+}
+bool sb_isStreak(int code) { return inRanges(profile().streaks, profile().nstreaks, code); }
+bool sb_isBackdrop(int code) { return inRanges(profile().backdrops, profile().nbackdrops, code); }
 
 bool sb_model(const std::vector<int32_t> &rom, int code, SbModel &out)
 {

@@ -41,7 +41,7 @@ On Windows: `C:\tmp\starblade-emu\Launch Starblade.cmd` (uses `C:\tmp\mame\roms`
 (the sprite editor's Jump finds them); without it they are not drawn.
 
 Controls: stick (or arrow keys, or mouse) aims, button 1 (or left mouse
-button) gun, button 2 missile, coin, start; P pauses and resumes. Pausing saves the frame as
+button) gun, button 2 gun too, coin, start; P pauses and resumes. Pausing saves the frame as
 `save/capture_<frame>.png` (with the DSP RAM as `.bin` and the sprite list as `.txt`), to compare with the
 original. The game's NVRAM (its settings) is kept in `save/starblad.nv`.
 
@@ -55,7 +55,7 @@ A state is for this build: after a change to the game it may no longer load.
 sprite list), then quits: a scene captured frame by frame, to look at after.
 
 TAB, or START 1 and START 2 together, opens the CONTROLS page (the game
-stands still meanwhile): GUN, MISSILE and the four aim keys can be laid out
+stands still meanwhile): GUN, GUN 2 and the four aim keys can be laid out
 on any key, button, hat or stick direction (START 1 on a row, then the
 control; more on the same row add to it; START 2 none, DEL the standard, the
 cabinet's). The stick, mouse and trackball aim as before. Kept in
@@ -84,3 +84,20 @@ board's painter sort, dropped: the game hides lines by true depth). A face's
 color is its color word looked up in the game's palette, every frame (fades,
 flashes). The warp's streaks and the horizon band are drawn as lines (too many
 outlines for a vector monitor).
+
+## Other System 21 games: profiles
+
+The emulator is a Namco System 21 (C67 DSP board) one: the machine, the DSP
+board's stand-in, the sprites and the sound board are every game's. What is
+one game's is its profile (`src/profile.cpp`): its ROM set (MAME's zip, each
+file and where it goes), its factory settings, its functions and their I/O
+board button bits, the stick's channels, the models drawn as lines, and its
+fonts' tiles. The package says which game it is, in `game.ini`:
+
+    [system21]
+    game = starblad
+
+Star Blade is the only profile so far. The others on the same board (MAME's
+`namcos21_c67.cpp`): Solvalou (`solvalou`), Air Combat (`aircomb`) and Cyber
+Sled (`cybsled`). Each would be its own package (its own `game.ini`,
+`sprites.vec`, `leds.cfg`, marquee and saves) built from this code.

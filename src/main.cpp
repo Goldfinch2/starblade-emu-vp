@@ -5,7 +5,7 @@
 //
 //   starblade_emu [--roms PATH] [--dvg [PORT] | --window | --windowed | --maximized]
 //   TAB, or START 1 and START 2 together: the CONTROLS page (the player's own
-//   controls for the gun, missile and aim keys, kept in save/controls.ini;
+//   controls for the gun, gun 2 and aim keys, kept in save/controls.ini;
 //   the aim speed, in save/options.ini)
 //   P (ui_pause): pause / resume
 //
@@ -20,6 +20,7 @@
 //   --dump DIR: for comparing with MAME (tools/sb_dump.lua): the DSP RAM
 //               every 300 frames (sbdump_dspram_<frame>.bin, 64 KB big-endian)
 //               and trace.txt (each frame: page select, records drawn by type)
+#include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -31,6 +32,7 @@
 
 #include "hle.h"
 #include "machine.h"
+#include "profile.h"
 #include "render3d.h"
 #include "roms.h"
 #include "soundboard.h"
@@ -48,21 +50,10 @@ constexpr bool DEV = SB_DEV != 0;
 const long BOOT_FRAMES = 5000;          // the self test is skipped up to here at most
 const int RECORD_EVERY = 6;             // --record: a capture every 6 frames, 10 a second
 
-// The functions a player lays out (vp_controls.h); out of the box the
-// cabinet's. The stick and the trackball aim as they are; the aim keys push
-// the sight like a stick (hle.cpp).
-struct Function { const char *name, *label, *standard; };
-const Function FUNCTIONS[] = {
-    { "gun",       "GUN",         "p1_button1" },
-    { "missile",   "MISSILE",     "p1_button2" },
-    { "aim_up",    "AIM UP",      "p1_up" },
-    { "aim_down",  "AIM DOWN",    "p1_down" },
-    { "aim_left",  "AIM LEFT",    "p1_left" },
-    { "aim_right", "AIM RIGHT",   "p1_right" },
-};
-const int NFUNCTIONS = (int)(sizeof FUNCTIONS / sizeof FUNCTIONS[0]);
-// (Star Blade has no view change: the I/O board's button 3 only steps
-// through its service menus.)
+// The functions a player lays out (vp_controls.h): the game's (profile.h),
+// out of the box the cabinet's.
+int nfunctions() { return (int)profile().nfunctions; }
+const GameFunction &function(int i) { return profile().functions[i]; }
 
 // The CONTROLS page's setting, after the functions: the aim speed (the
 // stick's range, the aim keys' and the mouse's pace). Then EXIT. (No dead
@@ -70,7 +61,9 @@ const int NFUNCTIONS = (int)(sizeof FUNCTIONS / sizeof FUNCTIONS[0]);
 struct AimSpeed { const char *name; float k; };
 const AimSpeed SPEEDS[] = { { "SLOW", 0.6f }, { "NORMAL", 1.0f }, { "FAST", 1.5f }, { "FASTER", 2.0f } };
 const int SPEED_STANDARD = 1;
-const int ROW_SPEED = NFUNCTIONS, ROW_EXIT = NFUNCTIONS + 1, ROWS = NFUNCTIONS + 2;
+int rowSpeed() { return nfunctions(); }
+int rowExit() { return nfunctions() + 1; }
+int rows() { return nfunctions() + 2; }
 const int KEY_TAB = 43, KEY_DELETE = 76, KEY_KP_PERIOD = 99, KEY_F5 = 62, KEY_F7 = 64;   // SDL scancodes
 
 struct Game {
@@ -88,7 +81,7 @@ struct Game {
     std::unique_ptr<Render3d> render3d;
     std::unique_ptr<Sprites> sprites;
     // The CONTROLS page: open (the game stands still), the cursor's row
-    // (ROW_SPEED, ROW_EXIT after the functions), a function being laid out,
+    // (the aim speed, then EXIT, after the functions), a function being laid out,
     // what the page says; the aim speed.
     bool controls = false;
     int ctlRow = 0;
@@ -239,13 +232,13 @@ void controlsPage(Game &s, vp_game *g)
         }
         s.yokeWay = way;
         if (up || down) {
-            s.ctlRow = (s.ctlRow + (up ? ROWS - 1 : 1)) % ROWS;
+            s.ctlRow = (s.ctlRow + (up ? rows() - 1 : 1)) % rows();
             vp_capture_moved(&s.capture);
         }
         int left = vp_input_menu_left_pressed(in), right = vp_input_menu_right_pressed(in);
         vp_capture_filter(&s.capture, &left, &right);
-        if (s.ctlRow < NFUNCTIONS) {
-            const char *name = FUNCTIONS[s.ctlRow].name;
+        if (s.ctlRow < nfunctions()) {
+            const char *name = function(s.ctlRow).name;
             if (vp_input_menu_confirm(in)) {
                 vp_capture_begin(&s.capture, in, name);
             } else if (left || right) {
@@ -255,7 +248,7 @@ void controlsPage(Game &s, vp_game *g)
                 vp_capture_standard(&s.capture, in, name);
                 saveControls(in);
             }
-        } else if (s.ctlRow == ROW_SPEED) {
+        } else if (s.ctlRow == rowSpeed()) {
             const int count = (int)(sizeof SPEEDS / sizeof SPEEDS[0]), was = s.speed;
             if (left && s.speed > 0) s.speed--;
             if (right && s.speed < count - 1) s.speed++;
@@ -280,23 +273,23 @@ void drawControls(const Game &s, vp_game *g, vp_dvg *d)
     vp_text_font(VP_FONT_ASTEROIDS);
     vp_color(d, 0, 200, 255);
     vp_text(d, "CONTROLS", 2048, 3450, 170, VP_TEXT_CENTER);
-    for (int i = 0; i < ROWS; i++) {
+    for (int i = 0; i < rows(); i++) {
         const bool sel = i == s.ctlRow;
-        const float y = 3050 - i * 250.0f - (i >= ROW_SPEED ? 60.0f : 0.0f) - (i == ROW_EXIT ? 60.0f : 0.0f);
+        const float y = 3050 - i * 250.0f - (i >= rowSpeed() ? 60.0f : 0.0f) - (i == rowExit() ? 60.0f : 0.0f);
         vp_text_font(VP_FONT_ASTEROIDS);
         if (sel) vp_color(d, 255, 60, 60); else vp_color(d, 255, 255, 255);
-        if (i == ROW_EXIT) {
+        if (i == rowExit()) {
             vp_text(d, "EXIT", 2048, y, 100, VP_TEXT_CENTER);
             break;
         }
-        if (i == ROW_SPEED) {
+        if (i == rowSpeed()) {
             vp_text(d, "AIM SPEED", 450, y, 90, VP_TEXT_LEFT);
             if (s.speed == SPEED_STANDARD) vp_color(d, 150, 150, 150);
             else if (!sel) vp_color(d, 120, 255, 120);
             vp_text(d, SPEEDS[s.speed].name, 1900, y, 90, VP_TEXT_LEFT);
             continue;
         }
-        vp_text(d, FUNCTIONS[i].label, 450, y, 90, VP_TEXT_LEFT);
+        vp_text(d, function(i).label, 450, y, 90, VP_TEXT_LEFT);
         if (sel && s.capture.capturing) {
             if ((int)(vp_game_time(g) * 3) % 2 == 0) {
                 vp_color(d, 255, 220, 60);
@@ -304,8 +297,8 @@ void drawControls(const Game &s, vp_game *g, vp_dvg *d)
             }
             continue;
         }
-        const char *has = vp_input_controls(in, FUNCTIONS[i].name);
-        vp_input_spelled(in, FUNCTIONS[i].name, has, text, sizeof text);
+        const char *has = vp_input_controls(in, function(i).name);
+        vp_input_spelled(in, function(i).name, has, text, sizeof text);
         vp_text_font(VP_FONT_HERSHEY);
         if (has && !strcmp(has, "standard")) vp_color(d, 150, 150, 150);
         else if (!sel) vp_color(d, 120, 255, 120);
@@ -317,9 +310,9 @@ void drawControls(const Game &s, vp_game *g, vp_dvg *d)
         vp_text(d, s.said.c_str(), 2048, 900, 75, VP_TEXT_CENTER);
     }
     vp_color(d, 160, 160, 160);
-    if (s.ctlRow == ROW_SPEED) {
+    if (s.ctlRow == rowSpeed()) {
         vp_text(d, "LEFT, RIGHT - CHANGE   DEL - STANDARD", 2048, 620, 75, VP_TEXT_CENTER);
-    } else if (s.ctlRow < NFUNCTIONS || s.capture.capturing) {
+    } else if (s.ctlRow < nfunctions() || s.capture.capturing) {
         const char *one, *two;
         vp_capture_help(&s.capture, &one, &two);
         vp_text(d, one, 2048, 680, 75, VP_TEXT_CENTER);
@@ -331,7 +324,7 @@ void drawControls(const Game &s, vp_game *g, vp_dvg *d)
 
 std::string nvramPath()
 {
-    return std::string(vp_save_dir()) + "/starblad.nv";
+    return std::string(vp_save_dir()) + "/" + profile().set + ".nv";   // starblad.nv
 }
 
 void loadNvram(std::vector<uint8_t> &nv)
@@ -435,7 +428,7 @@ void capture(Game &s, vp_dvg *d)
 int init(vp_game *g)
 {
     Game &s = *(Game *)vp_game_user(g);
-    if (!roms_load(s.romPath, s.roms, s.error)) {
+    if (!roms_load(s.romPath, profile(), s.roms, s.error)) {
         fprintf(stderr, "starblade: %s\n", s.error.c_str());
         return VP_OK;                   // shown on screen, then back to the menu
     }
@@ -451,7 +444,7 @@ int init(vp_game *g)
     s.sprites->load(vp_asset_path("sprites.vec", vec, sizeof vec));
     s.sprites->setShowIds(DEV && s.spriteIds);
     vp_input *in = vp_game_input(g);
-    for (const Function &f : FUNCTIONS) vp_input_define(in, f.name, f.standard);
+    for (int i = 0; i < nfunctions(); i++) vp_input_define(in, function(i).name, function(i).standard);
     vp_input_reserve_key(in, KEY_TAB);          // opens and closes the CONTROLS page
     if (DEV) {
         vp_input_reserve_key(in, KEY_F5);       // save state
@@ -539,10 +532,14 @@ void draw(vp_game *g, vp_dvg *d)
     if (s.machine && !s.dsp.running() && s.machine->frame() < BOOT_FRAMES) return;   // the self test: not shown
     if (!s.machine) {
         vp_color(d, 255, 80, 80);
-        vp_text(d, "STAR BLADE", 2048, 2500, 160, VP_TEXT_CENTER);
+        // the game's name, its zip, in capitals: STAR BLADE, STARBLAD.ZIP
+        std::string title = profile().title, zip = std::string(profile().set) + ".zip";
+        for (char &c : title) c = (char)toupper((unsigned char)c);
+        for (char &c : zip) c = (char)toupper((unsigned char)c);
+        vp_text(d, title.c_str(), 2048, 2500, 160, VP_TEXT_CENTER);
         vp_color(d, 255, 255, 255);
-        vp_text(d, "STARBLAD.ZIP NOT FOUND", 2048, 2000, 110, VP_TEXT_CENTER);
-        vp_text(d, "PUT MAME'S STAR BLADE ROMS IN THE ROM FOLDER", 2048, 1700, 80, VP_TEXT_CENTER);
+        vp_text(d, (zip + " NOT FOUND").c_str(), 2048, 2000, 110, VP_TEXT_CENTER);
+        vp_text(d, ("PUT MAME'S " + title + " ROMS IN THE ROM FOLDER").c_str(), 2048, 1700, 80, VP_TEXT_CENTER);
         return;
     }
     if (s.controls) {
@@ -586,7 +583,7 @@ int main(int argc, char **argv)
     }
 
     vp_game_desc desc = {};
-    desc.title = "Star Blade";
+    desc.title = profile().title;       // the game: game.ini's [system21] game
     desc.user = &game;
     desc.init = init;
     desc.update = update;

@@ -1,6 +1,8 @@
-// roms.cpp: reading starblad.zip (stored or deflated entries, through zlib's puff)
-// and laying the files out the way MAME's ROM_LOAD macros do.
+// roms.cpp: reading a game's <set>.zip (stored or deflated entries, through
+// zlib's puff) and laying the files out the way MAME's ROM_LOAD macros do.
 #include "roms.h"
+
+#include "profile.h"
 
 #include <cstdio>
 #include <cstring>
@@ -78,13 +80,13 @@ bool unzip(const std::vector<uint8_t> &zip, std::map<std::string, std::vector<ui
     return true;
 }
 
-// The places starblad.zip may be.
-std::vector<std::string> candidates(const std::string &path)
+// The places <set>.zip (`zip`) may be.
+std::vector<std::string> candidates(const std::string &path, const std::string &zip)
 {
     std::vector<std::string> out;
     auto addDir = [&](std::string dir) {
         while (!dir.empty() && (dir.back() == '/' || dir.back() == '\\')) dir.pop_back();
-        if (!dir.empty()) out.push_back(dir + "/starblad.zip");
+        if (!dir.empty()) out.push_back(dir + "/" + zip);
     };
     if (!path.empty()) {
         if (path.size() > 4 && path.compare(path.size() - 4, 4, ".zip") == 0) out.push_back(path);
@@ -92,7 +94,7 @@ std::vector<std::string> candidates(const std::string &path)
         return out;
     }
     char buf[1024];
-    out.push_back(vp_asset_path("roms/starblad.zip", buf, sizeof buf));
+    out.push_back(vp_asset_path(("roms/" + zip).c_str(), buf, sizeof buf));
     vp_rc *rc = nullptr;
     if (vp_rc_load(nullptr, &rc) == VP_OK) {
         const char *dirs = vp_rc_get(rc, "dir_rom");
@@ -120,29 +122,34 @@ std::vector<std::string> candidates(const std::string &path)
 }
 
 // ROM_LOAD16_BYTE / ROM_LOAD32_BYTE: every `step` bytes from `offset`.
-bool place(std::map<std::string, std::vector<uint8_t>> &files, const char *name,
-           std::vector<uint8_t> &region, size_t offset, size_t step, size_t size, std::string &error)
+bool place(std::map<std::string, std::vector<uint8_t>> &files, const std::string &zip, const RomFile &rf,
+           std::vector<uint8_t> &region, std::string &error)
 {
-    auto it = files.find(name);
-    if (it == files.end() || it->second.size() != size) {
-        error = std::string("starblad.zip: ") + name + (it == files.end() ? " is missing" : " has the wrong size");
+    auto it = files.find(rf.name);
+    if (it == files.end() || it->second.size() != rf.size) {
+        error = zip + ": " + rf.name + (it == files.end() ? " is missing" : " has the wrong size");
         return false;
     }
-    for (size_t i = 0; i < size; i++) region[offset + i * step] = it->second[i];
+    if (rf.offset + (size_t)(rf.size - 1) * rf.step >= region.size()) {
+        error = zip + ": " + rf.name + " does not fit its region";
+        return false;
+    }
+    for (size_t i = 0; i < rf.size; i++) region[rf.offset + i * rf.step] = it->second[i];
     return true;
 }
 
 } // namespace
 
-bool roms_load(const std::string &path, Roms &roms, std::string &error)
+bool roms_load(const std::string &path, const Profile &game, Roms &roms, std::string &error)
 {
+    const std::string zipName = std::string(game.set) + ".zip";
     std::vector<uint8_t> zip;
     std::string found;
-    for (const std::string &c : candidates(path)) {
+    for (const std::string &c : candidates(path, zipName)) {
         if (readFile(c, zip)) { found = c; break; }
     }
     if (found.empty()) {
-        error = "starblad.zip (MAME's Star Blade ROM set) not found";
+        error = zipName + " (MAME's " + game.title + " ROM set) not found";
         if (!path.empty()) error += " at " + path;
         return false;
     }
@@ -153,55 +160,37 @@ bool roms_load(const std::string &path, Roms &roms, std::string &error)
     roms.slave.assign(0x80000, 0);
     roms.data.assign(0x100000, 0);
     roms.sprites.assign(0x200000, 0);
-    bool ok =
-        place(files, "st2_mpu.mpru", roms.main, 0, 2, 0x80000, error) &&
-        place(files, "st2_mpl.mprl", roms.main, 1, 2, 0x80000, error) &&
-        place(files, "st1-sp-u.bin", roms.slave, 0, 2, 0x40000, error) &&
-        place(files, "st1-sp-l.bin", roms.slave, 1, 2, 0x40000, error) &&
-        place(files, "st1-data-u.bin", roms.data, 0, 2, 0x20000, error) &&
-        place(files, "st1-data-l.bin", roms.data, 1, 2, 0x20000, error) &&
-        place(files, "st1-obj0.bin", roms.sprites, 0, 4, 0x80000, error) &&
-        place(files, "st1-obj1.bin", roms.sprites, 1, 4, 0x80000, error) &&
-        place(files, "st1-obj2.bin", roms.sprites, 2, 4, 0x80000, error) &&
-        place(files, "st1-obj3.bin", roms.sprites, 3, 4, 0x80000, error);
-    if (!ok) return false;
-
-    // The sound board: its program, and the C140's samples.
     roms.sound.assign(0x20000, 0);
     roms.voices.assign(0x200000, 0);
-    ok = place(files, "st1-snd0.bin", roms.sound, 0, 1, 0x20000, error) &&
-         place(files, "st1-voi0.bin", roms.voices, 0x000000, 1, 0x80000, error) &&
-         place(files, "st1-voi1.bin", roms.voices, 0x080000, 1, 0x80000, error) &&
-         place(files, "st1-voi2.bin", roms.voices, 0x100000, 1, 0x80000, error) &&
-         place(files, "st1-voi3.bin", roms.voices, 0x180000, 1, 0x80000, error);
-    if (!ok) return false;
-
     // The point ROM: each 24-bit word from three files (high, middle, low
-    // byte), two banks of 512K words.
+    // byte); 1M words.
+    std::vector<uint8_t> pointH(0x100000, 0), pointU(0x100000, 0), pointL(0x100000, 0);
+    for (size_t k = 0; k < game.nroms; k++) {
+        const RomFile &rf = game.roms[k];
+        std::vector<uint8_t> *region = nullptr;
+        switch (rf.region) {
+        case Region::Main:    region = &roms.main; break;
+        case Region::Slave:   region = &roms.slave; break;
+        case Region::Data:    region = &roms.data; break;
+        case Region::Sprites: region = &roms.sprites; break;
+        case Region::Sound:   region = &roms.sound; break;
+        case Region::Voices:  region = &roms.voices; break;
+        case Region::PointH:  region = &pointH; break;
+        case Region::PointU:  region = &pointU; break;
+        case Region::PointL:  region = &pointL; break;
+        }
+        if (!place(files, zipName, rf, *region, error)) return false;
+    }
     roms.points.assign(0x100000, 0);
-    static const char *const BANKS[2][3] = {
-        { "st1-pt0-h.bin", "st1-pt0-u.bin", "st1-pt0-l.bin" },
-        { "st1-pt1-h.bin", "st1-pt1-u.bin", "st1-pt1-l.bin" },
-    };
-    for (int bank = 0; bank < 2; bank++) {
-        const std::vector<uint8_t> *part[3];
-        for (int k = 0; k < 3; k++) {
-            auto it = files.find(BANKS[bank][k]);
-            if (it == files.end() || it->second.size() != 0x80000) {
-                error = std::string("starblad.zip: ") + BANKS[bank][k] +
-                        (it == files.end() ? " is missing" : " has the wrong size");
-                return false;
-            }
-            part[k] = &it->second;
-        }
-        for (size_t i = 0; i < 0x80000; i++) {
-            int32_t v = (*part[0])[i] << 16 | (*part[1])[i] << 8 | (*part[2])[i];
-            roms.points[bank * 0x80000 + i] = v & 0x800000 ? v - 0x1000000 : v;
-        }
+    for (size_t i = 0; i < roms.points.size(); i++) {
+        int32_t v = pointH[i] << 16 | pointU[i] << 8 | pointL[i];
+        roms.points[i] = v & 0x800000 ? v - 0x1000000 : v;
     }
 
-    auto nv = files.find("starblad.nv");
     roms.nvram.assign(0x2000, 0);
-    if (nv != files.end() && nv->second.size() == 0x2000) roms.nvram = nv->second;
+    if (game.nvram) {
+        auto nv = files.find(game.nvram);
+        if (nv != files.end() && nv->second.size() == 0x2000) roms.nvram = nv->second;
+    }
     return true;
 }

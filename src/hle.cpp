@@ -3,6 +3,7 @@
 // sb_cont.lua, sb_boot2.lua). The sound board runs its own program:
 // soundboard.cpp.
 #include "hle.h"
+#include "profile.h"
 #include "state.h"
 
 #include <algorithm>
@@ -20,8 +21,8 @@ void Mcu::reset(uint8_t *dp)
     dp[0x06] = 0x01;
     dp[0x07] = 0x09;
     for (int i = 0x08; i <= 0x0f; i++) dp[i] = 0xff;
-    dp[0x09] = 0x80;                // stick X, centered
-    dp[0x0a] = 0x80;                // stick Y
+    dp[profile().stickX] = 0x80;    // the stick, centered (Star Blade: 09h, 0Ah)
+    dp[profile().stickY] = 0x80;
     dp[0x11] = 0x01;
     dp[0x12] = 0x01;
     dp[0x13] = 0x20;
@@ -48,8 +49,10 @@ void Mcu::vblank(uint8_t *dp)
     float x = 0, y = 0;
     if (in_) {
         if (vp_input_held(in_, "start1")) buttons |= 0x80;
-        if (vp_input_held(in_, "gun")) buttons |= 0x20;     // gun
-        if (vp_input_held(in_, "missile")) buttons |= 0x10;     // missile
+        // the game's buttons (profile.h: Star Blade's gun 20h, gun 2 10h: the same trigger)
+        const Profile &game = profile();
+        for (size_t k = 0; k < game.nfunctions; k++)
+            if (game.functions[k].bit && vp_input_held(in_, game.functions[k].name)) buttons |= game.functions[k].bit;
         if (vp_input_held(in_, "coin1")) coinsHeld |= 0x10;
         if (vp_input_held(in_, "coin2")) coinsHeld |= 0x08;
         if (vp_input_pressed(in_, "coin1")) coinsIn |= 0x10;
@@ -59,7 +62,7 @@ void Mcu::vblank(uint8_t *dp)
         // The game's Y: the low value aims DOWN (a flight stick: pull back to
         // aim up). Here up aims up on everything: the stick's axis (up is its
         // negative side), the aim keys and the mouse are all turned.
-        // Without a stick: the aim keys (aim_up ...: main.cpp) push a stick that springs back to
+        // Without a stick: the aim keys (aim_up ...: profile.cpp) push a stick that springs back to
         // the center when released (as MAME does for analog controls), and
         // the mouse or trackball moves it. While the stick is out of its
         // center the keys are left out: a stick bound both ways (its axis,
@@ -113,8 +116,8 @@ void Mcu::vblank(uint8_t *dp)
     dp[0x46] = meter_[0];
     dp[0x47] = meter_[1];
 
-    dp[0x09] = stick(x);
-    dp[0x0a] = stick(y);
+    dp[profile().stickX] = stick(x);    // Star Blade: channels 09h, 0Ah
+    dp[profile().stickY] = stick(y);
 
     dp[0x1f]++;
     dp[0x21]++;

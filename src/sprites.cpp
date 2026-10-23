@@ -10,6 +10,7 @@
 #include <vectorpie/vp_text.h>
 
 #include "machine.h"
+#include "profile.h"
 
 namespace {
 
@@ -42,10 +43,11 @@ uint64_t spriteKey(const uint16_t *tiles, int cols, int rows, int offset)
 
 } // namespace
 
-// The game's fonts in the sprite ROM (tools/font_from_tiles.py has the same
-// table): the ASCII font at 20h-7Fh (60h-7Fh repeat 20h-3Fh; 5Bh-5Fh are box
-// pieces, not letters), five more fonts as A-Z, 0-9 and their symbols, and
-// three digit sets.
+// The game's fonts in the sprite ROM: the ASCII font at 20h-7Fh (60h-7Fh
+// repeat 20h-3Fh; 5Bh-5Fh are box pieces, not letters), every game's; then
+// the game's own (profile.h; Star Blade: five more fonts as A-Z, 0-9 and their
+// symbols, three digit sets, and some extras. tools/font_from_tiles.py has
+// Star Blade's table too).
 Sprites::Sprites(const std::vector<uint8_t> &tiles) : tiles_(tiles)
 {
     const int count = (int)(tiles.size() / 256);
@@ -75,32 +77,15 @@ Sprites::Sprites(const std::vector<uint8_t> &tiles) : tiles_(tiles)
     };
     for (int t = 0x20; t < 0x5b; t++) setChar(t, (char)t);
     for (int t = 0x60; t < 0x80; t++) setChar(t, (char)(t - 0x40));
-    static const struct { int base; const char *chars; } fonts[] = {
-        { 0x194, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-&/" },
-        { 0x1bb, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-&/" },
-        { 0x1e2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-&/" },
-        { 0x209, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-&" },
-        { 0x22f, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!" },
-        { 0x255, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789." },
-        { 0x399, "0123456789" },
-        { 0x3a3, "0123456789" },
-        { 0x3ad, "0123456789" },
-    };
-    for (const auto &f : fonts)
-        for (int i = 0; f.chars[i]; i++) setChar(f.base + i, f.chars[i]);
-    setChar(0x3bd, '.');
-    // The coordinates' letters, after the digit sets (the Red Eye briefing's
-    // X+ 2913.64 ...): X Y Z, the same slanted, a minus and a plus.
-    setChar(0x3b7, 'X'); setChar(0x3b8, 'Y'); setChar(0x3b9, 'Z');
-    setChar(0x3ba, 'X'); setChar(0x3bb, 'Y'); setChar(0x3bc, 'Z');
-    setChar(0x3bf, '-'); setChar(0x3c0, '+');
+    const Profile &game = profile();
+    for (size_t k = 0; k < game.nfonts; k++)
+        for (int i = 0; game.fonts[k].chars[i]; i++) setChar(game.fonts[k].base + i, game.fonts[k].chars[i]);
+    for (size_t k = 0; k < game.nchars; k++) setChar(game.chars[k].tile, game.chars[k].ch);
     // Tiles showing a short word.
-    static const struct { int tile; const char *text; } words[] = {
-        { 0x3c1, "OK" },            // the preflight checklist's green OK
-    };
-    for (const auto &w : words) {
+    for (size_t k = 0; k < game.nwords; k++) {
+        const FontWord &w = game.words[k];
         setChar(w.tile, '?');
-        if (glyphs_[w.tile].ch != ' ') glyphs_[w.tile].text = w.text;
+        if (w.tile < count && glyphs_[w.tile].ch != ' ') glyphs_[w.tile].text = w.text;
     }
 }
 

@@ -17,11 +17,11 @@ struct SbModel {
     std::vector<Line> lines;            // ... or of lines (isLines)
 };
 
-// The warp's streaks: 24 lengths of one diamond (1297-1320, also 4743-4766),
-// up to 421 a frame: each drawn as its long diagonal.
+// Models drawn as lines, the game's (profile.h). Streaks (Star Blade's warp:
+// 24 lengths of one diamond, up to 421 a frame): each as its long diagonal.
 bool sb_isStreak(int code);
-// The horizon band (2, also 3448): pushed out as a backdrop (render3d.cpp),
-// its stripes as lines, one in two kept.
+// Backdrops (Star Blade's horizon band): pushed out behind everything
+// (render3d.cpp), its stripes as lines, one in two kept.
 bool sb_isBackdrop(int code);
 
 // The model the game's object list calls `code`. False if there is none.

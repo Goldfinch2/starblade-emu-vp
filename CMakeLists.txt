@@ -53,6 +53,7 @@ add_executable(starblade_emu
     src/hle.cpp
     src/render3d.cpp
     src/models.cpp
+    src/profile.cpp
     src/soundboard.cpp
     src/m6809.cpp
     src/c140.cpp
@@ -86,11 +87,15 @@ add_dependencies(starblade_files starblade_emu)
 # and the sound board's program and samples are read from the player's
 # starblad.zip (sprites.vec is our own tracing).
 set(VPK_STAGE ${CMAKE_BINARY_DIR}/vpk/starblade_emu)
+# The control guide's voices (leds.cfg's voice_map words): ours, before the
+# cabinet's shared clips.
+file(GLOB SB_GUIDE CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/guide/*.wav)
 add_custom_target(vpk
     COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_BINARY_DIR}/vpk
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${VPK_STAGE}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${VPK_STAGE}/guide
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:starblade_emu> ${VPK_STAGE}/
     COMMAND ${CMAKE_COMMAND} -E copy ${SB_FILES} ${VPK_STAGE}/
+    COMMAND ${CMAKE_COMMAND} -E copy ${SB_GUIDE} ${VPK_STAGE}/guide/
     COMMAND sh ${VECTORPIE_PACK} ${VPK_STAGE} ${CMAKE_BINARY_DIR}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDS starblade_emu

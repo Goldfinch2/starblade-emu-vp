@@ -12,7 +12,7 @@ class State;
 
 // ---- the C68 I/O MCU -----------------------------------------------------
 // In the dual-port RAM (0x000-0x0ff, byte offsets as the 68000 sees them / 2):
-//   00 buttons held: 80 start, 40 button 3, 20 button 2 (gun), 10 button 1 (missile)
+//   00 buttons held: 80 start, 40 button 3, 20 button 2 (gun), 10 button 1 (gun 2, the same trigger)
 //   03 buttons pressed this frame (same bits)
 //   02 coin switches held: 10 coin 1, 08 coin 2;  05 coins inserted this frame
 //   08-0F analog channels (09 stick X, 0A stick Y: 3F..BF, center 80; others FF)
