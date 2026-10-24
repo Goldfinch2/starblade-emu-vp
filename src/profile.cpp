@@ -53,9 +53,11 @@ const GameFunction STARBLAD_FUNCTIONS[] = {
 
 // The stick aims (the yoke, a stick, the aim keys, the mouse): its Y
 // turned, so up aims up (the game's low value aims down: a flight stick).
-// Its range is MAME's: X 01h-FFh, Y 18h-E8h (the yoke reaches the edges).
+// Its range: the crosshair reaches the screen's edge at 30h either side of
+// the center (1.0.4's 40h got there at 3/4 of a yoke's travel; MAME's wider
+// range at about half): all the way over is the edge.
 const Stick STARBLAD_STICKS[] = {
-    { 0x09, 0x0a, 0x01, 0xff, 0x18, 0xe8, "p1_stickx", "p1_sticky", true, "aim_up", "aim_down", "aim_left", "aim_right", true },
+    { 0x09, 0x0a, 0x50, 0xb0, 0x50, 0xb0, "p1_stickx", "p1_sticky", true, "aim_up", "aim_down", "aim_left", "aim_right", true },
 };
 
 // The warp: 24 lengths of one streak (and again); the horizon band.
