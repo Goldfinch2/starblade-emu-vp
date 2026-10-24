@@ -53,8 +53,9 @@ const GameFunction STARBLAD_FUNCTIONS[] = {
 
 // The stick aims (the yoke, a stick, the aim keys, the mouse): its Y
 // turned, so up aims up (the game's low value aims down: a flight stick).
+// Its range is MAME's: X 01h-FFh, Y 18h-E8h (the yoke reaches the edges).
 const Stick STARBLAD_STICKS[] = {
-    { 0x09, 0x0a, "p1_stickx", "p1_sticky", true, "aim_up", "aim_down", "aim_left", "aim_right", true },
+    { 0x09, 0x0a, 0x01, 0xff, 0x18, 0xe8, "p1_stickx", "p1_sticky", true, "aim_up", "aim_down", "aim_left", "aim_right", true },
 };
 
 // The warp: 24 lengths of one streak (and again); the horizon band.
@@ -156,8 +157,8 @@ const FontRange CYBSLED_FONTS[] = {
 // The sled's two sticks (MAME: AN1 / AN3 the left, AN0 / AN2 the right);
 // pushed up reads low, as MAME's keys do it.
 const Stick CYBSLED_STICKS[] = {
-    { 0x0b, 0x09, "p1_stickx", "p1_sticky", false, "left_up", "left_down", "left_left", "left_right", false },
-    { 0x0a, 0x08, "p2_stickx", "p2_sticky", false, "right_up", "right_down", "right_left", "right_right", false },
+    { 0x0b, 0x09, 0x3f, 0xbf, 0x3f, 0xbf, "p1_stickx", "p1_sticky", false, "left_up", "left_down", "left_left", "left_right", false },
+    { 0x0a, 0x08, 0x3f, 0xbf, 0x3f, 0xbf, "p2_stickx", "p2_sticky", false, "right_up", "right_down", "right_left", "right_right", false },
 };
 
 const Profile PROFILES[] = {

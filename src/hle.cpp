@@ -37,10 +37,13 @@ void Mcu::reset(uint8_t *dp)
     coinPending_ = 0;
 }
 
-static uint8_t stick(float v)
+// A stick's position (-1..1) as its channel reads it: centered 80h, all the
+// way over at lo or hi (the profile's).
+static uint8_t stick(float v, int lo, int hi)
 {
-    int x = 0x80 + (int)(v * 0x40 + (v < 0 ? -0.5f : 0.5f));
-    return (uint8_t)(x < 0x3f ? 0x3f : (x > 0xbf ? 0xbf : x));
+    v = std::max(-1.0f, std::min(1.0f, v));
+    const int x = 0x80 + (int)(v * (v < 0 ? 0x80 - lo : hi - 0x80) + (v < 0 ? -0.5f : 0.5f));
+    return (uint8_t)std::max(lo, std::min(hi, x));
 }
 
 void Mcu::vblank(uint8_t *dp)
@@ -126,8 +129,9 @@ void Mcu::vblank(uint8_t *dp)
     dp[0x47] = meter_[1];
 
     for (size_t k = 0; k < game.nsticks && k < MAX_STICKS; k++) {
-        dp[game.sticks[k].channelX] = stick(x[k]);
-        dp[game.sticks[k].channelY] = stick(y[k]);
+        const Stick &st = game.sticks[k];
+        dp[st.channelX] = stick(x[k], st.loX, st.hiX);
+        dp[st.channelY] = stick(y[k], st.loY, st.hiY);
     }
 
     dp[0x1f]++;

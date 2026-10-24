@@ -29,9 +29,10 @@ struct GameFunction {
 };
 
 // A stick: two of the I/O board's analog channels (dual-port RAM bytes 08h +
-// the channel: 3Fh..BFh, centered 80h), what moves them.
+// the channel, centered 80h), what moves them.
 struct Stick {
     int channelX, channelY;
+    uint8_t loX, hiX, loY, hiY;  // each axis's range, all the way over (MAME's)
     const char *axisX, *axisY;  // the advmame.rc axes: "p1_stickx", "p1_sticky"
     bool upHigh;                // pushed up reads high (Star Blade: up aims up)
     // The functions that push it like a stick when held (springing back to

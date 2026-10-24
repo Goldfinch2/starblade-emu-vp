@@ -15,8 +15,8 @@ class State;
 //   00 buttons held: 80 start, 40 button 3, 20 button 2 (gun), 10 button 1 (gun 2, the same trigger)
 //   03 buttons pressed this frame (same bits)
 //   02 coin switches held: 10 coin 1, 08 coin 2;  05 coins inserted this frame
-//   08-0F analog channels (the profile's sticks: 3F..BF, center 80; others FF;
-//         Star Blade 09 X, 0A Y)
+//   08-0F analog channels (the profile's sticks, center 80; others FF;
+//         Star Blade 09 X 01..FF, 0A Y 18..E8)
 //   19 coins counted on coin 1 (1B on coin 2), shown as CREDIT n/2
 //   16 written by the game: coins to take (a start, a continue); we subtract it
 //   3A/3B/3C boot handshake; 1F/21/23 frame counters
